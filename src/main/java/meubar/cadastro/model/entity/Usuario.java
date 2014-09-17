@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import meubar.model.entity.BaseEntity;
@@ -20,8 +19,7 @@ public class Usuario implements BaseEntity<Long> {
 	 */
 	private static final long serialVersionUID = 2851094016926391266L;
 	@Id
-	@SequenceGenerator(name = "USUARIO_ID_GENERATOR", sequenceName = "usuario_id_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USUARIO_ID_GENERATOR")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "login", length = 20)
@@ -46,6 +44,7 @@ public class Usuario implements BaseEntity<Long> {
 		this.login = login;
 		this.senha = senha;
 	}
+	
 
 	public Usuario() {
 		super();

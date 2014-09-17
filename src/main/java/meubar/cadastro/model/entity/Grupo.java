@@ -23,6 +23,11 @@ public class Grupo implements BaseEntity<Long> {
 	@Column(name = "grupo", length = 20)
 	private String grupo;
 
+	public Grupo(Long id) {
+		super();
+		this.id = id;
+	}
+
 	public Grupo(String grupo) {
 		super();
 		this.grupo = grupo;

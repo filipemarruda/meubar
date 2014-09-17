@@ -29,10 +29,8 @@ ALTER TABLE meubar.grupo
   OWNER TO postgres;
 GRANT ALL ON TABLE meubar.grupo TO postgres;
 GRANT ALL ON TABLE meubar.grupo TO application;
-
--- IF THE SEQUENCE DOES NOT EXISITS
--- GRANT USAGE ON SEQUENCE meubar.grupo_id_seq TO postgres;
--- GRANT USAGE ON SEQUENCE meubar.grupo_id_seq TO application;
+GRANT USAGE ON SEQUENCE meubar.grupo_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.grupo_id_seq TO application;
 
 -- Table: meubar.usuario
 
@@ -55,6 +53,8 @@ ALTER TABLE meubar.usuario
   OWNER TO postgres;
 GRANT ALL ON TABLE meubar.usuario TO postgres;
 GRANT ALL ON TABLE meubar.usuario TO application;
+GRANT USAGE ON SEQUENCE meubar.usuario_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.usuario_id_seq TO application;
 
 -- Group and User Admin
 INSERT INTO meubar.grupo(grupo)  VALUES  ( 'Administrador' );

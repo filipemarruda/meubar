@@ -7,6 +7,7 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 import meubar.api.GrupoAPI;
+import meubar.api.UsuarioAPI;
 import meubar.api.autenticacao.AcessoAPI;
 import meubar.filters.MeuBarRequestFilter;
 
@@ -19,6 +20,7 @@ public class RestApplication extends Application{
 		classes.add(MeuBarRequestFilter.class);
 		classes.add(AcessoAPI.class);
 		classes.add(GrupoAPI.class);
+		classes.add(UsuarioAPI.class);
 		
 		return classes;
 		
