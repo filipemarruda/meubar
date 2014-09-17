@@ -67,7 +67,7 @@ public abstract class MeuBarDAOImpl<T extends BaseEntity<K>, K> implements BaseD
      * 
      * @see br.com.azulseguros.model.dao.BaseDAO#findAll(br.com.azulseguros.model.entity.BaseEntity)
      */
-    public List<T> findAll(T entity) {
+	public List<T> findAll(T entity) {
         final Query query = entityManager.createQuery("from " + getEntityName() + " obj");
         return query.getResultList();
     }

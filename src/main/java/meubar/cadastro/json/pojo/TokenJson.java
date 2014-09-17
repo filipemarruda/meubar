@@ -1,9 +1,9 @@
 package meubar.cadastro.json.pojo;
 
-public class Token {
+public class TokenJson {
 	private String token;
 
-	public Token(String token) {
+	public TokenJson(String token) {
 		super();
 		this.token = token;
 	}

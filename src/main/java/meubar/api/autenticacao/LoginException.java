@@ -1,4 +1,4 @@
-package meubar;
+package meubar.api.autenticacao;
 
 public class LoginException extends Exception {
 

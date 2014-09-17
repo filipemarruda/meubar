@@ -1,4 +1,4 @@
-package meubar;
+package meubar.filters;
 
 import java.io.IOException;
 
@@ -8,13 +8,15 @@ import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
+import meubar.api.autenticacao.LoginException;
 import meubar.business.TokenUtils;
 
 @Provider
 @PreMatching
-public class AuthenticatorFilter implements ContainerRequestFilter {
+public class MeuBarRequestFilter implements ContainerRequestFilter {
 	@Override
 	public void filter( ContainerRequestContext requestCtx ) throws IOException { 
+
 		String path = requestCtx.getUriInfo().getPath();
 		
 		if (!path.startsWith("/acesso")) {

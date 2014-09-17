@@ -43,20 +43,20 @@ public interface BaseDAO<T extends BaseEntity<K>, K> {
 
 
     /**
-     * Procura todos os registros baseados na entidade passada como parâmetro.
-     * 
-     * @param entity
-     * @return
-     */
-    List<T> findAll(T entity);
+	 * Procura todos os registros baseados na entidade passada como parâmetro.
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	List<T> findAll(T entity);
 
 
     /**
-     * Procura um registro específico de acordo com o mapa de parametros.
-     * 
-     * @param params
-     * @return
-     */
+	 * Procura um registro específico de acordo com o mapa de parametros.
+	 * 
+	 * @param params
+	 * @return
+	 */
     T findByParams(final Map<String, Object> params);
 
 

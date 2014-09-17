@@ -1,2 +1,2 @@
 eclipse.preferences.version=1
-org.jboss.ide.eclipse.as.core.singledeployable.deployableList=target/meubar.war\n
+org.jboss.ide.eclipse.as.core.singledeployable.deployableList=target/meubar.war\ntarget/restaurante.war\n

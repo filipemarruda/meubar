@@ -12,12 +12,12 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-import meubar.LoginException;
+import meubar.api.autenticacao.LoginException;
 
 public class TokenUtils {
 
 	private static int EXPIRES_INTERVAL = 3;
-
+	public static String AUTH_TOKEN = "auth_token";
 	private TokenUtils() {
 	}
 

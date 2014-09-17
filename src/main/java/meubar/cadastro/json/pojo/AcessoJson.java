@@ -1,6 +1,6 @@
 package meubar.cadastro.json.pojo;
 
-public class Acesso {
+public class AcessoJson {
 
 	private String user;
 	private String pass;

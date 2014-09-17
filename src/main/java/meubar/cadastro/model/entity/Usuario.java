@@ -5,13 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import meubar.model.entity.BaseEntity;
 
 @Entity
-@Table(name = "usuario", schema = "hotel")
+@Table(name = "usuario", schema = "meubar")
 public class Usuario implements BaseEntity<Long> {
 	/**
 	 * 
@@ -26,6 +28,18 @@ public class Usuario implements BaseEntity<Long> {
 	private String login;
 	@Column(name = "senha", length = 25)
 	private String senha;
+
+	@ManyToOne
+	@JoinColumn(name = "grupo_id", referencedColumnName = "id")
+	private Grupo grupo;
+
+	public Grupo getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(Grupo grupo) {
+		this.grupo = grupo;
+	}
 
 	public Usuario(String login, String senha) {
 		super();

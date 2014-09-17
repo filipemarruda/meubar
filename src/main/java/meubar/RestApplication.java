@@ -6,8 +6,9 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import meubar.api.AcessoAPI;
-import meubar.api.ResourceAPI;
+import meubar.api.GrupoAPI;
+import meubar.api.autenticacao.AcessoAPI;
+import meubar.filters.MeuBarRequestFilter;
 
 @ApplicationPath("/api")
 public class RestApplication extends Application{
@@ -15,9 +16,9 @@ public class RestApplication extends Application{
 	@Override
 	public Set<Class<?>> getClasses(){
 		final Set<Class<?>> classes = new HashSet<>();
-		classes.add(AuthenticatorFilter.class);
+		classes.add(MeuBarRequestFilter.class);
 		classes.add(AcessoAPI.class);
-		classes.add(ResourceAPI.class);
+		classes.add(GrupoAPI.class);
 		
 		return classes;
 		
