@@ -4,6 +4,8 @@ import javax.ws.rs.core.Response;
 
 public interface BaseAPI {
 
+	public Response doOptions();
+
 	public Response doGet();
 
 	public Response doGet(String id);

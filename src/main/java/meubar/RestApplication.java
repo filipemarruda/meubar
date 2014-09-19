@@ -10,6 +10,7 @@ import meubar.api.GrupoAPI;
 import meubar.api.UsuarioAPI;
 import meubar.api.autenticacao.AcessoAPI;
 import meubar.filters.MeuBarRequestFilter;
+import meubar.filters.MeuBarResponseFilter;
 
 @ApplicationPath("/api")
 public class RestApplication extends Application{
@@ -21,6 +22,7 @@ public class RestApplication extends Application{
 		classes.add(AcessoAPI.class);
 		classes.add(GrupoAPI.class);
 		classes.add(UsuarioAPI.class);
+		classes.add(MeuBarResponseFilter.class);
 		
 		return classes;
 		

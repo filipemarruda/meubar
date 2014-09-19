@@ -1,16 +1,9 @@
 package meubar.business;
 
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 
 import meubar.api.autenticacao.LoginException;
 
@@ -21,19 +14,21 @@ public class TokenUtils {
 	private TokenUtils() {
 	}
 
-	public static String generateToken(String login) throws IOException,
-			NoSuchAlgorithmException, InvalidKeyException,
-			NoSuchPaddingException, IllegalBlockSizeException,
-			BadPaddingException {
-		
-		Map<String, String> tokenMap = new HashMap<String, String>();
-		tokenMap.put("login", login);
-		Calendar dataDeExpiracao = Calendar.getInstance();
-		dataDeExpiracao.add(Calendar.MINUTE, + EXPIRES_INTERVAL);
-		tokenMap.put("expires",
-		ConversionUtils.formatDate(dataDeExpiracao.getTime()));
-		byte[] byteArray = ConversionUtils.serialize(tokenMap);
-		return EncriptUtils.encrypt(new String(byteArray));
+	public static String generateToken(String login) {
+		String token;
+		try {
+			Map<String, String> tokenMap = new HashMap<String, String>();
+			tokenMap.put("login", login);
+			Calendar dataDeExpiracao = Calendar.getInstance();
+			dataDeExpiracao.add(Calendar.MINUTE, +EXPIRES_INTERVAL);
+			tokenMap.put("expires",
+					ConversionUtils.formatDate(dataDeExpiracao.getTime()));
+			byte[] byteArray = ConversionUtils.serialize(tokenMap);
+			token = EncriptUtils.encrypt(new String(byteArray));
+		} catch (Exception e) {
+			token = null;
+		}
+		return token;
 		
 	}
 
@@ -55,5 +50,22 @@ public class TokenUtils {
 		} catch (Exception e) {
 			throw new LoginException();
 		}
+	}
+
+	public static String extractUser(String token) {
+		String user;
+
+		try {
+
+			byte[] byteArray = EncriptUtils.decrypt(token).getBytes();
+			Map<String, String> tokenMap = (Map<String, String>) ConversionUtils
+					.deserialize(byteArray);
+			user = tokenMap.get("login");
+
+		} catch (Exception e) {
+			user = null;
+		}
+
+		return user;
 	}
 }

@@ -1,0 +1,26 @@
+<!doctype html>
+<html ng-app="meuBar">
+	<head>
+		<title>Hello AngularJS</title>
+		<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="main.css">
+		<script src="lib/angular/angular.min.js"></script>
+		<script src="lib/angular-resource/angular-resource.js"></script>
+    	<script src="main.js"></script>
+	</head>
+
+	<body class="well" ng-controller="AppCtrl">
+		<span ng-model="acesso.token"></span>
+		<ul class="unstyled">
+			<li ng-repeat="grupo in grupos">{{ grupo.grupo }}</li>
+		</ul>
+		<ul class="unstyled">
+			<li ng-repeat="usuario in usuarios">{{ usuario.login }} - {{ usuario.grupo.grupo }}</li>
+		</ul>
+		<button class="btn btn-primary" ng-click="access()">Acess</button>
+		<button class="btn btn-primary" ng-click="getGrupos()">Grupos</button>
+		<button class="btn btn-primary" ng-click="getUsuarios()">Usuarios</button>
+
+		<span >{{error.message}}</span>
+	</body>
+</html>

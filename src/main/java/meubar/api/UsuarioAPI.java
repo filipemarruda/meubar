@@ -2,9 +2,11 @@ package meubar.api;
 
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -37,6 +39,12 @@ public class UsuarioAPI implements BaseAPI {
  
     public UsuarioAPI() {
     }
+
+	@PermitAll
+	@OPTIONS
+	public Response doOptions() {
+		return Response.status(Status.OK).build();
+	};
 
 	@GET
 	public Response doGet() {
