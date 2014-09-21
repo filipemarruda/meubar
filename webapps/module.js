@@ -1,0 +1,1 @@
+var meuBar = angular.module('meuBar', ['ngResource', 'ngCookies']);

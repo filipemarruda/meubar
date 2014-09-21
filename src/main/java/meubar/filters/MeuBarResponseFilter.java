@@ -29,7 +29,8 @@ public class MeuBarResponseFilter implements ContainerResponseFilter {
 		MultivaluedMap<String, Object> rH = responseCtx.getHeaders();
 		rH.add("Access-Control-Allow-Origin", "*");
 		rH.add("Access-Control-Allow-Credentials", "true");
-		rH.add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+		rH.add("Access-Control-Allow-Methods",
+				"GET, POST, DELETE, PUT, OPTIONS");
 		rH.add("Access-Control-Allow-Headers", TokenUtils.AUTH_TOKEN + ", "
 				+ X_REQUESTED_HEADER + ", " + CONTENT_TYPE);
 		rH.add("Access-Control-Expose-Headers", TokenUtils.AUTH_TOKEN);

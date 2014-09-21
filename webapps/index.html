@@ -1,26 +1,60 @@
 <!doctype html>
-<html ng-app="meuBar">
+<html>
 	<head>
+		<meta charset="UTF-8">
+
 		<title>Hello AngularJS</title>
-		<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
+		
+		<link rel="stylesheet" type="text/css" href="lib/bower/bootstrap/dist/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="main.css">
-		<script src="lib/angular/angular.min.js"></script>
-		<script src="lib/angular-resource/angular-resource.js"></script>
-    	<script src="main.js"></script>
 	</head>
 
-	<body class="well" ng-controller="AppCtrl">
-		<span ng-model="acesso.token"></span>
-		<ul class="unstyled">
-			<li ng-repeat="grupo in grupos">{{ grupo.grupo }}</li>
-		</ul>
-		<ul class="unstyled">
-			<li ng-repeat="usuario in usuarios">{{ usuario.login }} - {{ usuario.grupo.grupo }}</li>
-		</ul>
-		<button class="btn btn-primary" ng-click="access()">Acess</button>
-		<button class="btn btn-primary" ng-click="getGrupos()">Grupos</button>
-		<button class="btn btn-primary" ng-click="getUsuarios()">Usuarios</button>
+	<body ng-controller="AppCtrl">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+					<div class="center-block">
+						<img src="img/beer-icon.png" class="center-block img-responsive-login img-rounded img-rounded-login">
+					</div>
+					<div class="login-panel panel panel-default">
+						<div class="panel-heading">
+	                        <h3 class="panel-title">Por vafor, faça login</h3>
+	                    </div>
+	                    <div class="panel-body">
+						    <form role="form" name="loginForm" ng-submit="access()" ng-class="{submitted:submitted}" novalidate>
+						    	<fieldset>
+									<div class="form-group" ng-class="{'has-error': error }">
+								        <input type="text"
+							               class="form-control"
+							               name="user"
+							               id="user"
+							               ng-model="user"
+							               placeholder="Username"
+							               required />
+							        </div>
 
-		<span >{{error.message}}</span>
+									<div class="form-group" ng-class="{'has-error': error }">
+										<input type="password"
+									       class="form-control"
+									       name="pass"
+									       id="pass"
+									       ng-model="pass"
+									       placeholder="Password"
+									       required />
+										<p class="danger" ng-show="error">{{error}}</p>
+									</div>
+									<div class="form-group">
+										<button type="submit"
+										    class="btn btn-lg btn-success btn-block"
+										    value="Login" title="Login">Login</button>
+									</div>
+								</fieldset>
+							</form>
+	                    </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+		<script src="js/require.js" data-main="js/main"></script>
 	</body>
 </html>

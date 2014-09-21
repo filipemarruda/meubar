@@ -15,12 +15,15 @@ http.createServer( function(req, res) {
 	var now = new Date();
  
 	var filename = req.url;
-	if(!!filename  == 0 || filename === "/"){
-		filename = "/index.html";
+	var fLength = filename.length;
+	console.log(filename.substr(fLength-1, fLength));
+	if(!!filename  == 0 || filename === "/" || filename.substr(fLength-1, fLength) === '/'){
+		filename += "/index.html";
 	}
 	var ext = "";
 	if(filename.indexOf("?") != -1){
 		ext = path.extname(filename.substring(0,filename.indexOf("?")));
+		filename = filename.substring(0,filename.indexOf("?"));
 	}else{
 		ext = path.extname(filename);
 	}
@@ -40,7 +43,9 @@ http.createServer( function(req, res) {
 		".less": "text/css",
 		".scss": "text/css",
 		".png": "image/png",
-		".ico": "image/x-icon"
+		".ico": "image/x-icon",
+		".map": "application/json",
+		".json": "application/json"
 		
 		
 	};

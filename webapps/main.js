@@ -1,43 +1,23 @@
-var meuBar = angular.module('meuBar', ['ngResource']);
+meuBar.controller('AppCtrl',['$scope','$location','$http', '$cookies',
+	function AppCtrl($scope, $location, $http, $cookies){
 
-meuBar.controller('AppCtrl',['$scope','$location','$http',
-	function AppCtrl($scope, $location, $http){
-
+		var login_page = 'index.html';
 		var app = this;
 		app.http = $http;
 		app.scope = $scope;
+		app.cookies = $cookies;
 
-		app.scope.user = 'admin';
-		app.scope.pass = '21232f297a57a5a743894a0e4a801fc3';
-		app.scope.acesso = '';
-
-		$scope.access = function() {
-
-			console.log('Trying to acess.');
-			app.http.defaults.headers.post = { 'Content-Type' : 'application/json' };
-			app.http.post(
-				'http://localhost:8080/meubar/api/acesso',
-				{
-					user: app.scope.user,
-					pass: app.scope.pass
-				}
-			)
-			.success(function(data, status, headers, config) {	
-	        	app.scope.acesso = data;
-	   		})
-	   		.error(function(data, status, headers, config) {
-	        	app.scope.error = data;
-	    	});
-
-	    }
+		if(!!app.cookies.auth_token == false || !!app.cookies.user == false){
+			window.location = login_page;
+		}
 
 	    $scope.getGrupos = function() {
 
-			app.http.defaults.headers.get = { 'auth_token' : app.scope.acesso.token };
+			app.http.defaults.headers.get = { 'auth_token' : app.cookies.auth_token };
 			app.http.get('http://localhost:8080/meubar/api/grupos')
 			.success(function(data, status, headers, config) {
 		        app.scope.grupos = data;
-		        app.scope.acesso.token = headers('auth_token');
+		        app.cookies.auth_token = headers('auth_token');
 		    })
 		    .error(function(data, status, headers, config) {
 		        app.scope.error = data;
@@ -47,11 +27,11 @@ meuBar.controller('AppCtrl',['$scope','$location','$http',
 
 		$scope.getUsuarios = function() {
 
-			app.http.defaults.headers.get = { 'auth_token' : app.scope.acesso.token };
+			app.http.defaults.headers.get = { 'auth_token' : app.cookies.auth_token };
 			app.http.get('http://localhost:8080/meubar/api/usuarios')
 			.success(function(data, status, headers, config) {
 		        app.scope.usuarios = data;
-		        app.scope.acesso.token = headers('auth_token');
+		        app.cookies.auth_token = headers('auth_token');
 		    })
 		    .error(function(data, status, headers, config) {
 		        app.scope.error = data;
@@ -59,12 +39,13 @@ meuBar.controller('AppCtrl',['$scope','$location','$http',
 
 		}
 
+		$scope.logout = function() {
+
+			delete app.cookies.auth_token;
+			delete app.cookies.user;
+			window.location = login_page;
+
+		}
+
 	}
 ]);
-
-// meuBar.service('dataService' function ($http, $q){
-// 	var defferer = $q.deffer();
-
-
-// 	return defferer.promise;
-// });

@@ -77,7 +77,7 @@ public class AcessoAPI implements BaseAPI {
 		if (accepted) {
 			result = new TokenJson(TokenUtils.generateToken(acesso.getUser()));
 		} else {
-			result = new Messagem(Messages.WRONG_USER_OR_PASS_DESC);
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 
 		String jsonReturn = gson.toJson(result);

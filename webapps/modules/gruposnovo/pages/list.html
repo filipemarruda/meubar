@@ -1,0 +1,17 @@
+<section data-ng-controller="GrupoCtrl" data-ng-init="find()">
+
+    <table class="table table-hover table-striped table-bordered">
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>Grupo</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in grupos">
+                <td>{{item.id}}</td>
+                <td>{{item.grupo}}</td>
+            </tr>   
+        </tbody>
+    </table>
+</section>
