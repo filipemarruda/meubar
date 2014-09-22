@@ -5,12 +5,14 @@
             <tr>
                 <td>#</td>
                 <td>Grupo</td>
+                <td>Ver</td>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="item in grupos">
                 <td>{{item.id}}</td>
                 <td>{{item.grupo}}</td>
+                <td><a data-ng-href="#!/grupos/view/{{item.id}}">view</a></td>
             </tr>   
         </tbody>
     </table>

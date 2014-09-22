@@ -1,9 +1,9 @@
 'use strict';
 
-gruposApp.factory('Grupo', ['$resource', '$cookies',
+coreApp.factory('Core', ['$resource', '$cookies',
  	function($resource, $cookies){
 	    return $resource(
-	    	'http://localhost:8080/meubar/api/grupos/:grupoId',
+	    	'http://localhost:8080/meubar/api/acesso',
 	    	{},
 	    	{
 	      		query: {

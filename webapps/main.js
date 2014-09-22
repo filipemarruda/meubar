@@ -1,3 +1,5 @@
+var meuBar = angular.module('meuBar', ['ngResource', 'ngCookies']);
+
 meuBar.controller('AppCtrl',['$scope','$location','$http', '$cookies',
 	function AppCtrl($scope, $location, $http, $cookies){
 

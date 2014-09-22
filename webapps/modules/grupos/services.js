@@ -1,6 +1,6 @@
 'use strict';
 
-module.factory('Grupo', ['$resource', '$cookies',
+gruposApp.factory('Grupo', ['$resource', '$cookies',
  	function($resource, $cookies){
 	    return $resource(
 	    	'http://localhost:8080/meubar/api/grupos/:grupoId',

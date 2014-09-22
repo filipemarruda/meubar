@@ -1,28 +1,68 @@
-<!doctype html>
-<html ng-app="meuBar">
-	<head>
-		<title>Hello AngularJS</title>
-		<link rel="stylesheet" type="text/css" href="lib/bower/bootstrap/dist/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="main.css">
-		<script src="lib/bower/angular/angular.min.js"></script>
-		<script src="lib/bower/angular-resource/angular-resource.js"></script>
-		<script src="lib/bower/angular-cookies/angular-cookies.js"></script>
-    	<script src="module.js"></script>
-    	<script src="main.js"></script>
-	</head>
+<!-- index.html -->
 
-	<body class="well" ng-controller="AppCtrl">
-		<span ng-model="acesso.token"></span>
-		<ul class="unstyled">
-			<li ng-repeat="grupo in grupos">{{ grupo.grupo }}</li>
-		</ul>
-		<ul class="unstyled">
-			<li ng-repeat="usuario in usuarios">{{ usuario.login }} - {{ usuario.grupo.grupo }}</li>
-		</ul>
-		<a class="btn btn-primary" href="/modules/grupos/">Grupos</a>
-		<button class="btn btn-primary" ng-click="getUsuarios()">Usuarios</button>
-		<button class="btn btn-primary" ng-click="logout()">Logout</button>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- CSS (load bootstrap) -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/meubar/lib/bower/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="styles/main.css">
+	
+    <!-- JS (load angular, ui-router, and our custom js file) -->
+    <script src="/meubar/lib/bower/angular/angular.js"></script>
+    <script src="/meubar/lib/bower/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/meubar/lib/bower/angular-resource/angular-resource.js"></script>
+    <script src="/meubar/lib/bower/angular-cookies/angular-cookies.js"></script>
+    <script src="/meubar/lib/bower/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/application.js"></script>
+    <script src="/meubar/modules/core/module.js"></script>
+    <script src="/meubar/modules/grupos/module.js"></script>
 
-		<span >{{error.message}}</span>
-	</body>
+</head>
+
+<!-- apply our angular app to our site -->
+<body ng-controller="CoreCtrl">
+
+<!-- NAVIGATION -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" ui-sref="#">MeuBar</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a ng-click="logout()" href='#'>Logout</a></li>
+          </ul>
+        </div>
+      </div>
+</nav>
+
+
+<!-- MAIN CONTENT -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li ng-repeat="menu in getMenus()" ng-class="getClass(menu.nome)">
+                    <a ui-sref="{{menu.nome}}">
+                        <i ng-class="menu.classe" ></i>
+                        {{menu.label}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div ui-view />
+        </div>
+    </div>
+</div>
+</body>
 </html>

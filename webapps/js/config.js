@@ -2,7 +2,10 @@
 
 // Init the application configuration module for AngularJS application
 var ApplicationConfiguration = (function() {
-	// Init module configuration options
+	
+	var menus = [];
+	var contextPath = '/meubar';
+	var modulesPath = contextPath + '/modules';
 	var applicationModuleName = 'meuBar';
 	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies', 'ui.router', 'ui.bootstrap'];
 
@@ -15,9 +18,21 @@ var ApplicationConfiguration = (function() {
 		angular.module(applicationModuleName).requires.push(moduleName);
 	};
 
+	var includeFile = function(file){
+		document.write(unescape('%3Cscript src="' + file + '"%3E%3C/script%3E'));
+	}
+
+	var registerMenu = function(menu){
+		menus.push(menu);
+	}
 	return {
+		menus: menus,
+		contextPath: contextPath,
+		modulesPath: modulesPath,
 		applicationModuleName: applicationModuleName,
 		applicationModuleVendorDependencies: applicationModuleVendorDependencies,
-		registerModule: registerModule
+		registerModule: registerModule,
+		includeFile: includeFile,
+		registerMenu: registerMenu
 	};
 })();

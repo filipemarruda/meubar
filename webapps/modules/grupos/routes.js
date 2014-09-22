@@ -1,18 +1,29 @@
 'use strict';
-module.config(['$stateProvider',
-  function($stateProvider) {
-    console.log("in provider")
-    $stateProvider.
-      state('defaultGrupos',{
-        url : '/',
-        templateUrl: '/meubar/modules/grupos/tmpl/grupo-list.html'
-      }).
-      state('listGrupos',{
-        url : '/grupos',
-        templateUrl: '/meubar/modules/grupos/tmpl/grupo-list.html'
-      }).
-      state('viewGrupo',{
-        url : '/grupos/:grupoId',
-        templateUrl: '/meubar/modules/grupos/tmpl/grupo-list.html'
-      })
-  }]);
+
+
+
+var gruposApp = angular.module('grupos');
+
+gruposApp.config(function($stateProvider, $urlRouterProvider) {
+    
+  var moduleName = gruposApp.name;
+  var modulePath = ApplicationConfiguration.modulesPath + '/' + moduleName;
+  var pagesPath = modulePath + '/pages';
+
+    $stateProvider
+
+  // HOME STATES AND NESTED VIEWS ========================================
+    .state( moduleName , {
+        url: '/' + moduleName,
+        templateUrl: pagesPath + '/index.html'
+    })
+    // nested list with custom controller
+	 .state( moduleName + '.list', {
+        url: '/list',
+        templateUrl: pagesPath + '/list.html'
+    })
+    .state( moduleName + '.view', {
+        url: '/view/:id',
+        templateUrl: pagesPath + '/view.html'
+    })
+});

@@ -1,13 +1,14 @@
 'use strict';
 
-var moduleName = 'grupos';
+var moduleName = 'core';
 var path = ApplicationConfiguration.modulesPath + '/' + moduleName;
 
 ApplicationConfiguration.registerMenu({
-	nome: 'grupos',
-	classe: 'fa fa-fw fa-group',
-	label: 'Grupos'
+	nome: 'core',
+	classe: 'fa fa-fw fa-tachometer',
+	label: 'Dashboard'
 });
+
 
 ApplicationConfiguration.includeFile(path + '/routes.js');
 ApplicationConfiguration.includeFile(path + '/services.js');

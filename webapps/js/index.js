@@ -1,3 +1,5 @@
+var meuBar = angular.module('meuBar', ['ngResource', 'ngCookies']);
+
 meuBar.controller('AppCtrl',['$scope','$location','$http', '$cookies',
 	function AppCtrl($scope, $location, $http, $cookies){
 
@@ -15,9 +17,9 @@ meuBar.controller('AppCtrl',['$scope','$location','$http', '$cookies',
 			app.scope.user = '';
 			app.scope.pass = '';	
 //		}
-
+		
 		$scope.access = function() {
-
+			app.scope.error = false;
 			console.log('Trying to acess.');
 			app.http.defaults.headers.post = { 'Content-Type' : 'application/json' };
 			app.http.post(

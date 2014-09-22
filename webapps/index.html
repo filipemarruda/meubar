@@ -1,12 +1,19 @@
 <!doctype html>
-<html>
+<html ng-app='meuBar'>
 	<head>
 		<meta charset="UTF-8">
 
 		<title>Hello AngularJS</title>
 		
 		<link rel="stylesheet" type="text/css" href="lib/bower/bootstrap/dist/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="main.css">
+		<link rel="stylesheet" type="text/css" href="styles/index.css">
+
+    	<script src="/meubar/lib/bower/angular/angular.js"></script>
+	    <script src="/meubar/lib/bower/angular-resource/angular-resource.js"></script>
+	    <script src="/meubar/lib/bower/angular-cookies/angular-cookies.js"></script>
+    	<script src="lib/md5.js"></script>
+    	<script src="js/index.js"></script>
+
 	</head>
 
 	<body ng-controller="AppCtrl">
@@ -55,6 +62,5 @@
                 </div>
 			</div>
 		</div>
-		<script src="js/require.js" data-main="js/main"></script>
 	</body>
 </html>
