@@ -5,14 +5,18 @@
             <tr>
                 <td>#</td>
                 <td>Grupo</td>
-                <td>Ver</td>
+                <td>Ações</td>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="item in grupos">
                 <td>{{item.id}}</td>
                 <td>{{item.grupo}}</td>
-                <td><a data-ng-href="#!/grupos/view/{{item.id}}">view</a></td>
+                <td>
+                    <a data-ng-href="#!/grupos/view/{{item.id}}">view</a>
+                    <a data-ng-href="#!/grupos/edit/{{item.id}}"><i class='fa fa-fw fa-edit'></i></a>
+                    <a ng-click="remove(item.id)"><i class='fa fa-fw fa-remove'></i></a>
+                </td>
             </tr>   
         </tbody>
     </table>

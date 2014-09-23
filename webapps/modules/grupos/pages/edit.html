@@ -1,0 +1,20 @@
+<section data-ng-controller="GrupoCtrl" data-ng-init="findOne()">
+	<div class="col-md-4">
+		<form name="grupoForm" class="form-horizontal" data-ng-submit="update()" novalidate>
+			<fieldset>
+				<div class="form-group" ng-class="{ 'has-error': grupoForm.grupo.$dirty && grupoForm.grupo.$invalid }">
+					<label class="control-label" for="grupo">Grupo</label>
+					<div class="controls">
+						<input name="grupo" type="text" data-ng-model="grupo.grupo" id="grupo" class="form-control" placeholder="Grupo" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<input type="submit" class="btn btn-default">
+				</div>
+				<div data-ng-show="error" class="text-danger">
+					<strong data-ng-bind="error"></strong>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</section>

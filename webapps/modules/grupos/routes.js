@@ -22,8 +22,16 @@ gruposApp.config(function($stateProvider, $urlRouterProvider) {
         url: '/list',
         templateUrl: pagesPath + '/list.html'
     })
+   .state( moduleName + '.create', {
+        url: '/create',
+        templateUrl: pagesPath + '/create.html'
+    })
     .state( moduleName + '.view', {
         url: '/view/:id',
         templateUrl: pagesPath + '/view.html'
+    })
+    .state( moduleName + '.edit', {
+        url: '/edit/:id',
+        templateUrl: pagesPath + '/edit.html'
     })
 });

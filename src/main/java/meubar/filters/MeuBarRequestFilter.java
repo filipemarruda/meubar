@@ -2,10 +2,12 @@ package meubar.filters;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
@@ -26,7 +28,9 @@ public class MeuBarRequestFilter implements ContainerRequestFilter {
 		if (!path.startsWith("/acesso")
 				&& !method.isAnnotationPresent(PermitAll.class)) {
 
-			String token = requestCtx.getHeaderString("auth_token");
+			Map<String, Cookie> cookies = requestCtx.getCookies();
+			Cookie authCookie = cookies.get(TokenUtils.AUTH_TOKEN);
+			String token = authCookie.getValue();
 			try {
 				TokenUtils.isValidToken(token);
 				requestCtx.setProperty("token", token);

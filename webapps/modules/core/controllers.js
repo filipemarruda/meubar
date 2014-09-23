@@ -12,13 +12,21 @@ coreApp.controller('CoreCtrl', ['$scope', '$cookies', '$stateParams', '$location
 				window.location = login_page;
 
 			}
-			$scope.getClass = function(path) {
+			$scope.getMenuClass = function(path) {
 			    if ($location.path().split('/')[1] == path) {
 			      return "active"
 			    } else {
 			      return ""
 			    }
 			}
+			$scope.getModuleMenuClass = function(path) {
+			    if ($location.path().split('/')[2] == path) {
+			      return "btn-primary"
+			    } else {
+			      return "btn-default"
+			    }
+			}
+
 			$scope.getMenus = function(){
 				console.log('function getMenus: '+ ApplicationConfiguration.menus)
 				return ApplicationConfiguration.menus;
