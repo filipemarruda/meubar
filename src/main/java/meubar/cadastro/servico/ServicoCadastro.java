@@ -36,4 +36,15 @@ public class ServicoCadastro {
 		return false;
 	}
 
+	public Usuario findByLogin(String login) {
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("login", login);
+
+		Usuario usuario = usuarioDAO.findOneByParams(params);
+
+		return usuario;
+
+	}
+
 }

@@ -19,10 +19,9 @@ public class MeuBarResponseFilter implements ContainerResponseFilter {
 	public void filter(ContainerRequestContext requestCtx,
 			ContainerResponseContext responseCtx) throws IOException {
 
-		String token = (String) requestCtx.getProperty("token");
-		if (!StringUtils.isEmpty(token)) {
-			String user = TokenUtils.extractUser(token);
-			String newToken = TokenUtils.generateToken(user);
+		String login = (String) requestCtx.getProperty("login");
+		if (!StringUtils.isEmpty(login)) {
+			String newToken = TokenUtils.generateToken(login);
 			responseCtx.getHeaders().add(TokenUtils.AUTH_TOKEN, newToken);
 		}
 

@@ -5,17 +5,21 @@
             <tr>
                 <td>#</td>
                 <td>Grupo</td>
-                <td>Ações</td>
+                <td>Criado</td>
+                <td>Criador</td>
+                <td>A&ccedil;&atilde;s</td>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="item in grupos">
+            <tr ng-repeat="item in itens">
                 <td>{{item.id}}</td>
                 <td>{{item.grupo}}</td>
+                <td>{{item.dataCriacao}}</td>
+                <td>{{item.usuarioCriacao}}</td>
                 <td>
-                    <a data-ng-href="#!/grupos/view/{{item.id}}">view</a>
+                    <a data-ng-href="#!/grupos/view/{{item.id}}"><i class='fa fa-fw fa-folder-open-o'></i></a>
                     <a data-ng-href="#!/grupos/edit/{{item.id}}"><i class='fa fa-fw fa-edit'></i></a>
-                    <a ng-click="remove(item.id)"><i class='fa fa-fw fa-remove'></i></a>
+                    <a data-ng-href="#!/grupos/list" ng-click="remove(item.id)"><i class='fa fa-fw fa-trash-o'></i></a>
                 </td>
             </tr>   
         </tbody>

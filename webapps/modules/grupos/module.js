@@ -6,8 +6,17 @@ var path = ApplicationConfiguration.modulesPath + '/' + moduleName;
 ApplicationConfiguration.registerMenu({
 	nome: 'grupos',
 	classe: 'fa fa-fw fa-group',
-	label: 'Grupos'
+	label: 'Grupos',
+	permissoes: ['Administrador']
 });
+
+ApplicationConfiguration.registerMenu({
+	nome: 'usuarios',
+	classe: 'fa fa-fw fa-user',
+	label: 'Usuarios',
+	permissoes: ['Garcons']
+});
+
 
 ApplicationConfiguration.includeFile(path + '/routes.js');
 ApplicationConfiguration.includeFile(path + '/services.js');

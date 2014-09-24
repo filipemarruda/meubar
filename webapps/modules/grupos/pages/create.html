@@ -1,8 +1,8 @@
 <section data-ng-controller="GrupoCtrl">
 	<div class="col-md-4">
-		<form name="grupoForm" class="form-horizontal" data-ng-submit="create()" novalidate>
+		<form name="moduleForm" class="form-horizontal" data-ng-submit="create()" novalidate>
 			<fieldset>
-				<div class="form-group" ng-class="{ 'has-error': grupoForm.grupo.$dirty && grupoForm.grupo.$invalid }">
+				<div class="form-group" ng-class="{ 'has-error': moduleForm.grupo.$dirty && moduleForm.grupo.$invalid }">
 					<label class="control-label" for="grupo">Grupo</label>
 					<div class="controls">
 						<input name="grupo" type="text" data-ng-model="grupo" id="grupo" class="form-control" placeholder="Grupo" required>

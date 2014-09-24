@@ -1,88 +1,87 @@
 'use strict';
 
-gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$location', 'Grupo',
-	function($scope, $cookies, $stateParams, $location, Grupo) {
+gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$rootScope', '$location', 'Grupo',
+	function($scope, $cookies, $stateParams, $rootScope , $location, Model) {
 
-		console.log("in controller: " + coreApp.name)
+		$scope.moduleName = gruposApp.name;
+		
 		$scope.find = function(){
-			console.log('find')
-			$scope.grupos = Grupo.query(
+			$scope.itens = Model.query(
 				{},
-				function(grupos, headers){},
+				function(response, headers){
+					$cookies.auth_token = headers('auth_token');
+				},
 				function(error){
-					if(error.status === 401){
-						$scope.logout();
-					}else{
-						$scope.error = error.data.message;
-					}
+					$rootScope.errorHandle(error.status);
 				}
 			);
 		}
 
 		$scope.findOne = function(){
-			$scope.grupo = Grupo.get(
+			$scope.item = Model.get(
 				{id: $stateParams.id},
-				function(grupo, headers){
+				function(response, headers){
 					$cookies.auth_token = headers('auth_token');
 				},
 				function(error){
-					if(error.status === 401){
-						$scope.logout();
-					}else{
-						$scope.error = error.data.message;
-					}
+					$rootScope.errorHandle(error.status);
 				}
 			);
 		}
 
 		$scope.create = function() {
-			var grupo = new Grupo({
-				grupo: this.grupo
+			var item = new Model({
+				grupo: this.grupo,
+				usuarioId : $cookies.user_id
 			});
-			grupo.$save(
+			item.$save(
 				function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
-					$scope.grupo = '';
-					$location.path('grupos/list');
+					$location.path( moduleName + '/list' );
 				},
 				function(error){
-					if(error.status === 401){
-						$scope.logout();
-					}else{
-						$scope.error = error.data.message;
-					}
+					$rootScope.errorHandle(error.status);
 				}
 			);
 		}
 
 		$scope.update = function() {
-			var grupo = $scope.grupo;
-			grupo.$update(function() {
-				$location.path('grupos/list');
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
+			var item = $scope.item;
+			item.usuarioId = $cookies.user_id; 
+			item.$update(
+				function(response, headers) {
+					$cookies.auth_token = headers('auth_token');
+					$location.path( moduleName + '/list' );
+				}, function(errorResponse) {
+					$rootScope.errorHandle(error.status);
+				}
+			);
 		};
 		
 		$scope.remove = function(id) {
 			if (id) {
-				var grupo = new Grupo({
+				var item = new Model({
 					id: id
 				});
-				grupo.$remove();
+				item.$remove(function(response, headers) {
+					$cookies.auth_token = headers('auth_token');
+				}, function(errorResponse) {
+					$rootScope.errorHandle(error.status);
+				});
 
-				for (var i in $scope.grupos) {
-					if ($scope.grupos[i].id === grupo.id) {
-						$scope.grupos.splice(i, 1);
+				for (var i in $scope.itens) {
+					if ($scope.itens[i].id === item.id) {
+						$scope.itens.splice(i, 1);
 					}
 				}
 			} else {
-				$scope.grupo.$remove(function() {
-					$location.path('grupos/list');
+				$scope.item.$remove(function(response, headers) {
+					$cookies.auth_token = headers('auth_token');
+					$location.path( moduleName + '/list' );
+				}, function(errorResponse) {
+					$rootScope.errorHandle(error.status);
 				});
 			}
 		};
-
-
 	}]
 );

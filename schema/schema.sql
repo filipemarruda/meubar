@@ -1,6 +1,6 @@
 -- Schema: meubar
 
--- DROP SCHEMA meubar;
+DROP SCHEMA meubar CASCADE;
 
 CREATE SCHEMA meubar
   AUTHORIZATION application;
@@ -18,7 +18,11 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA meubar
 CREATE TABLE meubar.grupo
 (
   id serial NOT NULL,
-  grupo character varying(20),
+  grupo character varying(20) NOT NULL,
+  data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  usuario_id_criacao integer NOT NULL DEFAULT 1, 
+  usuario_id_modificacao integer NOT NULL DEFAULT 1,
   CONSTRAINT grupo_pkey PRIMARY KEY (id),
   CONSTRAINT uq_grupo UNIQUE (grupo)
 )
@@ -39,12 +43,20 @@ GRANT USAGE ON SEQUENCE meubar.grupo_id_seq TO application;
 CREATE TABLE meubar.usuario
 (
   id serial NOT NULL,
-  login character varying(20),
-  senha character varying(255),
+  login character varying(20) NOT NULL,
+  senha character varying(255) NOT NULL,
+  nome character varying(255) NOT NULL,
+  cpf character varying(11) NOT NULL,
+  telefone character varying(15),
   grupo_id integer NOT NULL,
+  data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  usuario_id_criacao integer NOT NULL DEFAULT 1, 
+  usuario_id_modificacao integer NOT NULL DEFAULT 1,
   CONSTRAINT usuario_grupo_fk FOREIGN KEY ("grupo_id") REFERENCES meubar.grupo (id) ON UPDATE NO ACTION ON DELETE CASCADE,
   CONSTRAINT usuario_pkey PRIMARY KEY (id),
-  CONSTRAINT uq_login UNIQUE (login)
+  CONSTRAINT uq_login UNIQUE (login),
+  CONSTRAINT uq_cpf UNIQUE (cpf)
 )
 WITH (
   OIDS=FALSE
@@ -58,4 +70,4 @@ GRANT USAGE ON SEQUENCE meubar.usuario_id_seq TO application;
 
 -- Group and User Admin
 INSERT INTO meubar.grupo(grupo)  VALUES  ( 'Administrador' );
-INSERT INTO meubar.usuario(login, senha, grupo_id) VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3', 1);
+INSERT INTO meubar.usuario(login, senha, nome, cpf, telefone, grupo_id) VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3','Filipe Mendes', '08016230652','+553184682428', 1);

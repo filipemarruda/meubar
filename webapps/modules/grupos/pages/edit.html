@@ -1,11 +1,17 @@
 <section data-ng-controller="GrupoCtrl" data-ng-init="findOne()">
 	<div class="col-md-4">
-		<form name="grupoForm" class="form-horizontal" data-ng-submit="update()" novalidate>
+		<form name="moduleForm" class="form-horizontal" data-ng-submit="update()" novalidate>
 			<fieldset>
-				<div class="form-group" ng-class="{ 'has-error': grupoForm.grupo.$dirty && grupoForm.grupo.$invalid }">
+				<div class="form-group" is-disabled="true">
+					<label class="control-label" for="grupo">Id</label>
+					<div class="controls">
+						<input name="id" type="text" data-ng-model="item.id" id="id" class="form-control" required disabled="true" >
+					</div>
+				</div>
+				<div class="form-group" ng-class="{ 'has-error': moduleForm.grupo.$dirty && moduleForm.grupo.$invalid }">
 					<label class="control-label" for="grupo">Grupo</label>
 					<div class="controls">
-						<input name="grupo" type="text" data-ng-model="grupo.grupo" id="grupo" class="form-control" placeholder="Grupo" required>
+						<input name="grupo" type="text" data-ng-model="item.grupo" id="grupo" class="form-control" required >
 					</div>
 				</div>
 				<div class="form-group">

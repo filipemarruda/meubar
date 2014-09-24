@@ -6,7 +6,8 @@ var path = ApplicationConfiguration.modulesPath + '/' + moduleName;
 ApplicationConfiguration.registerMenu({
 	nome: 'core',
 	classe: 'fa fa-fw fa-tachometer',
-	label: 'Dashboard'
+	label: 'Dashboard',
+	permissoes: ['Administrador']
 });
 
 

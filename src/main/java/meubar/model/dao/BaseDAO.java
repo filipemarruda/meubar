@@ -68,4 +68,12 @@ public interface BaseDAO<T extends BaseEntity<K>, K> {
      */
     List<T> findAllByParams(final Map<String, Object> params);
 
+	/**
+	 * Procura um registros de acordo com o mapa de parametros.
+	 * 
+	 * @param params
+	 * @return
+	 */
+	T findOneByParams(final Map<String, Object> params);
+
 }

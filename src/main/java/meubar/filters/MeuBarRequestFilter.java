@@ -33,7 +33,8 @@ public class MeuBarRequestFilter implements ContainerRequestFilter {
 			String token = authCookie.getValue();
 			try {
 				TokenUtils.isValidToken(token);
-				requestCtx.setProperty("token", token);
+				String login = TokenUtils.extractUser(token);
+				requestCtx.setProperty("login", login);
 			} catch (LoginException e) {
 
 				requestCtx.abortWith(Response.status(

@@ -20,7 +20,6 @@ import javax.ws.rs.core.UriInfo;
 
 import meubar.api.base.BaseAPI;
 import meubar.cadastro.json.pojo.GrupoJson;
-import meubar.cadastro.model.entity.Grupo;
 import meubar.cadastro.servico.ServicoGrupo;
 import meubar.json.pojo.Messagem;
 
@@ -48,7 +47,7 @@ public class GrupoAPI implements BaseAPI {
 
 	@GET
 	public Response doGet() {
-		List<Grupo> list = servicoGrupo.getAll();
+		List<GrupoJson> list = servicoGrupo.getAll();
 		Gson gson = new Gson();
 		String result = gson.toJson(list);
 		return Response.status(Status.OK).entity(result).build();
@@ -57,7 +56,7 @@ public class GrupoAPI implements BaseAPI {
 	@GET
 	@Path("/{id: [0-9]*}")
 	public Response doGet(@PathParam("id") String id) {
-		Grupo grupo = servicoGrupo.getById(id);
+		GrupoJson grupo = servicoGrupo.getById(id);
 		Gson gson = new Gson();
 		String result = gson.toJson(grupo);
 		return Response.status(Status.OK).entity(result).build();

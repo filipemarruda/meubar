@@ -139,10 +139,46 @@ public abstract class MeuBarDAOImpl<T extends BaseEntity<K>, K> implements BaseD
 
 
     /**
-     * Retorna o nome da entidade atual.
-     * 
-     * @return
-     */
+	 * (non-Javadoc)
+	 * 
+	 * @see br.com.azulseguros.model.dao.BaseDAO#findAllByParams(java.util.Map)
+	 */
+	public T findOneByParams(final Map<String, Object> params) {
+		T entity = null;
+		if (params != null && !params.isEmpty()) {
+			final StringBuilder hql = new StringBuilder("from "
+					+ getEntityName() + " obj ");
+			hql.append(" where ");
+			int count = 0;
+			for (final String key : params.keySet()) {
+				if (count > 0) {
+					hql.append(" and ");
+				}
+				hql.append("obj." + key + " = :" + key);
+				++count;
+			}
+			final Query query = entityManager.createQuery(hql.toString())
+					.setMaxResults(1);
+			for (final String key : params.keySet()) {
+				query.setParameter(key, params.get(key));
+			}
+			try {
+				List results = query.getResultList();
+				if (results.size() > 0) {
+					entity = (T) query.getResultList().get(0);
+				}
+			} catch (Exception e) {
+				// do nothing
+			}
+		}
+		return entity;
+	}
+
+	/**
+	 * Retorna o nome da entidade atual.
+	 * 
+	 * @return
+	 */
     private String getEntityName() {
         return getEntityClass().getSimpleName();
     }

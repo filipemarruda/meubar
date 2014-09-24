@@ -21,6 +21,7 @@ import meubar.business.Messages;
 import meubar.business.TokenUtils;
 import meubar.cadastro.json.pojo.AcessoJson;
 import meubar.cadastro.json.pojo.TokenJson;
+import meubar.cadastro.model.entity.Usuario;
 import meubar.cadastro.servico.ServicoCadastro;
 import meubar.json.pojo.Messagem;
 
@@ -75,7 +76,11 @@ public class AcessoAPI implements BaseAPI {
 				acesso.getPass());
 
 		if (accepted) {
-			result = new TokenJson(TokenUtils.generateToken(acesso.getUser()));
+			Usuario usuario = servicoCadastro.findByLogin(acesso.getUser());
+			result = new TokenJson(TokenUtils.generateToken(acesso.getUser()),
+					Long.toString(usuario.getId()), usuario.getNome(), usuario
+							.getGrupo()
+							.getGrupo());
 		} else {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}

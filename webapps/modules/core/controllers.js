@@ -1,25 +1,38 @@
 'use strict';
 
-coreApp.controller('CoreCtrl', ['$scope', '$cookies', '$stateParams', '$location', 'Core',
-	function($scope, $cookies, $stateParams, $location, Core) {
-			console.log("in controller of module: " + coreApp.name)
+coreApp.controller('CoreCtrl', ['$rootScope', '$cookies', '$stateParams', '$location', 'Core',
+	function($rootScope, $cookies, $stateParams, $location, Core) {
+			console.log("in controller of module: " + coreApp.name);
 
 			var login_page = 'index.html';
-			$scope.logout = function() {
+			
+			function logout() {
 
 				delete $cookies.auth_token;
 				delete $cookies.user;
 				window.location = login_page;
 
 			}
-			$scope.getMenuClass = function(path) {
+			
+			$rootScope.logout = logout;
+			
+			$rootScope.errorHandle = function(status){
+				if(status === 401){
+					logout();
+				}else{
+					$rootScope.error = error.data.message;
+				}
+			}
+			
+			$rootScope.getMenuClass = function(path) {
 			    if ($location.path().split('/')[1] == path) {
 			      return "active"
 			    } else {
 			      return ""
 			    }
 			}
-			$scope.getModuleMenuClass = function(path) {
+			
+			$rootScope.getModuleMenuClass = function(path) {
 			    if ($location.path().split('/')[2] == path) {
 			      return "btn-primary"
 			    } else {
@@ -27,9 +40,17 @@ coreApp.controller('CoreCtrl', ['$scope', '$cookies', '$stateParams', '$location
 			    }
 			}
 
-			$scope.getMenus = function(){
-				console.log('function getMenus: '+ ApplicationConfiguration.menus)
-				return ApplicationConfiguration.menus;
+			$rootScope.getMenus = function(){
+				console.log('function getMenus: '+ ApplicationConfiguration.menus);
+				var menus = [];
+				
+				ApplicationConfiguration.menus.forEach(function(item){
+					if($.inArray($cookies.grupo, item.permissoes) != -1){
+						menus.push(item);
+					}
+				});
+
+				return menus;
 			}
 	}]
 );

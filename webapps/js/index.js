@@ -31,7 +31,9 @@ meuBar.controller('AppCtrl',['$scope','$location','$http', '$cookies',
 			)
 			.success(function(data, status, headers, config) {	
 	        	app.cookies.auth_token = data.token;
-	        	app.cookies.user = app.scope.user;
+	        	app.cookies.user_id = data.id;
+	        	app.cookies.user = data.usuario;
+	        	app.cookies.grupo = data.grupo;
 	        	window.location = main_page;
 	   		})
 	   		.error(function(data, status, headers, config) {
