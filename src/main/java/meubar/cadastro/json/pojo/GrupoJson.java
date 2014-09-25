@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class GrupoJson {
 	private Long id;
-	private String grupo;
+	private String nome;
 	private Date dataCriacao;
 	private String usuarioCriacao;
 	private Date dataModificacao;
@@ -19,12 +19,12 @@ public class GrupoJson {
 		this.id = id;
 	}
 
-	public String getGrupo() {
-		return grupo;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setGrupo(String grupo) {
-		this.grupo = grupo;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public Date getDataCriacao() {

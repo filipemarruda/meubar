@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
@@ -12,15 +13,12 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
 
-import meubar.api.base.BaseAPI;
+import meubar.api.base.BaseAPIImpl;
 import meubar.cadastro.json.pojo.UsuarioJson;
-import meubar.cadastro.model.entity.Usuario;
 import meubar.cadastro.servico.ServicoUsuario;
 import meubar.json.pojo.Messagem;
 
@@ -29,13 +27,10 @@ import com.google.gson.Gson;
 
 @Path("/usuarios")
 @Produces(MediaType.APPLICATION_JSON)
-public class UsuarioAPI implements BaseAPI {
+public class UsuarioAPI extends BaseAPIImpl {
 
 	@EJB
 	ServicoUsuario servicoUsuario;
-
-	@Context
-    private UriInfo context;
  
     public UsuarioAPI() {
     }
@@ -48,7 +43,7 @@ public class UsuarioAPI implements BaseAPI {
 
 	@GET
 	public Response doGet() {
-		List<Usuario> list = servicoUsuario.getAll();
+		List<UsuarioJson> list = servicoUsuario.getAll();
 		Gson gson = new Gson();
 		String result = gson.toJson(list);
 		return Response.status(Status.OK).entity(result).build();
@@ -57,20 +52,21 @@ public class UsuarioAPI implements BaseAPI {
 	@GET
 	@Path("/{id: [0-9]*}")
 	public Response doGet(@PathParam("id") String id) {
-		Usuario usuario = servicoUsuario.getById(id);
+		UsuarioJson usuario = servicoUsuario.getById(id);
 		Gson gson = new Gson();
 		String result = gson.toJson(usuario);
 		return Response.status(Status.OK).entity(result).build();
 	}
 
 	@POST
-	public Response doPost(String json) {
+	public Response doPost(String json, @CookieParam("auth_token") String token) {
 		Object result;
 		Gson gson = new Gson();
 		
 		try {
 
 			UsuarioJson usuarioJson = gson.fromJson(json, UsuarioJson.class);
+			usuarioJson.setUsuarioId(getUsuarioIdFromToken(token));
 			result = servicoUsuario.cadastrar(usuarioJson);
 
 		} catch (Exception e) {
@@ -95,7 +91,8 @@ public class UsuarioAPI implements BaseAPI {
 
 	@PUT
 	@Path("/{id: [0-9]*}")
-	public Response doPut(@PathParam("id") String id, String json) {
+	public Response doPut(@PathParam("id") String id, String json,
+			@CookieParam("auth_token") String token) {
 		Object resultObj = null;
 		Status result = Status.NOT_FOUND;
 		boolean updated = false;
@@ -104,6 +101,7 @@ public class UsuarioAPI implements BaseAPI {
 		try {
 
 			UsuarioJson usuarioJson = gson.fromJson(json, UsuarioJson.class);
+			usuarioJson.setUsuarioId(getUsuarioIdFromToken(token));
 			updated = servicoUsuario.update(id, usuarioJson);
 
 		} catch (Exception e) {

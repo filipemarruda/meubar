@@ -1,13 +1,25 @@
 'use strict';
 
-gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$rootScope', '$location', 'Grupo',
-	function($scope, $cookies, $stateParams, $rootScope , $location, Model) {
+usuariosApp.controller('UsuarioCtrl', ['$scope', '$cookies', '$stateParams', '$rootScope', '$location', 'Usuario', 'Grupo',
+	function($scope, $cookies, $stateParams, $rootScope , $location, Model, Grupo) {
 
-		$scope.moduleName = gruposApp.name;
-
+		$scope.moduleName = usuariosApp.name;
+		
 		if($location.path() === '/' + $scope.moduleName){
 			$location.path('/' + $scope.moduleName + '/' + 'list');
 		}
+		
+		$scope.grupos = Grupo.query(
+			{},
+			function(response, headers){
+				$cookies.auth_token = headers('auth_token');
+			},
+			function(error){
+				$rootScope.errorHandle(error.status);
+			}
+		);
+		
+		
 		$scope.find = function(){
 			$scope.itens = Model.query(
 				{},
@@ -21,6 +33,7 @@ gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$rootS
 		}
 
 		$scope.findOne = function(){
+			
 			$scope.item = Model.get(
 				{id: $stateParams.id},
 				function(response, headers){
@@ -34,8 +47,15 @@ gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$rootS
 
 		$scope.create = function() {
 			var item = new Model({
-				nome: this.nome
+				login: this.login,
+				nome: this.nome,
+				cpf: this.cpf,
+				telefone: this.telefone,
+				grupoId: this.grupoId
 			});
+			if(!!this.senha == true){
+				item.senha = md5(this.senha);
+			}
 			item.$save(
 				function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
@@ -49,6 +69,7 @@ gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$rootS
 
 		$scope.update = function() {
 			var item = $scope.item;
+			item.senha = md5($scope.item.senha);
 			item.$update(
 				function(response, headers) {
 					$cookies.auth_token = headers('auth_token');

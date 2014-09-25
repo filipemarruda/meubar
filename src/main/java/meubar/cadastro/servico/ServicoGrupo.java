@@ -42,25 +42,10 @@ public class ServicoGrupo {
 
 	}
 
-	private GrupoJson createGrupoJson(Grupo grupo) {
-		final GrupoJson grupoJson = new GrupoJson();
-		grupoJson.setId(grupo.getId());
-		grupoJson.setGrupo(grupo.getGrupo());
-		grupoJson.setDataCriacao(grupo.getDataCriacao());
-		grupoJson.setDataModificacao(grupo.getDataModificacao());
-		Usuario usuarioCriacao = usuarioDAO.findById(grupo
-				.getUsuarioIdCriacao());
-		Usuario usuarioModificacao = usuarioDAO.findById(grupo
-				.getUsuarioIdModificacao());
-		grupoJson.setUsuarioCriacao(usuarioCriacao.getNome());
-		grupoJson.setUsuarioCriacao(usuarioModificacao.getNome());
-
-		return grupoJson;
-	}
 
 	public Grupo cadastrar(GrupoJson grupoJson) {
 
-		Grupo grupo = new Grupo(grupoJson.getGrupo());
+		Grupo grupo = new Grupo(grupoJson.getNome());
 		grupo.setDataCriacao(new Date());
 		grupo.setDataModificacao(new Date());
 		grupo.setUsuarioIdCriacao(grupoJson.getUsuarioId());
@@ -90,7 +75,7 @@ public class ServicoGrupo {
 		Grupo grupo = grupoDAO.findById(lId);
 
 		if (grupo != null) {
-			grupo.setGrupo(grupoJson.getGrupo());
+			grupo.setNome(grupoJson.getNome());
 			grupo.setDataModificacao(new Date());
 			grupo.setUsuarioIdModificacao(grupoJson.getUsuarioId());
 			grupoDAO.save(grupo);
@@ -99,6 +84,22 @@ public class ServicoGrupo {
 
 		return result;
 
+	}
+
+	private GrupoJson createGrupoJson(Grupo grupo) {
+		final GrupoJson grupoJson = new GrupoJson();
+		grupoJson.setId(grupo.getId());
+		grupoJson.setNome(grupo.getNome());
+		grupoJson.setDataCriacao(grupo.getDataCriacao());
+		grupoJson.setDataModificacao(grupo.getDataModificacao());
+		Usuario usuarioCriacao = usuarioDAO.findById(grupo
+				.getUsuarioIdCriacao());
+		Usuario usuarioModificacao = usuarioDAO.findById(grupo
+				.getUsuarioIdModificacao());
+		grupoJson.setUsuarioCriacao(usuarioCriacao.getNome());
+		grupoJson.setUsuarioModificacao(usuarioModificacao.getNome());
+
+		return grupoJson;
 	}
 
 }

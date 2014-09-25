@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
@@ -12,13 +13,11 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
 
-import meubar.api.base.BaseAPI;
+import meubar.api.base.BaseAPIImpl;
 import meubar.cadastro.json.pojo.GrupoJson;
 import meubar.cadastro.servico.ServicoGrupo;
 import meubar.json.pojo.Messagem;
@@ -28,13 +27,10 @@ import com.google.gson.Gson;
 
 @Path("/grupos")
 @Produces(MediaType.APPLICATION_JSON)
-public class GrupoAPI implements BaseAPI {
+public class GrupoAPI extends BaseAPIImpl {
 
 	@EJB
 	ServicoGrupo servicoGrupo;
-
-	@Context
-    private UriInfo context;
  
     public GrupoAPI() {
     }
@@ -63,13 +59,15 @@ public class GrupoAPI implements BaseAPI {
 	}
 
 	@POST
-	public Response doPost(String json) {
+	public Response doPost(String json,
+			@CookieParam(value = "auth_token") String token) {
 		Object result;
 		Gson gson = new Gson();
-		
+
 		try {
 
 			GrupoJson grupoJson = gson.fromJson(json, GrupoJson.class);
+			grupoJson.setUsuarioId(getUsuarioIdFromToken(token));
 			result = servicoGrupo.cadastrar(grupoJson);
 
 		} catch (Exception e) {
@@ -94,7 +92,8 @@ public class GrupoAPI implements BaseAPI {
 
 	@PUT
 	@Path("/{id: [0-9]*}")
-	public Response doPut(@PathParam("id") String id, String json) {
+	public Response doPut(@PathParam("id") String id, String json,
+			@CookieParam(value = "auth_token") String token) {
 		Object resultObj = null;
 		Status result = Status.NOT_FOUND;
 		boolean updated = false;
@@ -103,6 +102,7 @@ public class GrupoAPI implements BaseAPI {
 		try {
 
 			GrupoJson grupoJson = gson.fromJson(json, GrupoJson.class);
+			grupoJson.setUsuarioId(getUsuarioIdFromToken(token));
 			updated = servicoGrupo.update(id, grupoJson);
 
 		} catch (Exception e) {

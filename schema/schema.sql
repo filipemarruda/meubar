@@ -18,13 +18,13 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA meubar
 CREATE TABLE meubar.grupo
 (
   id serial NOT NULL,
-  grupo character varying(20) NOT NULL,
+  nome character varying(20) NOT NULL,
   data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
   data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
   usuario_id_criacao integer NOT NULL DEFAULT 1, 
   usuario_id_modificacao integer NOT NULL DEFAULT 1,
   CONSTRAINT grupo_pkey PRIMARY KEY (id),
-  CONSTRAINT uq_grupo UNIQUE (grupo)
+  CONSTRAINT uq_nome UNIQUE (nome)
 )
 WITH (
   OIDS=FALSE
@@ -69,5 +69,5 @@ GRANT USAGE ON SEQUENCE meubar.usuario_id_seq TO postgres;
 GRANT USAGE ON SEQUENCE meubar.usuario_id_seq TO application;
 
 -- Group and User Admin
-INSERT INTO meubar.grupo(grupo)  VALUES  ( 'Administrador' );
+INSERT INTO meubar.grupo(nome)  VALUES  ( 'Administrador' );
 INSERT INTO meubar.usuario(login, senha, nome, cpf, telefone, grupo_id) VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3','Filipe Mendes', '08016230652','+553184682428', 1);

@@ -3,6 +3,7 @@ package meubar.api.autenticacao;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
@@ -67,7 +68,7 @@ public class AcessoAPI implements BaseAPI {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response doPost(String json) {
+	public Response doPost(String json, String token) {
 
 		Object result;
 		Gson gson = new Gson();
@@ -80,7 +81,7 @@ public class AcessoAPI implements BaseAPI {
 			result = new TokenJson(TokenUtils.generateToken(acesso.getUser()),
 					Long.toString(usuario.getId()), usuario.getNome(), usuario
 							.getGrupo()
-							.getGrupo());
+							.getNome());
 		} else {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
@@ -97,7 +98,8 @@ public class AcessoAPI implements BaseAPI {
 	}
 
 	@PUT
-	public Response doPut(String id, String json) {
+	public Response doPut(String id, String json,
+			@CookieParam("auth_token") String token) {
 		return Response.status(Status.FORBIDDEN).build();
 
 	}

@@ -10,9 +10,9 @@ public interface BaseAPI {
 
 	public Response doGet(String id);
 
-	public Response doPost(String json);
+	public Response doPost(String json, String Token);
 
 	public Response doDelete(String id);
 
-	public Response doPut(String id, String json);
+	public Response doPut(String id, String json, String Token);
 }

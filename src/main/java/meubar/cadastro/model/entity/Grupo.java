@@ -22,8 +22,8 @@ public class Grupo implements BaseEntity<Long> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	@Column(name = "grupo", length = 20)
-	private String grupo;
+	@Column(name = "nome", length = 20)
+	private String nome;
 	@Column(name = "data_criacao")
 	private Date dataCriacao;
 	@Column(name = "data_modificacao")
@@ -38,9 +38,9 @@ public class Grupo implements BaseEntity<Long> {
 		this.id = id;
 	}
 
-	public Grupo(String grupo) {
+	public Grupo(String nome) {
 		super();
-		this.grupo = grupo;
+		this.nome = nome;
 	}
 
 	public Grupo() {
@@ -55,12 +55,12 @@ public class Grupo implements BaseEntity<Long> {
 		this.id = id;
 	}
 
-	public String getGrupo() {
-		return grupo;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setGrupo(String grupo) {
-		this.grupo = grupo;
+	public void setNome(String grupo) {
+		this.nome = grupo;
 	}
 
 	public Date getDataCriacao() {

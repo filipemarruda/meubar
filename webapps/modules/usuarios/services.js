@@ -1,9 +1,9 @@
 'use strict';
 
-gruposApp.factory('Grupo', ['$resource',
+usuariosApp.factory('Usuario', ['$resource',
  	function($resource){
 	    return $resource(
-	    	'http://localhost:8080/meubar/api/' + gruposApp.name + '/:id',
+	    	'http://localhost:8080/meubar/api/' + usuariosApp.name + '/:id',
 	    	{id : '@id'},
 	    	{
 	      		'query': {
