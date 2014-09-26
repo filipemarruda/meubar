@@ -13,6 +13,9 @@ public class ConversionUtils {
 
 	private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssz";
 
+	private ConversionUtils() {
+	}
+
 	public static byte[] serialize(Object obj) throws IOException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ObjectOutputStream os = new ObjectOutputStream(out);
@@ -41,7 +44,13 @@ public class ConversionUtils {
 
 	}
 
-	private ConversionUtils() {
+	public static String encodeBase64ToCookie(String b64String) {
+		return b64String.replaceAll("\\+", "-").replaceAll("/", "_");
+	}
+
+	public static String decodeCookieToBase64(String cookieString){
+		return cookieString.replaceAll("-", "+").replaceAll("_", "/")
+				.replaceAll("%3D", "=");
 	}
 
 }

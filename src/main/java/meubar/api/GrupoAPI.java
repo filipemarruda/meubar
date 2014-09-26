@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import meubar.api.base.BaseAPIImpl;
+import meubar.aspects.Permissoes;
 import meubar.cadastro.json.pojo.GrupoJson;
 import meubar.cadastro.servico.ServicoGrupo;
 import meubar.json.pojo.Messagem;
@@ -41,26 +42,30 @@ public class GrupoAPI extends BaseAPIImpl {
 		return Response.status(Status.OK).build();
 	};
 
+	@Permissoes(values = { "Administrador", "Gerente" })
 	@GET
-	public Response doGet() {
+	public Response doGet(@CookieParam(value = "auth_token") String token) {
 		List<GrupoJson> list = servicoGrupo.getAll();
 		Gson gson = new Gson();
 		String result = gson.toJson(list);
 		return Response.status(Status.OK).entity(result).build();
 	}
 
+	@Permissoes(values = { "Administrador" })
 	@GET
 	@Path("/{id: [0-9]*}")
-	public Response doGet(@PathParam("id") String id) {
+	public Response doGet(@CookieParam(value = "auth_token") String token,
+			@PathParam("id") String id) {
 		GrupoJson grupo = servicoGrupo.getById(id);
 		Gson gson = new Gson();
 		String result = gson.toJson(grupo);
 		return Response.status(Status.OK).entity(result).build();
 	}
 
+	@Permissoes(values = { "Administrador" })
 	@POST
-	public Response doPost(String json,
-			@CookieParam(value = "auth_token") String token) {
+	public Response doPost(@CookieParam(value = "auth_token") String token,
+			String json) {
 		Object result;
 		Gson gson = new Gson();
 
@@ -77,9 +82,11 @@ public class GrupoAPI extends BaseAPIImpl {
 		return Response.status(Status.ACCEPTED).entity(result).build();
 	}
 
+	@Permissoes(values = { "Administrador" })
 	@DELETE
 	@Path("/{id: [0-9]*}")
-	public Response doDelete(@PathParam("id") String id) {
+	public Response doDelete(@CookieParam(value = "auth_token") String token,
+			@PathParam("id") String id) {
 
 		Status result = Status.NOT_FOUND;
 		boolean deleted = servicoGrupo.deletar(id);
@@ -90,10 +97,11 @@ public class GrupoAPI extends BaseAPIImpl {
 		return Response.status(result).build();
 	}
 
+	@Permissoes(values = { "Administrador" })
 	@PUT
 	@Path("/{id: [0-9]*}")
-	public Response doPut(@PathParam("id") String id, String json,
-			@CookieParam(value = "auth_token") String token) {
+	public Response doPut(@CookieParam(value = "auth_token") String token,
+			@PathParam("id") String id, String json) {
 		Object resultObj = null;
 		Status result = Status.NOT_FOUND;
 		boolean updated = false;

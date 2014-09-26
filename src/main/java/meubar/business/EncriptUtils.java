@@ -1,46 +1,83 @@
 package meubar.business;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.SecretKey;
 
 import org.apache.commons.codec.binary.Base64;
 
 public class EncriptUtils {
 
-    private static byte[] key = {
- 0x21, 0x22, 0x21, 0x25, 0x29, 0x22, 0x30,
-			0x33, 0x24, 0x44, 0x41, 0x39, 0x37, 0x40, 0x35, 0x49
-    };//"thisIsASecretKey";
+	private static SecretKey key;
+
+	private static String encryptMode = "DES";
+	private static Cipher encryptCipher;
+	private static Cipher decryptCipher;
 
 	public static String encrypt(String strToEncrypt)
-			throws NoSuchAlgorithmException, NoSuchPaddingException,
-			InvalidKeyException, IllegalBlockSizeException, BadPaddingException
-    {
-		Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-		final SecretKeySpec secretKey = new SecretKeySpec(key, "AES");
-		cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-		byte[] encryptedVal = cipher.doFinal(strToEncrypt.getBytes());
-		byte[] encodedVal = new Base64().encode(encryptedVal);
-		return new String(encodedVal).replace("\r\n", "");
+			throws UnsupportedEncodingException, NoSuchAlgorithmException,
+			NoSuchPaddingException, InvalidKeyException,
+			IllegalBlockSizeException, BadPaddingException,
+			InvalidKeySpecException {
+
+		byte[] input = strToEncrypt.getBytes("UTF8");
+		byte[] enc = getEncryptCipher().doFinal(input);
+		enc = Base64.encodeBase64(enc);
+		String token = new String(enc);
+		System.out.println("Token gerado: " + token);
+		return ConversionUtils.encodeBase64ToCookie(token);
 
     }
 
-	public static String decrypt(String strToDecrypt)
+	public static String decrypt(String tokenCookie)
 			throws NoSuchAlgorithmException, NoSuchPaddingException,
-			InvalidKeyException, IllegalBlockSizeException, BadPaddingException
-    {
+			InvalidKeyException, IllegalBlockSizeException,
+			BadPaddingException, IOException, InvalidKeySpecException,
+			InvalidAlgorithmParameterException {
 
-		Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-		final SecretKeySpec secretKey = new SecretKeySpec(key, "AES");
-		cipher.init(Cipher.DECRYPT_MODE, secretKey);
-		byte[] decodedValue = new Base64().decode(strToDecrypt.getBytes());
-		byte[] decryptedVal = cipher.doFinal(decodedValue);
-		return new String(decryptedVal);
+		String token = ConversionUtils.decodeCookieToBase64(tokenCookie);
+		byte[] dec = Base64.decodeBase64(token.getBytes());
+		byte[] utf8 = getDecryptCipher().doFinal(dec);
+		return new String(utf8, "UTF8");
+
     }
+
+	public static Cipher getEncryptCipher() throws NoSuchAlgorithmException,
+			NoSuchPaddingException, InvalidKeyException,
+			InvalidKeySpecException {
+
+		if (encryptCipher == null) {
+			encryptCipher = Cipher.getInstance(encryptMode);
+			encryptCipher.init(Cipher.ENCRYPT_MODE, getSecretKey());
+		}
+		return encryptCipher;
+	}
+
+	public static Cipher getDecryptCipher() throws NoSuchAlgorithmException,
+			NoSuchPaddingException, InvalidKeyException,
+			InvalidKeySpecException, InvalidAlgorithmParameterException {
+		if (decryptCipher == null) {
+			decryptCipher = Cipher.getInstance(encryptMode);
+			decryptCipher.init(Cipher.DECRYPT_MODE, getSecretKey());
+		}
+		return decryptCipher;
+	}
+
+	private static SecretKey getSecretKey() throws NoSuchAlgorithmException,
+			InvalidKeyException, InvalidKeySpecException {
+		if (key == null) {
+			key = KeyGenerator.getInstance(encryptMode).generateKey();
+		}
+		return key;
+	}
 }

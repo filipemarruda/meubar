@@ -34,7 +34,9 @@ public class MeuBarRequestFilter implements ContainerRequestFilter {
 			try {
 				TokenUtils.isValidToken(token);
 				String login = TokenUtils.extractUser(token);
+				String grupo = TokenUtils.extractGrupo(token);
 				requestCtx.setProperty("login", login);
+				requestCtx.setProperty("grupo", grupo);
 			} catch (LoginException e) {
 
 				requestCtx.abortWith(Response.status(

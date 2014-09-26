@@ -4,7 +4,7 @@ var moduleName = 'grupos';
 var path = ApplicationConfiguration.modulesPath + '/' + moduleName;
 
 ApplicationConfiguration.registerMenu({
-	nome: 'grupos',
+	nome: 'grupos.list',
 	classe: 'fa fa-fw fa-group',
 	label: 'Grupos',
 	permissoes: ['Administrador']

@@ -6,13 +6,13 @@ public interface BaseAPI {
 
 	public Response doOptions();
 
-	public Response doGet();
+	public Response doGet(String token);
 
-	public Response doGet(String id);
+	public Response doGet(String token, String id);
 
-	public Response doPost(String json, String Token);
+	public Response doPost(String token, String json);
 
-	public Response doDelete(String id);
+	public Response doDelete(String token, String id);
 
-	public Response doPut(String id, String json, String Token);
+	public Response doPut(String token, String id, String json);
 }

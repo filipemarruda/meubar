@@ -14,11 +14,12 @@ public class TokenUtils {
 	private TokenUtils() {
 	}
 
-	public static String generateToken(String login) {
+	public static String generateToken(String login, String grupo) {
 		String token;
 		try {
 			Map<String, String> tokenMap = new HashMap<String, String>();
 			tokenMap.put("login", login);
+			tokenMap.put("grupo", grupo);
 			Calendar dataDeExpiracao = Calendar.getInstance();
 			dataDeExpiracao.add(Calendar.MINUTE, +EXPIRES_INTERVAL);
 			tokenMap.put("expires",
@@ -61,6 +62,23 @@ public class TokenUtils {
 			Map<String, String> tokenMap = (Map<String, String>) ConversionUtils
 					.deserialize(byteArray);
 			user = tokenMap.get("login");
+
+		} catch (Exception e) {
+			user = null;
+		}
+
+		return user;
+	}
+
+	public static String extractGrupo(String token) {
+		String user;
+
+		try {
+
+			byte[] byteArray = EncriptUtils.decrypt(token).getBytes();
+			Map<String, String> tokenMap = (Map<String, String>) ConversionUtils
+					.deserialize(byteArray);
+			user = tokenMap.get("grupo");
 
 		} catch (Exception e) {
 			user = null;

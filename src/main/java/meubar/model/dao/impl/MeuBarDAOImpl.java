@@ -25,7 +25,7 @@ import meubar.model.entity.BaseEntity;
 @SuppressWarnings("unchecked")
 public abstract class MeuBarDAOImpl<T extends BaseEntity<K>, K> implements BaseDAO<T, K> {
 
-	@PersistenceContext(unitName = "hotelpgsql")
+	@PersistenceContext(unitName = "meubarpgsql")
     private EntityManager entityManager;
 
 

@@ -3,7 +3,6 @@ package meubar.api.autenticacao;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
@@ -49,15 +48,14 @@ public class AcessoAPI implements BaseAPI {
 	};
     
 	@GET
-	public Response doGet(String id) {
+	public Response doGet(String token) {
 		return Response.status(Status.FORBIDDEN).build();
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response doGet() {
+	public Response doGet(String token, String id) {
 
-    	
 		Messagem msg = new Messagem(Messages.WRONG_FUNCTION_USE);
     	Gson gson = new Gson();
 		String result = gson.toJson(msg);
@@ -78,7 +76,8 @@ public class AcessoAPI implements BaseAPI {
 
 		if (accepted) {
 			Usuario usuario = servicoCadastro.findByLogin(acesso.getUser());
-			result = new TokenJson(TokenUtils.generateToken(acesso.getUser()),
+			result = new TokenJson(TokenUtils.generateToken(acesso.getUser(),
+					usuario.getGrupo().getNome()),
 					Long.toString(usuario.getId()), usuario.getNome(), usuario
 							.getGrupo()
 							.getNome());
@@ -92,14 +91,13 @@ public class AcessoAPI implements BaseAPI {
     }
 
 	@DELETE
-	public Response doDelete(String id) {
+	public Response doDelete(String token, String id) {
 		return Response.status(Status.FORBIDDEN).build();
 
 	}
 
 	@PUT
-	public Response doPut(String id, String json,
-			@CookieParam("auth_token") String token) {
+	public Response doPut(String token, String id, String json) {
 		return Response.status(Status.FORBIDDEN).build();
 
 	}

@@ -4,7 +4,7 @@ var moduleName = 'usuarios';
 var path = ApplicationConfiguration.modulesPath + '/' + moduleName;
 
 ApplicationConfiguration.registerMenu({
-	nome: 'usuarios',
+	nome: 'usuarios.list',
 	classe: 'fa fa-fw fa-user',
 	label: 'Usuarios',
 	permissoes: ['Administrador', 'Gerente']

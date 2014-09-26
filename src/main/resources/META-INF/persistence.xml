@@ -2,7 +2,7 @@
 <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
     version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
-    <persistence-unit name="hotelpgsql" transaction-type="JTA">
+    <persistence-unit name="meubarpgsql" transaction-type="JTA">
     	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>java:/PgsqlDS</jta-data-source>
         <shared-cache-mode>NONE</shared-cache-mode>
