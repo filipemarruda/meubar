@@ -1,13 +1,15 @@
 'use strict';
 
-coreApp.controller('CoreCtrl', ['$rootScope', '$cookies', '$stateParams', '$location', 'Core',
-	function($rootScope, $cookies, $stateParams, $location, Core) {
+coreApp.controller('CoreCtrl', ['$rootScope', '$cookies', '$stateParams', '$location', '$state','Core',
+	function($rootScope, $cookies, $stateParams, $location, $state, Core) {
 			console.log("in controller of module: " + coreApp.name);
 
-			var login_page = 'index.html';
+			
+			$rootScope.moduleName = coreApp.name;
 			
 			function logout() {
-
+				
+				var login_page = 'index.html';
 				delete $cookies.auth_token;
 				delete $cookies.user;
 				window.location = login_page;
@@ -18,27 +20,29 @@ coreApp.controller('CoreCtrl', ['$rootScope', '$cookies', '$stateParams', '$loca
 			
 			$rootScope.errorHandle = function(status){
 				if(status === 401){
+					$state.transitionTo('proibido');
+				}else if(status === 403){
 					logout();
 				}else{
-					$rootScope.error = error.data.message;
+					$rootScope.error = 'Erro!';
 				}
-			}
+			};
 			
 			$rootScope.getMenuClass = function(path) {
 			    if ($location.path().split('/')[1] == path) {
-			      return "active"
+			      return "active";
 			    } else {
-			      return ""
+			      return "";
 			    }
-			}
+			};
 			
 			$rootScope.getModuleMenuClass = function(path) {
 			    if ($location.path().split('/')[2] == path) {
-			      return "btn-primary"
+			      return "btn-primary";
 			    } else {
-			      return "btn-default"
+			      return "btn-default";
 			    }
-			}
+			};
 
 			$rootScope.getMenus = function(){
 				console.log('function getMenus: '+ ApplicationConfiguration.menus);
@@ -51,6 +55,6 @@ coreApp.controller('CoreCtrl', ['$rootScope', '$cookies', '$stateParams', '$loca
 				});
 
 				return menus;
-			}
+			};
 	}]
 );

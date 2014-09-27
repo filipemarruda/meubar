@@ -5,10 +5,6 @@ usuariosApp.controller('UsuarioCtrl', ['$scope', '$cookies', '$stateParams', '$r
 
 		$scope.moduleName = usuariosApp.name;
 		
-		if($location.path() === '/' + $scope.moduleName){
-			$location.path('/' + $scope.moduleName + '/' + 'list');
-		}
-		
 		$scope.grupos = Grupo.query(
 			{},
 			function(response, headers){
@@ -59,7 +55,7 @@ usuariosApp.controller('UsuarioCtrl', ['$scope', '$cookies', '$stateParams', '$r
 			item.$save(
 				function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
-					$location.path( moduleName + '/list' );
+					$location.path( $scope.moduleName + '/list' );
 				},
 				function(error){
 					$rootScope.errorHandle(error.status);
@@ -73,7 +69,7 @@ usuariosApp.controller('UsuarioCtrl', ['$scope', '$cookies', '$stateParams', '$r
 			item.$update(
 				function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
-					$location.path( moduleName + '/list' );
+					$location.path( $scope.moduleName + '/list' );
 				}, function(errorResponse) {
 					$rootScope.errorHandle(error.status);
 				}
@@ -99,7 +95,7 @@ usuariosApp.controller('UsuarioCtrl', ['$scope', '$cookies', '$stateParams', '$r
 			} else {
 				$scope.item.$remove(function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
-					$location.path( moduleName + '/list' );
+					$location.path( $scope.moduleName + '/list' );
 				}, function(errorResponse) {
 					$rootScope.errorHandle(error.status);
 				});

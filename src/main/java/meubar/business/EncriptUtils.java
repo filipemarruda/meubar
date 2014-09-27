@@ -20,7 +20,8 @@ public class EncriptUtils {
 
 	private static SecretKey key;
 
-	private static String encryptMode = "DES";
+	private static String algorithm = "DES";
+	private static String encryptMode = "DES/ECB/PKCS5Padding";
 	private static Cipher encryptCipher;
 	private static Cipher decryptCipher;
 
@@ -46,6 +47,7 @@ public class EncriptUtils {
 			InvalidAlgorithmParameterException {
 
 		String token = ConversionUtils.decodeCookieToBase64(tokenCookie);
+		System.out.println("Token recebido: " + token);
 		byte[] dec = Base64.decodeBase64(token.getBytes());
 		byte[] utf8 = getDecryptCipher().doFinal(dec);
 		return new String(utf8, "UTF8");
@@ -76,7 +78,7 @@ public class EncriptUtils {
 	private static SecretKey getSecretKey() throws NoSuchAlgorithmException,
 			InvalidKeyException, InvalidKeySpecException {
 		if (key == null) {
-			key = KeyGenerator.getInstance(encryptMode).generateKey();
+			key = KeyGenerator.getInstance(algorithm).generateKey();
 		}
 		return key;
 	}

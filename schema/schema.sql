@@ -1,5 +1,6 @@
+--------------------------------------------------------------------------------------------------------------------------------------------
 -- Schema: meubar
-
+--------------------------------------------------------------------------------------------------------------------------------------------
 DROP SCHEMA meubar CASCADE;
 
 CREATE SCHEMA meubar
@@ -10,11 +11,136 @@ GRANT ALL ON SCHEMA meubar TO application;
 ALTER DEFAULT PRIVILEGES IN SCHEMA meubar
     GRANT INSERT, SELECT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER ON TABLES
     TO application;
-	
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Types
+-- DROP TYPE meubar.status_usuario;
+-- DROP TYPE meubar.status_conta;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TYPE meubar.status_usuario AS ENUM ('A', 'I');
+CREATE TYPE meubar.status_conta AS ENUM ('A', 'F', 'P');
+CREATE TYPE meubar.status_pedido AS ENUM ('P','C', 'E');
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.estado
+-- DROP TABLE meubar.estado;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.estado
+(
+  id serial NOT NULL,
+  uf character varying(2) NOT NULL,
+  nome character varying(20) NOT NULL,
+  CONSTRAINT estado_pkey PRIMARY KEY (id),
+  CONSTRAINT uq_estado_uf UNIQUE (uf),
+  CONSTRAINT uq_estado_nome UNIQUE (nome)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.estado OWNER TO postgres;
+GRANT ALL ON TABLE meubar.estado TO postgres;
+GRANT ALL ON TABLE meubar.estado TO application;
+GRANT USAGE ON SEQUENCE meubar.estado_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.estado_id_seq TO application;
+
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('AC','ACRE');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('AL','ALAGOAS');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('AP','AMAPA');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('AM','AMAZONAS');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('BA','BAHIA');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('CE','CEARA');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('DF','DISTRITO FEDERAL');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('ES','ESPIRITO SANTO');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('GO','GOIAS');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('MA','MARANHAO');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('MT','MATO GROSSO');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('MS','MATO GROSSO DO SUL');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('MG','MINAS GERAIS');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('PA','PARA');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('PB','PARAIBA');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('PR','PARANA');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('PE','PERNAMBUCO');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('PI','PIAUI');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('RJ','RIO DE JANEIRO');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('RN','RIO GRANDE DO NORTE');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('RS','RIO GRANDE DO SUL');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('RO','RONDONIA');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('RR','RORAIMA');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('SC','SANTA CATARINA');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('SP','SAO PAULO');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('SE','SERGIPE');
+INSERT INTO meubar.estado(uf, nome)  VALUES  ('TO','TOCANTINS');
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.mesa
+-- DROP TABLE meubar.mesa;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.mesa
+(
+  id serial NOT NULL,
+  numero character varying(10) NOT NULL,
+  CONSTRAINT mesa_pkey PRIMARY KEY (id),
+  CONSTRAINT uq_mesa_numero UNIQUE (numero)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.mesa OWNER TO postgres;
+GRANT ALL ON TABLE meubar.mesa TO postgres;
+GRANT ALL ON TABLE meubar.mesa TO application;
+GRANT USAGE ON SEQUENCE meubar.mesa_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.mesa_id_seq TO application;
+
+INSERT INTO meubar.mesa(numero)  VALUES  ('1');
+INSERT INTO meubar.mesa(numero)  VALUES  ('2');
+INSERT INTO meubar.mesa(numero)  VALUES  ('3');
+INSERT INTO meubar.mesa(numero)  VALUES  ('4');
+INSERT INTO meubar.mesa(numero)  VALUES  ('5');
+INSERT INTO meubar.mesa(numero)  VALUES  ('6');
+INSERT INTO meubar.mesa(numero)  VALUES  ('7');
+INSERT INTO meubar.mesa(numero)  VALUES  ('8');
+INSERT INTO meubar.mesa(numero)  VALUES  ('9');
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.unidade
+-- DROP TABLE meubar.unidade;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.unidade
+(
+  id serial NOT NULL,
+  sigla character varying(4) NOT NULL,
+  nome character varying(20) NOT NULL,
+  CONSTRAINT unidade_pkey PRIMARY KEY (id),
+  CONSTRAINT uq_unidade_sigla UNIQUE (sigla),
+  CONSTRAINT uq_unidade_nome UNIQUE (nome)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.unidade OWNER TO postgres;
+GRANT ALL ON TABLE meubar.unidade TO postgres;
+GRANT ALL ON TABLE meubar.unidade TO application;
+GRANT USAGE ON SEQUENCE meubar.unidade_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.unidade_id_seq TO application;
+
+INSERT INTO meubar.unidade(sigla, nome)  VALUES  ('U','UNIDADE');
+INSERT INTO meubar.unidade(sigla, nome)  VALUES  ('L','LITRO');
+INSERT INTO meubar.unidade(sigla, nome)  VALUES  ('KG','KILOS');
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
 -- Table: meubar.grupo
-
 -- DROP TABLE meubar.grupo;
-
+--------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE meubar.grupo
 (
   id serial NOT NULL,
@@ -24,22 +150,26 @@ CREATE TABLE meubar.grupo
   usuario_id_criacao integer NOT NULL DEFAULT 1, 
   usuario_id_modificacao integer NOT NULL DEFAULT 1,
   CONSTRAINT grupo_pkey PRIMARY KEY (id),
-  CONSTRAINT uq_nome UNIQUE (nome)
+  CONSTRAINT uq_grupo_nome UNIQUE (nome)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE meubar.grupo
-  OWNER TO postgres;
+ALTER TABLE meubar.grupo OWNER TO postgres;
 GRANT ALL ON TABLE meubar.grupo TO postgres;
 GRANT ALL ON TABLE meubar.grupo TO application;
 GRANT USAGE ON SEQUENCE meubar.grupo_id_seq TO postgres;
 GRANT USAGE ON SEQUENCE meubar.grupo_id_seq TO application;
 
+INSERT INTO meubar.grupo(nome)  VALUES  ( 'Administrador' );
+INSERT INTO meubar.grupo(nome)  VALUES  ( 'Gerente' );
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
 -- Table: meubar.usuario
-
 -- DROP TABLE meubar.usuario;
-
+--------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE meubar.usuario
 (
   id serial NOT NULL,
@@ -48,26 +178,394 @@ CREATE TABLE meubar.usuario
   nome character varying(255) NOT NULL,
   cpf character varying(11) NOT NULL,
   telefone character varying(15),
-  grupo_id integer NOT NULL,
+  status meubar.status_usuario NOT NULL DEFAULT 'A',
+  grupo_id integer,
   data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
   data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
   usuario_id_criacao integer NOT NULL DEFAULT 1, 
   usuario_id_modificacao integer NOT NULL DEFAULT 1,
-  CONSTRAINT usuario_grupo_fk FOREIGN KEY ("grupo_id") REFERENCES meubar.grupo (id) ON UPDATE NO ACTION ON DELETE CASCADE,
+  CONSTRAINT usuario_grupo_fk FOREIGN KEY ("grupo_id") REFERENCES meubar.grupo (id) ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT usuario_pkey PRIMARY KEY (id),
-  CONSTRAINT uq_login UNIQUE (login),
-  CONSTRAINT uq_cpf UNIQUE (cpf)
+  CONSTRAINT uq_usuario_login UNIQUE (login),
+  CONSTRAINT uq_usuario_cpf UNIQUE (cpf)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE meubar.usuario
-  OWNER TO postgres;
+ALTER TABLE meubar.usuario OWNER TO postgres;
 GRANT ALL ON TABLE meubar.usuario TO postgres;
 GRANT ALL ON TABLE meubar.usuario TO application;
 GRANT USAGE ON SEQUENCE meubar.usuario_id_seq TO postgres;
 GRANT USAGE ON SEQUENCE meubar.usuario_id_seq TO application;
 
--- Group and User Admin
-INSERT INTO meubar.grupo(nome)  VALUES  ( 'Administrador' );
-INSERT INTO meubar.usuario(login, senha, nome, cpf, telefone, grupo_id) VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3','Filipe Mendes', '08016230652','+553184682428', 1);
+-- User admin
+INSERT INTO meubar.usuario(login, senha, nome, cpf, telefone, grupo_id) VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3','Administrador', '00000000000','+000000000000', 1);
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.fornecedor
+-- DROP TABLE meubar.fornecedor;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.fornecedor
+(
+  id serial NOT NULL,
+  nome character varying(50) NOT NULL,
+  cnpj character varying(14) NOT NULL,
+  estado_id integer,
+  cidade character varying(255),
+  endereco character varying(255),
+  telefone character varying(15),
+  data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp,
+  data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  usuario_id_criacao integer NOT NULL DEFAULT 1, 
+  usuario_id_modificacao integer NOT NULL DEFAULT 1,
+  CONSTRAINT fornecedor_estado_fk FOREIGN KEY ("estado_id") REFERENCES meubar.estado (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT fornecedor_usuario_id_criacao_fk FOREIGN KEY ("usuario_id_criacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT fornecedor_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT fornecedor_pkey PRIMARY KEY (id),
+  CONSTRAINT uq_fornecedor_cnpj UNIQUE (cnpj)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.fornecedor OWNER TO postgres;
+GRANT ALL ON TABLE meubar.fornecedor TO postgres;
+GRANT ALL ON TABLE meubar.fornecedor TO application;
+GRANT USAGE ON SEQUENCE meubar.fornecedor_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.fornecedor_id_seq TO application;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.categoria
+-- DROP TABLE meubar.categoria;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.categoria
+(
+  id serial NOT NULL,
+  nome character varying(20) NOT NULL,
+  data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  usuario_id_criacao integer NOT NULL, 
+  usuario_id_modificacao integer NOT NULL,
+  CONSTRAINT categoria_usuario_id_criacao_fk FOREIGN KEY ("usuario_id_criacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT categoria_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT categoria_pkey PRIMARY KEY (id),
+  CONSTRAINT uq_categoria_nome UNIQUE (nome)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.categoria OWNER TO postgres;
+GRANT ALL ON TABLE meubar.categoria TO postgres;
+GRANT ALL ON TABLE meubar.categoria TO application;
+GRANT USAGE ON SEQUENCE meubar.categoria_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.categoria_id_seq TO application;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.produto
+-- DROP TABLE meubar.produto;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.produto
+(
+  id serial NOT NULL,
+  nome character varying(50) NOT NULL,
+  unidade_id integer,
+  categoria_id integer,
+  data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp,
+  data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  usuario_id_criacao integer NOT NULL DEFAULT 1, 
+  usuario_id_modificacao integer NOT NULL DEFAULT 1,
+  CONSTRAINT produto_unidade_fk FOREIGN KEY ("unidade_id") REFERENCES meubar.unidade (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT produto_categoria_fk FOREIGN KEY ("categoria_id") REFERENCES meubar.categoria (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT produto_usuario_id_criacao_fk FOREIGN KEY ("usuario_id_criacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT produto_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT produto_pkey PRIMARY KEY (id),
+  CONSTRAINT uq_produto_nome_categoria UNIQUE (nome, categoria_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.produto OWNER TO postgres;
+GRANT ALL ON TABLE meubar.produto TO postgres;
+GRANT ALL ON TABLE meubar.produto TO application;
+GRANT USAGE ON SEQUENCE meubar.produto_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.produto_id_seq TO application;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.estoque_entrada
+-- DROP TABLE meubar.estoque_entrada;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.estoque_entrada
+(
+  id serial NOT NULL,
+  fornecedor_id integer,
+  produto_id integer,
+  nota_fiscal character varying(30),
+  quantidade numeric(7, 2) NOT NULL,
+  preco numeric(8, 2) NOT NULL,
+  data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp,
+  data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  usuario_id_criacao integer NOT NULL DEFAULT 1, 
+  usuario_id_modificacao integer NOT NULL DEFAULT 1,
+  CONSTRAINT estoque_entrada_fornecedor_fk FOREIGN KEY ("fornecedor_id") REFERENCES meubar.fornecedor (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT estoque_entrada_produto_fk FOREIGN KEY ("produto_id") REFERENCES meubar.produto (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT estoque_entrada_usuario_id_criacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT estoque_entrada_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT estoque_entrada_pkey PRIMARY KEY (id),
+  CONSTRAINT uq_estoque_entrada_nota_fiscal_produto UNIQUE (nota_fiscal, produto_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.estoque_entrada OWNER TO postgres;
+GRANT ALL ON TABLE meubar.estoque_entrada TO postgres;
+GRANT ALL ON TABLE meubar.estoque_entrada TO application;
+GRANT USAGE ON SEQUENCE meubar.estoque_entrada_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.estoque_entrada_id_seq TO application;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.estoque_controle
+-- DROP TABLE meubar.estoque_controle;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.estoque_controle
+(
+  id serial NOT NULL,
+  produto_id integer,
+  quantidade numeric(8, 2) NOT NULL,
+  CONSTRAINT estoque_controle_produto_fk FOREIGN KEY ("produto_id") REFERENCES meubar.produto (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT estoque_controle_pkey PRIMARY KEY (id),
+  CONSTRAINT uq_estoque_controle_produto UNIQUE (produto_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.estoque_controle OWNER TO postgres;
+GRANT ALL ON TABLE meubar.estoque_controle TO postgres;
+GRANT ALL ON TABLE meubar.estoque_controle TO application;
+GRANT USAGE ON SEQUENCE meubar.estoque_controle_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.estoque_controle_id_seq TO application;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.cardapio_secao
+-- DROP TABLE meubar.cardapio_secao;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.cardapio_secao
+(
+  id serial NOT NULL,
+  nome character varying(30) NOT NULL,
+  data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp,
+  data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  usuario_id_criacao integer NOT NULL DEFAULT 1, 
+  usuario_id_modificacao integer NOT NULL DEFAULT 1,
+  CONSTRAINT cardapio_secao_usuario_id_criacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT cardapio_secao_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT cardapio_secao_pkey PRIMARY KEY (id),
+  CONSTRAINT uq_cardapio_secao_nome UNIQUE (nome)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.cardapio_secao OWNER TO postgres;
+GRANT ALL ON TABLE meubar.cardapio_secao TO postgres;
+GRANT ALL ON TABLE meubar.cardapio_secao TO application;
+GRANT USAGE ON SEQUENCE meubar.cardapio_secao_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.cardapio_secao_id_seq TO application;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.cardapio_item
+-- DROP TABLE meubar.cardapio_item
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.cardapio_item
+(
+  id serial NOT NULL,
+  numero integer,
+  nome character varying(30) NOT NULL,
+  preco numeric(8, 2) NOT NULL,
+  cardapio_secao_id integer,
+  data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp,
+  data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  usuario_id_criacao integer NOT NULL DEFAULT 1, 
+  usuario_id_modificacao integer NOT NULL DEFAULT 1,
+  CONSTRAINT cardapio_item_cardapio_secao_fk FOREIGN KEY ("cardapio_secao_id") REFERENCES meubar.cardapio_secao (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT cardapio_item_usuario_id_criacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT cardapio_item_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT cardapio_item_pkey PRIMARY KEY (id),
+  CONSTRAINT uq_cardapio_item_numero UNIQUE (numero),
+  CONSTRAINT uq_cardapio_item_cardapio_secao_nome UNIQUE (cardapio_secao_id,nome)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.cardapio_item OWNER TO postgres;
+GRANT ALL ON TABLE meubar.cardapio_item TO postgres;
+GRANT ALL ON TABLE meubar.cardapio_item TO application;
+GRANT USAGE ON SEQUENCE meubar.cardapio_item_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.cardapio_item_id_seq TO application;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.cardapio_item_composicao
+-- DROP TABLE meubar.cardapio_item_composicao
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.cardapio_item_composicao
+(
+  id serial NOT NULL,
+  cardapio_item_id integer,
+  produto_id integer,
+  quantidade numeric(8, 2) NOT NULL,
+  cardapio_secao_id integer,
+  data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp,
+  data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  usuario_id_criacao integer NOT NULL DEFAULT 1, 
+  usuario_id_modificacao integer NOT NULL DEFAULT 1,
+  CONSTRAINT cardapio_item_composicao_cardapio_item_fk FOREIGN KEY ("cardapio_item_id") REFERENCES meubar.cardapio_item (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT cardapio_item_composicao_produto_fk FOREIGN KEY ("produto_id") REFERENCES meubar.produto (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT cardapio_item_composicao_usuario_id_criacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT cardapio_item_composicao_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT cardapio_item_composicao_pkey PRIMARY KEY (id),
+  CONSTRAINT uq_cardapio_item_composicao_cardapio_item UNIQUE (cardapio_item_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.cardapio_item_composicao OWNER TO postgres;
+GRANT ALL ON TABLE meubar.cardapio_item_composicao TO postgres;
+GRANT ALL ON TABLE meubar.cardapio_item_composicao TO application;
+GRANT USAGE ON SEQUENCE meubar.cardapio_item_composicao_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.cardapio_item_composicao_id_seq TO application;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.conta
+-- DROP TABLE meubar.conta
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.conta
+(
+  id serial NOT NULL,
+  mesa_id integer,
+  status meubar.status_conta NOT NULL DEFAULT 'A',
+  saldo numeric(8, 2) NOT NULL,
+  data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp,
+  data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  usuario_id_criacao integer NOT NULL DEFAULT 1, 
+  usuario_id_modificacao integer NOT NULL DEFAULT 1,
+  CONSTRAINT conta_mesa_fk FOREIGN KEY ("mesa_id") REFERENCES meubar.mesa (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT conta_usuario_id_criacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT conta_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT conta_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.conta OWNER TO postgres;
+GRANT ALL ON TABLE meubar.conta TO postgres;
+GRANT ALL ON TABLE meubar.conta TO application;
+GRANT USAGE ON SEQUENCE meubar.conta_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.conta_id_seq TO application;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.tipo_pagamento
+-- DROP TABLE meubar.tipo_pagamento
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.tipo_pagamento
+(
+  id serial NOT NULL,
+  nome character varying(30) NOT NULL,
+  destino character varying(50) NOT NULL,
+  outras_informacoes character varying(500),
+  data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp,
+  data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  usuario_id_criacao integer NOT NULL DEFAULT 1, 
+  usuario_id_modificacao integer NOT NULL DEFAULT 1,
+  CONSTRAINT tipo_pagamento_usuario_id_criacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT tipo_pagamento_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT tipo_pagamento_pkey PRIMARY KEY (id),
+  CONSTRAINT uq_tipo_pagamento_nome UNIQUE (nome)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.tipo_pagamento OWNER TO postgres;
+GRANT ALL ON TABLE meubar.tipo_pagamento TO postgres;
+GRANT ALL ON TABLE meubar.tipo_pagamento TO application;
+GRANT USAGE ON SEQUENCE meubar.tipo_pagamento_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.tipo_pagamento_id_seq TO application;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.pagamento
+-- DROP TABLE meubar.pagamento
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.pagamento
+(
+  id serial NOT NULL,
+  conta_id integer,
+  tipo_pagamento_id integer,
+  valor numeric(8, 2) NOT NULL,
+  data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp,
+  data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  usuario_id_criacao integer NOT NULL DEFAULT 1, 
+  usuario_id_modificacao integer NOT NULL DEFAULT 1,
+  CONSTRAINT pagamento_conta_fk FOREIGN KEY ("conta_id") REFERENCES meubar.conta (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT pagamento_tipo_pagamento_fk FOREIGN KEY ("tipo_pagamento_id") REFERENCES meubar.tipo_pagamento (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT pagamento_usuario_id_criacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT pagamento_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT pagamento_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.pagamento OWNER TO postgres;
+GRANT ALL ON TABLE meubar.pagamento TO postgres;
+GRANT ALL ON TABLE meubar.pagamento TO application;
+GRANT USAGE ON SEQUENCE meubar.pagamento_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.pagamento_id_seq TO application;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.pedido
+-- DROP TABLE meubar.pedido
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.pedido
+(
+  id serial NOT NULL,
+  conta_id integer,
+  cardapio_item_id integer,
+  preco numeric(8, 2) NOT NULL,
+  status meubar.status_pedido NOT NULL DEFAULT 'P',
+  data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp,
+  data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  usuario_id_criacao integer NOT NULL DEFAULT 1, 
+  usuario_id_modificacao integer NOT NULL DEFAULT 1,
+  CONSTRAINT pedido_conta_fk FOREIGN KEY ("conta_id") REFERENCES meubar.conta (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT pedido_cardapio_item_fk FOREIGN KEY ("cardapio_item_id") REFERENCES meubar.cardapio_item (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT pedido_usuario_id_criacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT pedido_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT pedido_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.pedido OWNER TO postgres;
+GRANT ALL ON TABLE meubar.pedido TO postgres;
+GRANT ALL ON TABLE meubar.pedido TO application;
+GRANT USAGE ON SEQUENCE meubar.pedido_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.pedido_id_seq TO application;

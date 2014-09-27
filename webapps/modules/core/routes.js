@@ -19,5 +19,9 @@ coreApp.config(function($stateProvider, $urlRouterProvider) {
         url: '/' + moduleName,
         templateUrl: pagesPath + '/dashboard.html'
     })
+    .state( 'proibido' , {
+        url: '/401',
+        templateUrl: pagesPath + '/unauthorized.html'
+    });
     
 });

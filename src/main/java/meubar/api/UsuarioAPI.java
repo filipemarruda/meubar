@@ -42,7 +42,7 @@ public class UsuarioAPI extends BaseAPIImpl {
 		return Response.status(Status.OK).build();
 	};
 
-	@Permissoes(values = { "Administrador", "Gerente" })
+	@Permissoes(values = { "Administrador" })
 	@GET
 	public Response doGet(@CookieParam("auth_token") String token) {
 		List<UsuarioJson> list = servicoUsuario.getAll();
@@ -51,7 +51,7 @@ public class UsuarioAPI extends BaseAPIImpl {
 		return Response.status(Status.OK).entity(result).build();
 	}
 
-	@Permissoes(values = { "Administrador", "Gerente" })
+	@Permissoes(values = { "Administrador" })
 	@GET
 	@Path("/{id: [0-9]*}")
 	public Response doGet(@CookieParam("auth_token") String token,
@@ -62,7 +62,7 @@ public class UsuarioAPI extends BaseAPIImpl {
 		return Response.status(Status.OK).entity(result).build();
 	}
 
-	@Permissoes(values = { "Administrador", "Gerente" })
+	@Permissoes(values = { "Administrador" })
 	@POST
 	public Response doPost(@CookieParam("auth_token") String token, String json) {
 		Object result;
@@ -81,7 +81,7 @@ public class UsuarioAPI extends BaseAPIImpl {
 		return Response.status(Status.ACCEPTED).entity(result).build();
 	}
 
-	@Permissoes(values = { "Administrador", "Gerente" })
+	@Permissoes(values = { "Administrador" })
 	@DELETE
 	@Path("/{id: [0-9]*}")
 	public Response doDelete(@CookieParam("auth_token") String token,
@@ -96,7 +96,7 @@ public class UsuarioAPI extends BaseAPIImpl {
 		return Response.status(result).build();
 	}
 
-	@Permissoes(values = { "Administrador", "Gerente" })
+	@Permissoes(values = { "Administrador" })
 	@PUT
 	@Path("/{id: [0-9]*}")
 	public Response doPut(@CookieParam("auth_token") String token,

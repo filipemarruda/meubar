@@ -103,3 +103,12 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
+
+.jumbotron-icon{
+	text-align: center;
+}
+.jumbotron-icon .fa-6 {
+	background-color: transparent;
+	font-size: 24em;
+	
+}

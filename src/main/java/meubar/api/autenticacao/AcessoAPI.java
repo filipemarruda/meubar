@@ -82,7 +82,7 @@ public class AcessoAPI implements BaseAPI {
 							.getGrupo()
 							.getNome());
 		} else {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.FORBIDDEN).build();
 		}
 
 		String jsonReturn = gson.toJson(result);

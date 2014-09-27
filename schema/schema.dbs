@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="schema.sql" id="Project5090363" database="PostgreSQL" >
+	<schema name="meubar" catalogname="hotel" schemaname="meubar" defo="y" >
+		<table name="cardapio_item" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="nome" type="varchar" length="30" decimal="0" jt="12" mandatory="y" />
+			<column name="preco" type="numeric" length="8" decimal="2" jt="2" mandatory="y" />
+			<column name="cardapio_secao_id" type="integer" length="10" decimal="0" jt="4" />
+			<column name="data_criacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="data_modificacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="usuario_id_criacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="usuario_id_modificacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="numero" type="integer" length="10" decimal="0" jt="4" />
+			<index name="cardapio_item_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uq_cardapio_item_cardapio_secao_nome" unique="UNIQUE" >
+				<column name="cardapio_secao_id" />
+				<column name="nome" />
+			</index>
+			<index name="uq_cardapio_item_numero" unique="UNIQUE" >
+				<column name="numero" />
+			</index>
+			<fk name="cardapio_item_cardapio_secao_fk" to_schema="meubar" to_table="cardapio_secao" delete_action="setNull" >
+				<fk_column name="cardapio_secao_id" pk="id" />
+			</fk>
+			<fk name="cardapio_item_usuario_id_modificacao_fk" to_schema="meubar" to_table="usuario" delete_action="setDefault" >
+				<fk_column name="usuario_id_modificacao" pk="id" />
+			</fk>
+		</table>
+		<table name="cardapio_item_composicao" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="produto_id" type="integer" length="10" decimal="0" jt="4" />
+			<column name="quantidade" type="numeric" length="8" decimal="2" jt="2" mandatory="y" />
+			<column name="cardapio_secao_id" type="integer" length="10" decimal="0" jt="4" />
+			<column name="data_criacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="data_modificacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="usuario_id_criacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="usuario_id_modificacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="cardapio_item_id" type="integer" length="10" decimal="0" jt="4" />
+			<index name="cardapio_item_composicao_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uq_cardapio_item_composicao_cardapio_item" unique="UNIQUE" >
+				<column name="cardapio_item_id" />
+			</index>
+			<fk name="cardapio_item_composicao_produto_fk" to_schema="meubar" to_table="produto" delete_action="setNull" >
+				<fk_column name="produto_id" pk="id" />
+			</fk>
+			<fk name="cardapio_item_composicao_usuario_id_modificacao_fk" to_schema="meubar" to_table="usuario" delete_action="setDefault" >
+				<fk_column name="usuario_id_modificacao" pk="id" />
+			</fk>
+			<fk name="cardapio_item_composicao_cardapio_item_fk" to_schema="meubar" to_table="cardapio_item" delete_action="setNull" >
+				<fk_column name="cardapio_item_id" pk="id" />
+			</fk>
+		</table>
+		<table name="cardapio_secao" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="nome" type="varchar" length="30" decimal="0" jt="12" mandatory="y" />
+			<column name="data_criacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="data_modificacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="usuario_id_criacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="usuario_id_modificacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<index name="cardapio_secao_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uq_cardapio_secao_nome" unique="UNIQUE" >
+				<column name="nome" />
+			</index>
+			<fk name="cardapio_secao_usuario_id_modificacao_fk" to_schema="meubar" to_table="usuario" delete_action="setDefault" >
+				<fk_column name="usuario_id_modificacao" pk="id" />
+			</fk>
+		</table>
+		<table name="categoria" >
+			<column name="id" type="serial" length="0" decimal="0" jt="4" mandatory="y" />
+			<column name="nome" type="varchar" length="20" decimal="0" jt="12" mandatory="y" />
+			<column name="data_criacao" type="timestamp" length="0" decimal="0" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="data_modificacao" type="timestamp" length="0" decimal="0" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="usuario_id_criacao" type="integer" length="0" decimal="0" jt="4" mandatory="y" />
+			<column name="usuario_id_modificacao" type="integer" length="0" decimal="0" jt="4" mandatory="y" />
+			<index name="categoria_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uq_categoria_nome" unique="UNIQUE" >
+				<column name="nome" />
+			</index>
+			<fk name="categoria_usuario_id_criacao_fk" to_schema="meubar" to_table="usuario" delete_action="setDefault" >
+				<fk_column name="usuario_id_criacao" pk="id" />
+			</fk>
+			<fk name="categoria_usuario_id_modificacao_fk" to_schema="meubar" to_table="usuario" delete_action="setDefault" >
+				<fk_column name="usuario_id_modificacao" pk="id" />
+			</fk>
+		</table>
+		<table name="conta" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="mesa_id" type="integer" length="10" decimal="0" jt="4" />
+			<column name="status" type="status_conta" length="2147483647" decimal="0" jt="1111" mandatory="y" >
+				<defo>&#039;A&#039;::meubar.status_conta</defo>
+			</column>
+			<column name="saldo" type="numeric" length="8" decimal="2" jt="2" mandatory="y" />
+			<column name="data_criacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="data_modificacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="usuario_id_criacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="usuario_id_modificacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<index name="conta_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="conta_mesa_fk" to_schema="meubar" to_table="mesa" delete_action="setNull" >
+				<fk_column name="mesa_id" pk="id" />
+			</fk>
+			<fk name="conta_usuario_id_modificacao_fk" to_schema="meubar" to_table="usuario" delete_action="setDefault" >
+				<fk_column name="usuario_id_modificacao" pk="id" />
+			</fk>
+		</table>
+		<table name="estado" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="uf" type="varchar" length="2" decimal="0" jt="12" mandatory="y" />
+			<column name="nome" type="varchar" length="20" decimal="0" jt="12" mandatory="y" />
+			<index name="estado_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uq_estado_nome" unique="UNIQUE" >
+				<column name="nome" />
+			</index>
+			<index name="uq_estado_uf" unique="UNIQUE" >
+				<column name="uf" />
+			</index>
+		</table>
+		<table name="estoque_controle" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="produto_id" type="integer" length="10" decimal="0" jt="4" />
+			<column name="quantidade" type="numeric" length="8" decimal="2" jt="2" mandatory="y" />
+			<index name="estoque_controle_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uq_estoque_controle_produto" unique="UNIQUE" >
+				<column name="produto_id" />
+			</index>
+			<fk name="estoque_controle_produto_fk" to_schema="meubar" to_table="produto" delete_action="setNull" >
+				<fk_column name="produto_id" pk="id" />
+			</fk>
+		</table>
+		<table name="estoque_entrada" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="fornecedor_id" type="integer" length="10" decimal="0" jt="4" />
+			<column name="produto_id" type="integer" length="10" decimal="0" jt="4" />
+			<column name="nota_fiscal" type="varchar" length="30" decimal="0" jt="12" />
+			<column name="quantidade" type="numeric" length="7" decimal="2" jt="2" mandatory="y" />
+			<column name="preco" type="numeric" length="8" decimal="2" jt="2" mandatory="y" />
+			<column name="data_criacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="data_modificacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="usuario_id_criacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="usuario_id_modificacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<index name="estoque_entrada_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uq_estoque_entrada_nota_fiscal_produto" unique="UNIQUE" >
+				<column name="nota_fiscal" />
+				<column name="produto_id" />
+			</index>
+			<fk name="estoque_entrada_fornecedor_fk" to_schema="meubar" to_table="fornecedor" delete_action="setNull" >
+				<fk_column name="fornecedor_id" pk="id" />
+			</fk>
+			<fk name="estoque_entrada_produto_fk" to_schema="meubar" to_table="produto" delete_action="setNull" >
+				<fk_column name="produto_id" pk="id" />
+			</fk>
+			<fk name="estoque_entrada_usuario_id_modificacao_fk" to_schema="meubar" to_table="usuario" delete_action="setDefault" >
+				<fk_column name="usuario_id_modificacao" pk="id" />
+			</fk>
+		</table>
+		<table name="fornecedor" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="nome" type="varchar" length="50" decimal="0" jt="12" mandatory="y" />
+			<column name="cnpj" type="varchar" length="14" decimal="0" jt="12" mandatory="y" />
+			<column name="estado_id" type="integer" length="10" decimal="0" jt="4" />
+			<column name="cidade" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="endereco" type="varchar" length="255" decimal="0" jt="12" />
+			<column name="telefone" type="varchar" length="15" decimal="0" jt="12" />
+			<column name="data_criacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="data_modificacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="usuario_id_criacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="usuario_id_modificacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<index name="fornecedor_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uq_fornecedor_cnpj" unique="UNIQUE" >
+				<column name="cnpj" />
+			</index>
+			<fk name="fornecedor_estado_fk" to_schema="meubar" to_table="estado" delete_action="setNull" >
+				<fk_column name="estado_id" pk="id" />
+			</fk>
+			<fk name="fornecedor_usuario_id_criacao_fk" to_schema="meubar" to_table="usuario" delete_action="setDefault" >
+				<fk_column name="usuario_id_criacao" pk="id" />
+			</fk>
+			<fk name="fornecedor_usuario_id_modificacao_fk" to_schema="meubar" to_table="usuario" delete_action="setDefault" >
+				<fk_column name="usuario_id_modificacao" pk="id" />
+			</fk>
+		</table>
+		<table name="grupo" >
+			<column name="id" type="serial" length="0" decimal="0" jt="4" mandatory="y" />
+			<column name="nome" type="varchar" length="20" decimal="0" jt="12" mandatory="y" />
+			<column name="data_criacao" type="timestamp" length="0" decimal="0" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="data_modificacao" type="timestamp" length="0" decimal="0" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="usuario_id_criacao" type="integer" length="0" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="usuario_id_modificacao" type="integer" length="0" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<index name="grupo_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uq_grupo_nome" unique="UNIQUE" >
+				<column name="nome" />
+			</index>
+		</table>
+		<table name="mesa" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="numero" type="varchar" length="10" decimal="0" jt="12" mandatory="y" />
+			<index name="mesa_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uq_mesa_numero" unique="UNIQUE" >
+				<column name="numero" />
+			</index>
+		</table>
+		<table name="pagamento" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="conta_id" type="integer" length="10" decimal="0" jt="4" />
+			<column name="tipo_pagamento_id" type="integer" length="10" decimal="0" jt="4" />
+			<column name="valor" type="numeric" length="8" decimal="2" jt="2" mandatory="y" />
+			<column name="data_criacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="data_modificacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="usuario_id_criacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="usuario_id_modificacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<index name="pagamento_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="pagamento_conta_fk" to_schema="meubar" to_table="conta" delete_action="setNull" >
+				<fk_column name="conta_id" pk="id" />
+			</fk>
+			<fk name="pagamento_tipo_pagamento_fk" to_schema="meubar" to_table="tipo_pagamento" delete_action="setNull" >
+				<fk_column name="tipo_pagamento_id" pk="id" />
+			</fk>
+			<fk name="pagamento_usuario_id_modificacao_fk" to_schema="meubar" to_table="usuario" delete_action="setDefault" >
+				<fk_column name="usuario_id_modificacao" pk="id" />
+			</fk>
+		</table>
+		<table name="pedido" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="conta_id" type="integer" length="10" decimal="0" jt="4" />
+			<column name="cardapio_item_id" type="integer" length="10" decimal="0" jt="4" />
+			<column name="preco" type="numeric" length="8" decimal="2" jt="2" mandatory="y" />
+			<column name="status" type="status_pedido" length="2147483647" decimal="0" jt="1111" mandatory="y" >
+				<defo>&#039;P&#039;::meubar.status_pedido</defo>
+			</column>
+			<column name="data_criacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="data_modificacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="usuario_id_criacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="usuario_id_modificacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<index name="pedido_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="pedido_cardapio_item_fk" to_schema="meubar" to_table="cardapio_item" delete_action="setNull" >
+				<fk_column name="cardapio_item_id" pk="id" />
+			</fk>
+			<fk name="pedido_conta_fk" to_schema="meubar" to_table="conta" delete_action="setNull" >
+				<fk_column name="conta_id" pk="id" />
+			</fk>
+			<fk name="pedido_usuario_id_modificacao_fk" to_schema="meubar" to_table="usuario" delete_action="setDefault" >
+				<fk_column name="usuario_id_modificacao" pk="id" />
+			</fk>
+		</table>
+		<table name="produto" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="nome" type="varchar" length="50" decimal="0" jt="12" mandatory="y" />
+			<column name="categoria_id" type="integer" length="10" decimal="0" jt="4" />
+			<column name="data_criacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="data_modificacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="usuario_id_criacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="usuario_id_modificacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="unidade_id" type="integer" length="10" decimal="0" jt="4" />
+			<index name="produto_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uq_produto_nome_categoria" unique="UNIQUE" >
+				<column name="nome" />
+				<column name="categoria_id" />
+			</index>
+			<fk name="produto_categoria_fk" to_schema="meubar" to_table="categoria" delete_action="setNull" >
+				<fk_column name="categoria_id" pk="id" />
+			</fk>
+			<fk name="produto_unidade_fk" to_schema="meubar" to_table="unidade" delete_action="setNull" >
+				<fk_column name="unidade_id" pk="id" />
+			</fk>
+			<fk name="produto_usuario_id_criacao_fk" to_schema="meubar" to_table="usuario" delete_action="setDefault" >
+				<fk_column name="usuario_id_criacao" pk="id" />
+			</fk>
+			<fk name="produto_usuario_id_modificacao_fk" to_schema="meubar" to_table="usuario" delete_action="setDefault" >
+				<fk_column name="usuario_id_modificacao" pk="id" />
+			</fk>
+		</table>
+		<table name="tipo_pagamento" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="nome" type="varchar" length="30" decimal="0" jt="12" mandatory="y" />
+			<column name="destino" type="varchar" length="50" decimal="0" jt="12" mandatory="y" />
+			<column name="outras_informacoes" type="varchar" length="500" decimal="0" jt="12" />
+			<column name="data_criacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="data_modificacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="usuario_id_criacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="usuario_id_modificacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<index name="tipo_pagamento_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uq_tipo_pagamento_nome" unique="UNIQUE" >
+				<column name="nome" />
+			</index>
+			<fk name="tipo_pagamento_usuario_id_modificacao_fk" to_schema="meubar" to_table="usuario" delete_action="setDefault" >
+				<fk_column name="usuario_id_modificacao" pk="id" />
+			</fk>
+		</table>
+		<table name="unidade" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="sigla" type="varchar" length="4" decimal="0" jt="12" mandatory="y" />
+			<column name="nome" type="varchar" length="20" decimal="0" jt="12" mandatory="y" />
+			<index name="unidade_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uq_unidade_nome" unique="UNIQUE" >
+				<column name="nome" />
+			</index>
+			<index name="uq_unidade_sigla" unique="UNIQUE" >
+				<column name="sigla" />
+			</index>
+		</table>
+		<table name="usuario" >
+			<column name="id" type="serial" length="0" decimal="0" jt="4" mandatory="y" />
+			<column name="login" type="varchar" length="20" decimal="0" jt="12" mandatory="y" />
+			<column name="senha" type="varchar" length="255" decimal="0" jt="12" mandatory="y" />
+			<column name="nome" type="varchar" length="255" decimal="0" jt="12" mandatory="y" />
+			<column name="cpf" type="varchar" length="11" decimal="0" jt="12" mandatory="y" />
+			<column name="telefone" type="varchar" length="15" decimal="0" jt="12" />
+			<column name="grupo_id" type="integer" length="10" decimal="0" jt="4" />
+			<column name="data_criacao" type="timestamp" length="0" decimal="0" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="data_modificacao" type="timestamp" length="0" decimal="0" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="usuario_id_criacao" type="integer" length="0" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="usuario_id_modificacao" type="integer" length="0" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="status" type="status_usuario" length="2147483647" decimal="0" jt="1111" mandatory="y" >
+				<defo>&#039;A&#039;::meubar.status_usuario</defo>
+			</column>
+			<index name="usuario_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uq_usuario_cpf" unique="UNIQUE" >
+				<column name="cpf" />
+			</index>
+			<index name="uq_usuario_login" unique="UNIQUE" >
+				<column name="login" />
+			</index>
+			<fk name="usuario_grupo_fk" to_schema="meubar" to_table="grupo" delete_action="setNull" >
+				<fk_column name="grupo_id" pk="id" />
+			</fk>
+		</table>
+		<sequence name="cardapio_item_composicao_id_seq" start="1" />
+		<sequence name="cardapio_item_id_seq" start="1" />
+		<sequence name="cardapio_secao_id_seq" start="1" />
+		<sequence name="categoria_id_seq" start="1" />
+		<sequence name="conta_id_seq" start="1" />
+		<sequence name="estado_id_seq" start="1" />
+		<sequence name="estoque_controle_id_seq" start="1" />
+		<sequence name="estoque_entrada_id_seq" start="1" />
+		<sequence name="fornecedor_id_seq" start="1" />
+		<sequence name="grupo_id_seq" start="1" />
+		<sequence name="mesa_id_seq" start="1" />
+		<sequence name="pagamento_id_seq" start="1" />
+		<sequence name="pedido_id_seq" start="1" />
+		<sequence name="produto_id_seq" start="1" />
+		<sequence name="tipo_pagamento_id_seq" start="1" />
+		<sequence name="unidade_id_seq" start="1" />
+		<sequence name="usuario_id_seq" start="1" />
+	</schema>
+	<connector name="PostgreSQL" database="PostgreSQL" driver_class="org.postgresql.Driver" driver_jar="postgresql-9.2-1003.jdbc3.jar" host="localhost" port="5432" instance="hotel" user="postgres" passwd="cXdlci4xMjM0" schema_mapping="" />
+	<layout id="Layout5833442" name="Cardapio" >
+		<entity schema="meubar" name="cardapio_secao" color="b2cdf7" x="45" y="45" />
+		<entity schema="meubar" name="cardapio_item" color="b2cdf7" x="120" y="255" />
+		<entity schema="meubar" name="cardapio_item_composicao" color="b2cdf7" x="390" y="255" />
+		<entity schema="meubar" name="produto" color="b2cdf7" x="675" y="195" />
+	</layout>
+	<layout id="Layout5216029" name="EstoqueControle" confirmed="y" >
+		<entity schema="meubar" name="estoque_entrada" color="b2cdf7" x="45" y="60" />
+		<entity schema="meubar" name="produto" color="b2cdf7" x="240" y="210" />
+		<entity schema="meubar" name="unidade" color="b2cdf7" x="570" y="165" />
+		<entity schema="meubar" name="estoque_controle" color="b2cdf7" x="315" y="45" />
+	</layout>
+	<layout id="Layout5334380" name="EstoqueEntrada" confirmed="y" >
+		<entity schema="meubar" name="estoque_entrada" color="b2cdf7" x="45" y="45" />
+		<entity schema="meubar" name="fornecedor" color="b2cdf7" x="60" y="300" />
+		<entity schema="meubar" name="produto" color="b2cdf7" x="360" y="45" />
+		<entity schema="meubar" name="categoria" color="b2cdf7" x="360" y="345" />
+	</layout>
+	<layout id="Layout5090998" name="Layout" confirmed="y" show_relation_columns="y" >
+		<entity schema="meubar" name="mesa" color="b2cdf7" x="900" y="45" />
+		<entity schema="meubar" name="pagamento" color="b2cdf7" x="1020" y="45" />
+		<entity schema="meubar" name="pedido" color="b2cdf7" x="465" y="45" />
+		<entity schema="meubar" name="produto" color="b2cdf7" x="225" y="510" />
+		<entity schema="meubar" name="categoria" color="b2cdf7" x="210" y="810" />
+		<entity schema="meubar" name="estoque_entrada" color="b2cdf7" x="525" y="510" />
+		<entity schema="meubar" name="estoque_controle" color="b2cdf7" x="435" y="840" />
+		<entity schema="meubar" name="unidade" color="b2cdf7" x="510" y="735" />
+		<entity schema="meubar" name="fornecedor" color="b2cdf7" x="810" y="495" />
+		<entity schema="meubar" name="estado" color="b2cdf7" x="1110" y="525" />
+		<entity schema="meubar" name="tipo_pagamento" color="b2cdf7" x="1020" y="255" />
+		<entity schema="meubar" name="cardapio_item" color="b2cdf7" x="255" y="45" />
+		<entity schema="meubar" name="cardapio_secao" color="b2cdf7" x="45" y="45" />
+		<entity schema="meubar" name="cardapio_item_composicao" color="b2cdf7" x="60" y="285" />
+		<entity schema="meubar" name="conta" color="b2cdf7" x="690" y="45" />
+	</layout>
+	<layout id="Layout3247685" name="Layout_" >
+		<entity schema="meubar" name="grupo" color="b2cdf7" x="255" y="45" />
+		<entity schema="meubar" name="usuario" color="b2cdf7" x="45" y="45" />
+	</layout>
+</project>

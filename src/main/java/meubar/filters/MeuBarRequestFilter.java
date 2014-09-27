@@ -39,8 +39,7 @@ public class MeuBarRequestFilter implements ContainerRequestFilter {
 				requestCtx.setProperty("grupo", grupo);
 			} catch (LoginException e) {
 
-				requestCtx.abortWith(Response.status(
-						Response.Status.UNAUTHORIZED).build());
+				requestCtx.abortWith(Response.status(Response.Status.FORBIDDEN).build());
 
 			}
 		}

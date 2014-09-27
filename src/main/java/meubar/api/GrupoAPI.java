@@ -42,7 +42,7 @@ public class GrupoAPI extends BaseAPIImpl {
 		return Response.status(Status.OK).build();
 	};
 
-	@Permissoes(values = { "Administrador", "Gerente" })
+	@Permissoes(values = { "Administrador" })
 	@GET
 	public Response doGet(@CookieParam(value = "auth_token") String token) {
 		List<GrupoJson> list = servicoGrupo.getAll();
