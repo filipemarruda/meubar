@@ -1,4 +1,4 @@
-package meubar.business;
+package meubar.business.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -37,10 +37,20 @@ public class ConversionUtils {
 
 	}
 
-	public static Date extractDate(String dateString) throws ParseException {
+	public static Date extractDate(String dateString) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-		return sdf.parse(dateString);
+		Date data = null;
+
+		try {
+
+			data = sdf.parse(dateString);
+
+		} catch (ParseException e) {
+			System.out.println("Erro : data(" + dateString + ")" + e.getMessage());
+		}
+
+		return data;
 
 	}
 

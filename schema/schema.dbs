@@ -495,21 +495,44 @@
 		<entity schema="meubar" name="categoria" color="b2cdf7" x="360" y="345" />
 	</layout>
 	<layout id="Layout5090998" name="Layout" confirmed="y" show_relation_columns="y" >
-		<entity schema="meubar" name="mesa" color="b2cdf7" x="900" y="45" />
-		<entity schema="meubar" name="pagamento" color="b2cdf7" x="1020" y="45" />
-		<entity schema="meubar" name="pedido" color="b2cdf7" x="465" y="45" />
-		<entity schema="meubar" name="produto" color="b2cdf7" x="225" y="510" />
-		<entity schema="meubar" name="categoria" color="b2cdf7" x="210" y="810" />
-		<entity schema="meubar" name="estoque_entrada" color="b2cdf7" x="525" y="510" />
-		<entity schema="meubar" name="estoque_controle" color="b2cdf7" x="435" y="840" />
-		<entity schema="meubar" name="unidade" color="b2cdf7" x="510" y="735" />
-		<entity schema="meubar" name="fornecedor" color="b2cdf7" x="810" y="495" />
-		<entity schema="meubar" name="estado" color="b2cdf7" x="1110" y="525" />
-		<entity schema="meubar" name="tipo_pagamento" color="b2cdf7" x="1020" y="255" />
-		<entity schema="meubar" name="cardapio_item" color="b2cdf7" x="255" y="45" />
-		<entity schema="meubar" name="cardapio_secao" color="b2cdf7" x="45" y="45" />
-		<entity schema="meubar" name="cardapio_item_composicao" color="b2cdf7" x="60" y="285" />
-		<entity schema="meubar" name="conta" color="b2cdf7" x="690" y="45" />
+		<entity schema="meubar" name="pedido" color="ffffcc" x="480" y="45" />
+		<entity schema="meubar" name="estoque_entrada" color="b2cdf7" x="720" y="510" />
+		<entity schema="meubar" name="cardapio_item" color="ff9999" x="255" y="45" />
+		<entity schema="meubar" name="cardapio_secao" color="ff9999" x="45" y="45" />
+		<entity schema="meubar" name="conta" color="ffffcc" x="705" y="45" />
+		<entity schema="meubar" name="estado" color="cccccc" x="240" y="615" />
+		<entity schema="meubar" name="mesa" color="cccccc" x="330" y="615" />
+		<entity schema="meubar" name="unidade" color="cccccc" x="240" y="510" />
+		<entity schema="meubar" name="estoque_controle" color="b2cdf7" x="690" y="840" />
+		<entity schema="meubar" name="categoria" color="b2cdf7" x="480" y="810" />
+		<entity schema="meubar" name="cardapio_item_composicao" color="ff9999" x="45" y="240" />
+		<entity schema="meubar" name="tipo_pagamento" color="ffffcc" x="1005" y="255" />
+		<entity schema="meubar" name="pagamento" color="ffffcc" x="1005" y="45" />
+		<entity schema="meubar" name="produto" color="b2cdf7" x="495" y="510" />
+		<entity schema="meubar" name="fornecedor" color="b2cdf7" x="1005" y="510" />
+		<group name="ESTOQUE" color="c4e0f9" >
+			<entity schema="meubar" name="fornecedor" />
+			<entity schema="meubar" name="estoque_entrada" />
+			<entity schema="meubar" name="estoque_controle" />
+			<entity schema="meubar" name="categoria" />
+			<entity schema="meubar" name="produto" />
+		</group>
+		<group name="CARDAPIO" color="ffcccc" >
+			<entity schema="meubar" name="cardapio_item" />
+			<entity schema="meubar" name="cardapio_secao" />
+			<entity schema="meubar" name="cardapio_item_composicao" />
+		</group>
+		<group name="CONTA" color="ffffcc" >
+			<entity schema="meubar" name="pedido" />
+			<entity schema="meubar" name="conta" />
+			<entity schema="meubar" name="tipo_pagamento" />
+			<entity schema="meubar" name="pagamento" />
+		</group>
+		<group name="CORE" color="cccccc" >
+			<entity schema="meubar" name="unidade" />
+			<entity schema="meubar" name="estado" />
+			<entity schema="meubar" name="mesa" />
+		</group>
 	</layout>
 	<layout id="Layout3247685" name="Layout_" >
 		<entity schema="meubar" name="grupo" color="b2cdf7" x="255" y="45" />

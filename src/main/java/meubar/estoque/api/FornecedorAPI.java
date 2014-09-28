@@ -1,4 +1,4 @@
-package meubar.api;
+package meubar.estoque.api;
 
 import java.util.List;
 
@@ -17,23 +17,23 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import meubar.api.base.BaseAPIImpl;
+import meubar.api.impl.BaseAPIImpl;
 import meubar.aspects.Permissoes;
-import meubar.cadastro.json.pojo.GrupoJson;
-import meubar.cadastro.servico.ServicoGrupo;
+import meubar.estoque.json.pojo.FornecedorJson;
+import meubar.estoque.servico.ServicoFornecedor;
 import meubar.json.pojo.Messagem;
 
 import com.google.gson.Gson;
  
 
-@Path("/grupos")
+@Path("/fornecedores")
 @Produces(MediaType.APPLICATION_JSON)
-public class GrupoAPI extends BaseAPIImpl {
+public class FornecedorAPI extends BaseAPIImpl {
 
 	@EJB
-	ServicoGrupo servicoGrupo;
+	ServicoFornecedor servicoFornecedor;
  
-    public GrupoAPI() {
+    public FornecedorAPI() {
     }
 
 	@PermitAll
@@ -44,8 +44,8 @@ public class GrupoAPI extends BaseAPIImpl {
 
 	@Permissoes(values = { "Administrador" })
 	@GET
-	public Response doGet(@CookieParam(value = "auth_token") String token) {
-		List<GrupoJson> list = servicoGrupo.getAll();
+	public Response doGet(@CookieParam("auth_token") String token) {
+		List<FornecedorJson> list = servicoFornecedor.getAll();
 		Gson gson = new Gson();
 		String result = gson.toJson(list);
 		return Response.status(Status.OK).entity(result).build();
@@ -54,26 +54,25 @@ public class GrupoAPI extends BaseAPIImpl {
 	@Permissoes(values = { "Administrador" })
 	@GET
 	@Path("/{id: [0-9]*}")
-	public Response doGet(@CookieParam(value = "auth_token") String token,
+	public Response doGet(@CookieParam("auth_token") String token,
 			@PathParam("id") String id) {
-		GrupoJson grupo = servicoGrupo.getById(id);
+		FornecedorJson item = servicoFornecedor.getById(id);
 		Gson gson = new Gson();
-		String result = gson.toJson(grupo);
+		String result = gson.toJson(item);
 		return Response.status(Status.OK).entity(result).build();
 	}
 
 	@Permissoes(values = { "Administrador" })
 	@POST
-	public Response doPost(@CookieParam(value = "auth_token") String token,
-			String json) {
+	public Response doPost(@CookieParam("auth_token") String token, String json) {
 		Object result;
 		Gson gson = new Gson();
-
+		
 		try {
 
-			GrupoJson grupoJson = gson.fromJson(json, GrupoJson.class);
-			grupoJson.setUsuarioId(getUsuarioIdFromToken(token));
-			result = servicoGrupo.cadastrar(grupoJson);
+			FornecedorJson itemJson = gson.fromJson(json, FornecedorJson.class);
+			itemJson.setUsuarioId(getUsuarioIdFromToken(token));
+			result = servicoFornecedor.cadastrar(itemJson);
 
 		} catch (Exception e) {
 			result = new Messagem(e.getMessage());
@@ -85,11 +84,11 @@ public class GrupoAPI extends BaseAPIImpl {
 	@Permissoes(values = { "Administrador" })
 	@DELETE
 	@Path("/{id: [0-9]*}")
-	public Response doDelete(@CookieParam(value = "auth_token") String token,
+	public Response doDelete(@CookieParam("auth_token") String token,
 			@PathParam("id") String id) {
 
 		Status result = Status.NOT_FOUND;
-		boolean deleted = servicoGrupo.deletar(id);
+		boolean deleted = servicoFornecedor.deletar(id);
 		if (deleted) {
 			result = Status.ACCEPTED;
 		}
@@ -100,7 +99,7 @@ public class GrupoAPI extends BaseAPIImpl {
 	@Permissoes(values = { "Administrador" })
 	@PUT
 	@Path("/{id: [0-9]*}")
-	public Response doPut(@CookieParam(value = "auth_token") String token,
+	public Response doPut(@CookieParam("auth_token") String token,
 			@PathParam("id") String id, String json) {
 		Object resultObj = null;
 		Status result = Status.NOT_FOUND;
@@ -109,9 +108,9 @@ public class GrupoAPI extends BaseAPIImpl {
 
 		try {
 
-			GrupoJson grupoJson = gson.fromJson(json, GrupoJson.class);
-			grupoJson.setUsuarioId(getUsuarioIdFromToken(token));
-			updated = servicoGrupo.update(id, grupoJson);
+			FornecedorJson itemJson = gson.fromJson(json, FornecedorJson.class);
+			itemJson.setUsuarioId(getUsuarioIdFromToken(token));
+			updated = servicoFornecedor.update(id, itemJson);
 
 		} catch (Exception e) {
 			resultObj = new Messagem(e.getMessage());

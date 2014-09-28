@@ -56,7 +56,7 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li ng-repeat="menu in getMenus()" ng-class="getMenuClass(menu.nome)">
-                    <a ui-sref="{{menu.nome}}">
+                    <a ui-sref="{{menu.url}}">
                         <i ng-class="menu.classe" ></i>
                         {{menu.label}}
                     </a>

@@ -3,12 +3,10 @@ package meubar.aspects;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.ejb.EJB;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import meubar.business.TokenUtils;
-import meubar.cadastro.servico.ServicoCadastro;
+import meubar.business.util.TokenUtils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -18,9 +16,6 @@ import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
 public class Authorization {
-
-	@EJB
-	ServicoCadastro servicoCadastro;
 
 	@Pointcut("execution (@meubar.aspects.Permissoes * *(..))")
 	public void authorizableCall() {

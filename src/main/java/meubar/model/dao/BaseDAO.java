@@ -10,7 +10,7 @@ import meubar.model.entity.BaseEntity;
 /**
  * Interface com definição de métodos básicos para DAOs.
  * 
- * @author geraldo.matos
+ * @author filipe.mendes
  * 
  * @param <T>
  */

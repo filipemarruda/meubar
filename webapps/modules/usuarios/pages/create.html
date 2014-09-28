@@ -3,7 +3,7 @@
 		<form name="moduleForm" class="form-horizontal" data-ng-submit="create()" novalidate>
 			<fieldset>
 				<div class="form-group" ng-class="{ 'has-error': moduleForm.grupoId.$error.required }">
-					<label>Grupo</label>
+					<label class="control-label" for="grupoId">Grupo</label>
 					<div class="controls">
 						<select data-ng-model="grupoId" name="grupoId" id="grupoId" class="form-control" ng-options="value.id as value.nome for (key, value) in grupos" required></select>
 					</div>
@@ -34,11 +34,12 @@
 					<p ng-show="moduleForm.login.$error.pattern" class="help-block">O login do usu&aacute;rio deve ser composto de letras e n&uacute;meros.</p>
 				</div>
 				
-				<div class="form-group">
+				<div class="form-group" ng-class="{ 'has-error': moduleForm.senha.$error.required || moduleForm.senha.$error.minlength}">
 					<label class="control-label" for="senha">Senha</label>
 					<div class="controls">
-						<input name="senha" type="password" data-ng-model="senha" id="senha" class="form-control" >
+						<input name="senha" type="password" data-ng-model="senha" id="senha" class="form-control" required ng-minlength="5" >
 					</div>
+					<p ng-show="moduleForm.senha.$error.minlength" class="help-block">A senha do usu&aacute;rio &eacute; muito curta.</p>
 				</div>
 				
 				<div class="form-group" ng-class="{ 'has-error': moduleForm.telefone.$error.pattern }">

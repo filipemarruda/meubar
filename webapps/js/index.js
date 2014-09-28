@@ -38,7 +38,7 @@ meuBar.controller('AppCtrl',['$scope','$location','$http', '$cookies',
 	   		})
 	   		.error(function(data, status, headers, config) {
 	   			console.log(status);
-	   			if(status === 401){
+	   			if(status === 403){
 	        		app.scope.error = 'Usuário e/ou senha inválidos!';
 	   			}
 	    	});

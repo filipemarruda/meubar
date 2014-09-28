@@ -8,7 +8,7 @@ import meubar.model.dao.BaseDAO;
 /**
  * Interface DAO para entidade Login.
  * 
- * @author geraldo.matos
+ * @author filipe.mendes
  * 
  */
 public interface GrupoDAO extends BaseDAO<Grupo, Long> {

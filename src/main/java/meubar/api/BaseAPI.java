@@ -1,4 +1,4 @@
-package meubar.api.base;
+package meubar.api;
 
 import javax.ws.rs.core.Response;
 

@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Interface básica para entidades JPA.
  * 
- * @author geraldo.matos
+ * @author filipe.mendes
  * 
  */
 public interface BaseEntity<T> extends Serializable {

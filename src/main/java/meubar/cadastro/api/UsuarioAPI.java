@@ -1,4 +1,4 @@
-package meubar.api;
+package meubar.cadastro.api;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import meubar.api.base.BaseAPIImpl;
+import meubar.api.impl.BaseAPIImpl;
 import meubar.aspects.Permissoes;
 import meubar.cadastro.json.pojo.UsuarioJson;
 import meubar.cadastro.servico.ServicoUsuario;

@@ -1,4 +1,4 @@
-package meubar.cadastro.servico;
+package meubar.acesso.servico;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +11,7 @@ import meubar.cadastro.model.dao.UsuarioDAO;
 import meubar.cadastro.model.entity.Usuario;
 
 @Stateless
-public class ServicoCadastro {
+public class ServicoAcesso {
 
 	@EJB
 	private UsuarioDAO usuarioDAO;

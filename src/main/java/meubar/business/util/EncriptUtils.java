@@ -1,4 +1,4 @@
-package meubar.business;
+package meubar.business.util;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -21,7 +21,7 @@ public class EncriptUtils {
 	private static SecretKey key;
 
 	private static String algorithm = "DES";
-	private static String encryptMode = "DES/ECB/PKCS5Padding";
+	private static String encryptMode = "DES/ECB/PKCS7Padding";
 	private static Cipher encryptCipher;
 	private static Cipher decryptCipher;
 

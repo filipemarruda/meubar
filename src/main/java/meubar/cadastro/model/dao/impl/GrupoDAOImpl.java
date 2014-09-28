@@ -12,13 +12,12 @@ import meubar.model.dao.impl.MeuBarDAOImpl;
 /**
  * Implementação da interface DAO para entidade Login.
  * 
- * @author geraldo.matos
+ * @author filipe.mendes
  * 
  */
 @Stateless
 @Transactional
-public class GrupoDAOImpl extends MeuBarDAOImpl<Grupo, Long> implements
-		GrupoDAO {
+public class GrupoDAOImpl extends MeuBarDAOImpl<Grupo, Long> implements GrupoDAO {
 
 
     /*

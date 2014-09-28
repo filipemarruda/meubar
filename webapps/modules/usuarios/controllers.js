@@ -26,7 +26,7 @@ usuariosApp.controller('UsuarioCtrl', ['$scope', '$cookies', '$stateParams', '$r
 					$rootScope.errorHandle(error.status);
 				}
 			);
-		}
+		};
 
 		$scope.findOne = function(){
 			
@@ -39,7 +39,7 @@ usuariosApp.controller('UsuarioCtrl', ['$scope', '$cookies', '$stateParams', '$r
 					$rootScope.errorHandle(error.status);
 				}
 			);
-		}
+		};
 
 		$scope.create = function() {
 			var item = new Model({
@@ -61,16 +61,18 @@ usuariosApp.controller('UsuarioCtrl', ['$scope', '$cookies', '$stateParams', '$r
 					$rootScope.errorHandle(error.status);
 				}
 			);
-		}
+		};
 
 		$scope.update = function() {
 			var item = $scope.item;
-			item.senha = md5($scope.item.senha);
+			if(!!item.senha){
+				item.senha = md5($scope.item.senha);
+			}
 			item.$update(
 				function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
 					$location.path( $scope.moduleName + '/list' );
-				}, function(errorResponse) {
+				}, function(error) {
 					$rootScope.errorHandle(error.status);
 				}
 			);
@@ -83,7 +85,7 @@ usuariosApp.controller('UsuarioCtrl', ['$scope', '$cookies', '$stateParams', '$r
 				});
 				item.$remove(function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
-				}, function(errorResponse) {
+				}, function(error) {
 					$rootScope.errorHandle(error.status);
 				});
 
@@ -96,7 +98,7 @@ usuariosApp.controller('UsuarioCtrl', ['$scope', '$cookies', '$stateParams', '$r
 				$scope.item.$remove(function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
 					$location.path( $scope.moduleName + '/list' );
-				}, function(errorResponse) {
+				}, function(error) {
 					$rootScope.errorHandle(error.status);
 				});
 			}

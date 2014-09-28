@@ -1,4 +1,4 @@
-package meubar.cadastro.json.pojo;
+package meubar.acesso.json.pojo;
 
 public class TokenJson {
 	private String token;

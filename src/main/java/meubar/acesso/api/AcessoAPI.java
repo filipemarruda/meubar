@@ -1,7 +1,6 @@
-package meubar.api.autenticacao;
+package meubar.acesso.api;
 
 import javax.annotation.security.PermitAll;
-import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,13 +15,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import meubar.api.base.BaseAPI;
+import meubar.acesso.json.pojo.AcessoJson;
+import meubar.acesso.json.pojo.TokenJson;
+import meubar.api.impl.BaseAPIImpl;
 import meubar.business.Messages;
-import meubar.business.TokenUtils;
-import meubar.cadastro.json.pojo.AcessoJson;
-import meubar.cadastro.json.pojo.TokenJson;
+import meubar.business.util.TokenUtils;
 import meubar.cadastro.model.entity.Usuario;
-import meubar.cadastro.servico.ServicoCadastro;
 import meubar.json.pojo.Messagem;
 
 import com.google.gson.Gson;
@@ -30,10 +28,8 @@ import com.google.gson.Gson;
 
 @Path("acesso")
 @Produces(MediaType.APPLICATION_JSON)
-public class AcessoAPI implements BaseAPI {
+public class AcessoAPI extends BaseAPIImpl {
 
-	@EJB
-	ServicoCadastro servicoCadastro;
 
 	@Context
     private UriInfo context;
@@ -71,11 +67,11 @@ public class AcessoAPI implements BaseAPI {
 		Object result;
 		Gson gson = new Gson();
 		AcessoJson acesso = gson.fromJson(json, AcessoJson.class);
-		boolean accepted = servicoCadastro.acesso(acesso.getUser(),
+		boolean accepted = getServicoAcesso().acesso(acesso.getUser(),
 				acesso.getPass());
 
 		if (accepted) {
-			Usuario usuario = servicoCadastro.findByLogin(acesso.getUser());
+			Usuario usuario = getServicoAcesso().findByLogin(acesso.getUser());
 			result = new TokenJson(TokenUtils.generateToken(acesso.getUser(),
 					usuario.getGrupo().getNome()),
 					Long.toString(usuario.getId()), usuario.getNome(), usuario

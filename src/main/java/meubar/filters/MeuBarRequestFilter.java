@@ -11,8 +11,8 @@ import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
-import meubar.api.autenticacao.LoginException;
-import meubar.business.TokenUtils;
+import meubar.acesso.exceptions.LoginException;
+import meubar.business.util.TokenUtils;
 
 import org.jboss.resteasy.core.ResourceMethodInvoker;
 
@@ -38,7 +38,7 @@ public class MeuBarRequestFilter implements ContainerRequestFilter {
 				requestCtx.setProperty("login", login);
 				requestCtx.setProperty("grupo", grupo);
 			} catch (LoginException e) {
-
+				System.out.println("Token Negado:" + token);
 				requestCtx.abortWith(Response.status(Response.Status.FORBIDDEN).build());
 
 			}

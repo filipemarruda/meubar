@@ -15,7 +15,7 @@ gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$rootS
 					$rootScope.errorHandle(error.status);
 				}
 			);
-		}
+		};
 
 		$scope.findOne = function(){
 			$scope.item = Model.get(
@@ -27,7 +27,7 @@ gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$rootS
 					$rootScope.errorHandle(error.status);
 				}
 			);
-		}
+		};
 
 		$scope.create = function() {
 			var item = new Model({
@@ -42,7 +42,7 @@ gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$rootS
 					$rootScope.errorHandle(error.status);
 				}
 			);
-		}
+		};
 
 		$scope.update = function() {
 			var item = $scope.item;
@@ -50,7 +50,7 @@ gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$rootS
 				function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
 					$location.path( $scope.moduleName + '/list' );
-				}, function(errorResponse) {
+				}, function(error) {
 					$rootScope.errorHandle(error.status);
 				}
 			);
@@ -63,7 +63,7 @@ gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$rootS
 				});
 				item.$remove(function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
-				}, function(errorResponse) {
+				}, function(error) {
 					$rootScope.errorHandle(error.status);
 				});
 
@@ -76,7 +76,7 @@ gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$rootS
 				$scope.item.$remove(function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
 					$location.path( $scope.moduleName + '/list' );
-				}, function(errorResponse) {
+				}, function(error) {
 					$rootScope.errorHandle(error.status);
 				});
 			}

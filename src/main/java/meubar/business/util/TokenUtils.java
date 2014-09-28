@@ -1,11 +1,11 @@
-package meubar.business;
+package meubar.business.util;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import meubar.api.autenticacao.LoginException;
+import meubar.acesso.exceptions.LoginException;
 
 public class TokenUtils {
 
@@ -33,22 +33,27 @@ public class TokenUtils {
 		
 	}
 
-	public static void isValidToken(String token) throws LoginException {
-
+	private static Map<String, String> getTokenMap(String token) throws LoginException {
+		Map<String, String> tokenMap = null;
 		try {
+
 			byte[] byteArray = EncriptUtils.decrypt(token).getBytes();
-
-			Map<String, String> tokenMap = (Map<String, String>) ConversionUtils
-					.deserialize(byteArray);
-
-			Date dataExpiracao = ConversionUtils.extractDate(tokenMap
-					.get("expires"));
-
-			if (dataExpiracao.before(new Date())) {
-				throw new LoginException();
-			}
+			tokenMap = (Map<String, String>) ConversionUtils.deserialize(byteArray);
 
 		} catch (Exception e) {
+			System.out.println("Erro : " + e.getMessage());
+			throw new LoginException();
+		}
+
+		return tokenMap;
+	}
+
+	public static void isValidToken(String token) throws LoginException {
+
+		Map<String, String> tokenMap = getTokenMap(token);
+		Date dataExpiracao = ConversionUtils.extractDate(tokenMap.get("expires"));
+
+		if (dataExpiracao.before(new Date())) {
 			throw new LoginException();
 		}
 	}
@@ -58,9 +63,7 @@ public class TokenUtils {
 
 		try {
 
-			byte[] byteArray = EncriptUtils.decrypt(token).getBytes();
-			Map<String, String> tokenMap = (Map<String, String>) ConversionUtils
-					.deserialize(byteArray);
+			Map<String, String> tokenMap = getTokenMap(token);
 			user = tokenMap.get("login");
 
 		} catch (Exception e) {
@@ -75,9 +78,7 @@ public class TokenUtils {
 
 		try {
 
-			byte[] byteArray = EncriptUtils.decrypt(token).getBytes();
-			Map<String, String> tokenMap = (Map<String, String>) ConversionUtils
-					.deserialize(byteArray);
+			Map<String, String> tokenMap = getTokenMap(token);
 			user = tokenMap.get("grupo");
 
 		} catch (Exception e) {

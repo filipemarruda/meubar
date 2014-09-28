@@ -7,7 +7,7 @@ import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.MultivaluedMap;
 
-import meubar.business.TokenUtils;
+import meubar.business.util.TokenUtils;
 
 import org.apache.commons.lang3.StringUtils;
 
