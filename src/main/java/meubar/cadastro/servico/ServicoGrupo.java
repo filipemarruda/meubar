@@ -1,100 +1,54 @@
 package meubar.cadastro.servico;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import meubar.cadastro.json.pojo.GrupoJson;
 import meubar.cadastro.model.dao.GrupoDAO;
-import meubar.cadastro.model.dao.UsuarioDAO;
 import meubar.cadastro.model.entity.Grupo;
 import meubar.cadastro.model.entity.Usuario;
+import meubar.servico.ServicoBase;
 
 @Stateless
-public class ServicoGrupo {
+public class ServicoGrupo extends ServicoBase<GrupoDAO, Grupo, GrupoJson> {
 
 	@EJB
-	private GrupoDAO grupoDAO;
+	GrupoDAO itemDao;
 
-	@EJB
-	private UsuarioDAO usuarioDAO;
-
-	public GrupoJson getById(String id) {
-		long lId = Long.parseLong(id);
-		GrupoJson grupoJson = createGrupoJson(grupoDAO.findById(lId));
-		return grupoJson;
+	public GrupoDAO getItemDao() {
+		return itemDao;
 	}
 
-	public List<GrupoJson> getAll() {
-
-		List<Grupo> results = grupoDAO.findAll(null);
-
-		List<GrupoJson> grupos = new ArrayList<>();
-
-		for (Grupo grupo : results) {
-			GrupoJson grupoJson = createGrupoJson(grupo);
-			grupos.add(grupoJson);
-		}
-		return grupos;
-
+	@Override
+	protected Grupo fillUpdatableFields(Grupo item, GrupoJson itemJson) {
+		item.setNome(itemJson.getNome());
+		item.setDataModificacao(new Date());
+		item.setUsuarioIdModificacao(itemJson.getUsuarioId());
+		return item;
 	}
 
-
-	public Grupo cadastrar(GrupoJson grupoJson) {
-
-		Grupo grupo = new Grupo(grupoJson.getNome());
-		grupo.setDataCriacao(new Date());
-		grupo.setDataModificacao(new Date());
-		grupo.setUsuarioIdCriacao(grupoJson.getUsuarioId());
-		grupo.setUsuarioIdModificacao(grupoJson.getUsuarioId());
-		return grupoDAO.save(grupo);
-
+	@Override
+	protected Grupo createItemFromJson(GrupoJson itemJson) {
+		Grupo item = new Grupo(itemJson.getNome());
+		item.setDataCriacao(new Date());
+		item.setDataModificacao(new Date());
+		item.setUsuarioIdCriacao(itemJson.getUsuarioId());
+		item.setUsuarioIdModificacao(itemJson.getUsuarioId());
+		return item;
 	}
 
-	public boolean deletar(String id) {
-
-		boolean result = false;
-		long lId = Long.parseLong(id);
-		Grupo grupo = grupoDAO.findById(lId);
-
-		if (grupo != null) {
-			grupoDAO.remove(grupo);
-			result = true;
-		}
-		return result;
-
-	}
-
-	public boolean update(String id, GrupoJson grupoJson) {
-
-		boolean result = false;
-		long lId = Long.parseLong(id);
-		Grupo grupo = grupoDAO.findById(lId);
-
-		if (grupo != null) {
-			grupo.setNome(grupoJson.getNome());
-			grupo.setDataModificacao(new Date());
-			grupo.setUsuarioIdModificacao(grupoJson.getUsuarioId());
-			grupoDAO.save(grupo);
-			result = true;
-		}
-
-		return result;
-
-	}
-
-	private GrupoJson createGrupoJson(Grupo grupo) {
+	@Override
+	protected GrupoJson createItemJson(Grupo grupo) {
 		final GrupoJson grupoJson = new GrupoJson();
 		grupoJson.setId(grupo.getId());
 		grupoJson.setNome(grupo.getNome());
 		grupoJson.setDataCriacao(grupo.getDataCriacao());
 		grupoJson.setDataModificacao(grupo.getDataModificacao());
-		Usuario usuarioCriacao = usuarioDAO.findById(grupo
+		Usuario usuarioCriacao = getUsuarioDAO().findById(grupo
 				.getUsuarioIdCriacao());
-		Usuario usuarioModificacao = usuarioDAO.findById(grupo
+		Usuario usuarioModificacao = getUsuarioDAO().findById(grupo
 				.getUsuarioIdModificacao());
 		grupoJson.setUsuarioCriacao(usuarioCriacao.getNome());
 		grupoJson.setUsuarioModificacao(usuarioModificacao.getNome());

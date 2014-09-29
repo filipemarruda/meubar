@@ -1,8 +1,6 @@
 package meubar.estoque.servico;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -14,77 +12,36 @@ import meubar.estoque.model.entity.Categoria;
 import meubar.servico.ServicoBase;
 
 @Stateless
-public class ServicoCategoria extends ServicoBase {
+public class ServicoCategoria extends ServicoBase<CategoriaDAO, Categoria, CategoriaJson> {
 
 	@EJB
-	private CategoriaDAO categoriaDAO;
+	CategoriaDAO itemDao;
 
-	public CategoriaJson getById(String id) {
-		long lId = Long.parseLong(id);
-		Categoria item = categoriaDAO.findById(lId);
-		return createItemJson(item);
+	public CategoriaDAO getItemDao() {
+		return itemDao;
 	}
 
-	public List<CategoriaJson> getAll() {
-		List<Categoria> results = categoriaDAO.findAll(null);
-
-		List<CategoriaJson> itens = new ArrayList<>();
-		for (Categoria item : results) {
-			CategoriaJson itemJson = createItemJson(item);
-			itens.add(itemJson);
-		}
-		return itens;
-
+	@Override
+	protected Categoria fillUpdatableFields(Categoria item, CategoriaJson itemJson) {
+		item.setNome(itemJson.getNome());
+		item.setDataModificacao(new Date());
+		item.setUsuarioIdModificacao(itemJson.getUsuarioId());
+		return item;
 	}
 
-	public Categoria cadastrar(CategoriaJson itemJson) {
-
+	@Override
+	protected Categoria createItemFromJson(CategoriaJson itemJson) {
 		Categoria item = new Categoria();
 		item.setNome(itemJson.getNome());
 		item.setDataCriacao(new Date());
 		item.setDataModificacao(new Date());
 		item.setUsuarioIdCriacao(itemJson.getUsuarioId());
 		item.setUsuarioIdModificacao(itemJson.getUsuarioId());
-		return categoriaDAO.save(item);
-
-
+		return item;
 	}
 
-	public boolean deletar(String id) {
-
-		boolean result = false;
-		long lId = Long.parseLong(id);
-		Categoria item = categoriaDAO.findById(lId);
-
-		if (item != null) {
-			categoriaDAO.remove(item);
-			result = true;
-		}
-		return result;
-
-	}
-
-	public boolean update(String id, CategoriaJson itemJson) {
-
-		boolean result = false;
-		long lId = Long.parseLong(id);
-		Categoria item = categoriaDAO.findById(lId);
-
-		if (item != null) {
-
-			item.setNome(itemJson.getNome());
-			item.setDataModificacao(new Date());
-			item.setUsuarioIdModificacao(itemJson.getUsuarioId());
-			categoriaDAO.save(item);
-			result = true;
-
-		}
-
-		return result;
-
-	}
-
-	private CategoriaJson createItemJson(Categoria item) {
+	@Override
+	protected CategoriaJson createItemJson(Categoria item) {
 		CategoriaJson itemJson = new CategoriaJson();
 
 		itemJson.setId(item.getId());

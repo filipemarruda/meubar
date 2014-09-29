@@ -21,6 +21,7 @@ import meubar.model.dao.impl.MeuBarDAOImpl;
 public class UsuarioDAOImpl extends MeuBarDAOImpl<Usuario, Long> implements
 		UsuarioDAO {
 
+
     /*
      * (non-Javadoc)
      * 

@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response.Status;
 import meubar.api.impl.BaseAPIImpl;
 import meubar.aspects.Permissoes;
 import meubar.core.json.pojo.EstadoJson;
+import meubar.core.json.pojo.UnidadeJson;
 import meubar.core.servico.ServicoCore;
 
 import com.google.gson.Gson;
@@ -40,6 +41,16 @@ public class CoreAPI extends BaseAPIImpl {
 	@Path("/estados")
 	public Response doGetEstados(@CookieParam(value = "auth_token") String token) {
 		List<EstadoJson> list = servicoCore.getEstados();
+		Gson gson = new Gson();
+		String result = gson.toJson(list);
+		return Response.status(Status.OK).entity(result).build();
+	}
+
+	@Permissoes(values = { "Administrador" })
+	@GET
+	@Path("/unidades")
+	public Response doGetUnidades(@CookieParam(value = "auth_token") String token) {
+		List<UnidadeJson> list = servicoCore.getUnidades();
 		Gson gson = new Gson();
 		String result = gson.toJson(list);
 		return Response.status(Status.OK).entity(result).build();

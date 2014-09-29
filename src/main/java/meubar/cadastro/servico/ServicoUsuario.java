@@ -1,8 +1,6 @@
 package meubar.cadastro.servico;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -11,96 +9,55 @@ import meubar.cadastro.json.pojo.UsuarioJson;
 import meubar.cadastro.model.dao.UsuarioDAO;
 import meubar.cadastro.model.entity.Grupo;
 import meubar.cadastro.model.entity.Usuario;
+import meubar.servico.ServicoBase;
 
 import org.apache.commons.lang3.StringUtils;
 
 @Stateless
-public class ServicoUsuario {
+public class ServicoUsuario extends ServicoBase<UsuarioDAO, Usuario, UsuarioJson> {
 
 	@EJB
-	private UsuarioDAO usuarioDAO;
+	UsuarioDAO itemDao;
 
-	public UsuarioJson getById(String id) {
-		long lId = Long.parseLong(id);
-		Usuario usuario = usuarioDAO.findById(lId);
-		return createUsuarioJson(usuario);
+	public UsuarioDAO getItemDao() {
+		return itemDao;
 	}
 
-	public List<UsuarioJson> getAll() {
-		List<Usuario> results = usuarioDAO.findAll(null);
-
-		List<UsuarioJson> usuarios = new ArrayList<>();
-		for (Usuario usuario : results) {
-			UsuarioJson usuarioJson = createUsuarioJson(usuario);
-			usuarios.add(usuarioJson);
+	@Override
+	protected Usuario fillUpdatableFields(Usuario item, UsuarioJson itemJson) {
+		item.setNome(itemJson.getNome());
+		item.setCpf(itemJson.getCpf());
+		item.setLogin(itemJson.getLogin());
+		if (!StringUtils.isEmpty(itemJson.getSenha())) {
+			item.setSenha(itemJson.getSenha());
 		}
-		return usuarios;
-
+		item.setTelefone(itemJson.getTelefone());
+		Grupo grupo = new Grupo(itemJson.getGrupoId());
+		item.setGrupo(grupo);
+		item.setDataModificacao(new Date());
+		item.setUsuarioIdModificacao(itemJson.getUsuarioId());
+		return item;
 	}
 
-	public Usuario cadastrar(UsuarioJson usuarioJson) {
-
-		Usuario usuario = new Usuario(usuarioJson.getLogin(),
-				usuarioJson.getSenha());
-		usuario.setNome(usuarioJson.getNome());
-		usuario.setCpf(usuarioJson.getCpf());
-		usuario.setLogin(usuarioJson.getLogin());
-		usuario.setSenha(usuarioJson.getSenha());
-		usuario.setTelefone(usuarioJson.getTelefone());
-		Grupo grupo = new Grupo(usuarioJson.getGrupoId());
-		usuario.setGrupo(grupo);
-		usuario.setDataCriacao(new Date());
-		usuario.setDataModificacao(new Date());
-		usuario.setUsuarioIdCriacao(usuarioJson.getUsuarioId());
-		usuario.setUsuarioIdModificacao(usuarioJson.getUsuarioId());
-		return usuarioDAO.save(usuario);
-
-
+	@Override
+	protected Usuario createItemFromJson(UsuarioJson itemJson) {
+		Usuario item = new Usuario(itemJson.getLogin(), itemJson.getSenha());
+		item.setNome(itemJson.getNome());
+		item.setCpf(itemJson.getCpf());
+		item.setLogin(itemJson.getLogin());
+		item.setSenha(itemJson.getSenha());
+		item.setTelefone(itemJson.getTelefone());
+		Grupo grupo = new Grupo(itemJson.getGrupoId());
+		item.setGrupo(grupo);
+		item.setDataCriacao(new Date());
+		item.setDataModificacao(new Date());
+		item.setUsuarioIdCriacao(itemJson.getUsuarioId());
+		item.setUsuarioIdModificacao(itemJson.getUsuarioId());
+		return item;
 	}
 
-	public boolean deletar(String id) {
-
-		boolean result = false;
-		long lId = Long.parseLong(id);
-		Usuario usuario = usuarioDAO.findById(lId);
-
-		if (usuario != null) {
-			usuarioDAO.remove(usuario);
-			result = true;
-		}
-		return result;
-
-	}
-
-	public boolean update(String id, UsuarioJson usuarioJson) {
-
-		boolean result = false;
-		long lId = Long.parseLong(id);
-		Usuario usuario = usuarioDAO.findById(lId);
-
-		if (usuario != null) {
-
-			usuario.setNome(usuarioJson.getNome());
-			usuario.setCpf(usuarioJson.getCpf());
-			usuario.setLogin(usuarioJson.getLogin());
-			if (!StringUtils.isEmpty(usuarioJson.getSenha())) {
-				usuario.setSenha(usuarioJson.getSenha());
-			}
-			usuario.setTelefone(usuarioJson.getTelefone());
-			Grupo grupo = new Grupo(usuarioJson.getGrupoId());
-			usuario.setGrupo(grupo);
-			usuario.setDataModificacao(new Date());
-			usuario.setUsuarioIdModificacao(usuarioJson.getUsuarioId());
-			usuarioDAO.save(usuario);
-			result = true;
-
-		}
-
-		return result;
-
-	}
-
-	private UsuarioJson createUsuarioJson(Usuario usuario) {
+	@Override
+	protected UsuarioJson createItemJson(Usuario usuario) {
 		UsuarioJson usuarioJson = new UsuarioJson();
 
 		usuarioJson.setId(usuario.getId());
@@ -112,9 +69,9 @@ public class ServicoUsuario {
 		usuarioJson.setGrupoId(usuario.getGrupo().getId());
 		usuarioJson.setDataCriacao(usuario.getDataCriacao());
 		usuarioJson.setDataModificacao(usuario.getDataModificacao());
-		Usuario usuarioCriacao = usuarioDAO.findById(usuario
+		Usuario usuarioCriacao = getUsuarioDAO().findById(usuario
 				.getUsuarioIdCriacao());
-		Usuario usuarioModificacao = usuarioDAO.findById(usuario
+		Usuario usuarioModificacao = getUsuarioDAO().findById(usuario
 				.getUsuarioIdModificacao());
 		usuarioJson.setUsuarioCriacao(usuarioCriacao.getNome());
 		usuarioJson.setUsuarioModificacao(usuarioModificacao.getNome());

@@ -1,8 +1,6 @@
 package meubar.estoque.servico;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -15,31 +13,31 @@ import meubar.estoque.model.entity.Fornecedor;
 import meubar.servico.ServicoBase;
 
 @Stateless
-public class ServicoFornecedor extends ServicoBase {
+public class ServicoFornecedor extends ServicoBase<FornecedorDAO, Fornecedor, FornecedorJson> {
 
 	@EJB
-	private FornecedorDAO fornecedorDAO;
+	FornecedorDAO itemDao;
 
-	public FornecedorJson getById(String id) {
-		long lId = Long.parseLong(id);
-		Fornecedor item = fornecedorDAO.findById(lId);
-		return createFornecedorJson(item);
+	public FornecedorDAO getItemDao() {
+		return itemDao;
 	}
 
-	public List<FornecedorJson> getAll() {
-		List<Fornecedor> results = fornecedorDAO.findAll(null);
+	@Override
+	protected Fornecedor fillUpdatableFields(Fornecedor item, FornecedorJson itemJson) {
+		item.setNome(itemJson.getNome());
+		item.setCnpj(itemJson.getCnpj());
+		item.setEstado(new Estado(itemJson.getEstadoId()));
+		item.setCidade(itemJson.getCidade());
+		item.setEndereco(itemJson.getEndereco());
+		item.setTelefone(itemJson.getTelefone());
 
-		List<FornecedorJson> itens = new ArrayList<>();
-		for (Fornecedor item : results) {
-			FornecedorJson itemJson = createFornecedorJson(item);
-			itens.add(itemJson);
-		}
-		return itens;
-
+		item.setDataModificacao(new Date());
+		item.setUsuarioIdModificacao(itemJson.getUsuarioId());
+		return item;
 	}
 
-	public Fornecedor cadastrar(FornecedorJson itemJson) {
-
+	@Override
+	protected Fornecedor createItemFromJson(FornecedorJson itemJson) {
 		Fornecedor item = new Fornecedor();
 		item.setNome(itemJson.getNome());
 		item.setCnpj(itemJson.getCnpj());
@@ -51,52 +49,11 @@ public class ServicoFornecedor extends ServicoBase {
 		item.setDataModificacao(new Date());
 		item.setUsuarioIdCriacao(itemJson.getUsuarioId());
 		item.setUsuarioIdModificacao(itemJson.getUsuarioId());
-		return fornecedorDAO.save(item);
-
-
+		return item;
 	}
 
-	public boolean deletar(String id) {
-
-		boolean result = false;
-		long lId = Long.parseLong(id);
-		Fornecedor item = fornecedorDAO.findById(lId);
-
-		if (item != null) {
-			fornecedorDAO.remove(item);
-			result = true;
-		}
-		return result;
-
-	}
-
-	public boolean update(String id, FornecedorJson itemJson) {
-
-		boolean result = false;
-		long lId = Long.parseLong(id);
-		Fornecedor item = fornecedorDAO.findById(lId);
-
-		if (item != null) {
-
-			item.setNome(itemJson.getNome());
-			item.setCnpj(itemJson.getCnpj());
-			item.setEstado(new Estado(itemJson.getEstadoId()));
-			item.setCidade(itemJson.getCidade());
-			item.setEndereco(itemJson.getEndereco());
-			item.setTelefone(itemJson.getTelefone());
-
-			item.setDataModificacao(new Date());
-			item.setUsuarioIdModificacao(itemJson.getUsuarioId());
-			fornecedorDAO.save(item);
-			result = true;
-
-		}
-
-		return result;
-
-	}
-
-	private FornecedorJson createFornecedorJson(Fornecedor item) {
+	@Override
+	protected FornecedorJson createItemJson(Fornecedor item) {
 		FornecedorJson itemJson = new FornecedorJson();
 
 		itemJson.setId(item.getId());
