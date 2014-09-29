@@ -10,7 +10,10 @@ import meubar.acesso.api.AcessoAPI;
 import meubar.cadastro.api.GrupoAPI;
 import meubar.cadastro.api.UsuarioAPI;
 import meubar.core.api.CoreAPI;
+import meubar.estoque.api.CategoriaAPI;
+import meubar.estoque.api.EstoqueEntradaAPI;
 import meubar.estoque.api.FornecedorAPI;
+import meubar.estoque.api.ProdutoAPI;
 import meubar.filters.MeuBarRequestFilter;
 import meubar.filters.MeuBarResponseFilter;
 
@@ -26,6 +29,9 @@ public class RestApplication extends Application{
 		classes.add(GrupoAPI.class);
 		classes.add(UsuarioAPI.class);
 		classes.add(FornecedorAPI.class);
+		classes.add(CategoriaAPI.class);
+		classes.add(ProdutoAPI.class);
+		classes.add(EstoqueEntradaAPI.class);
 		classes.add(MeuBarResponseFilter.class);
 		
 		return classes;
