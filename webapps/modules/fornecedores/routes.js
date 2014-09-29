@@ -2,11 +2,11 @@
 
 
 
-var gruposApp = angular.module('grupos');
+var fornecedoresApp = angular.module('fornecedores');
 
-gruposApp.config(function($stateProvider, $urlRouterProvider) {
+fornecedoresApp.config(function($stateProvider, $urlRouterProvider) {
     
-  var moduleName = gruposApp.name;
+  var moduleName = fornecedoresApp.name;
   var modulePath = ApplicationConfiguration.modulesPath + '/' + moduleName;
   var pagesPath = modulePath + '/pages';
 

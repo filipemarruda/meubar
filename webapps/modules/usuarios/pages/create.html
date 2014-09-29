@@ -1,11 +1,11 @@
-<section data-ng-controller="UsuarioCtrl">
+<section>
 	<div class="col-md-4">
 		<form name="moduleForm" class="form-horizontal" data-ng-submit="create()" novalidate>
 			<fieldset>
 				<div class="form-group" ng-class="{ 'has-error': moduleForm.grupoId.$error.required }">
 					<label class="control-label" for="grupoId">Grupo</label>
 					<div class="controls">
-						<select data-ng-model="grupoId" name="grupoId" id="grupoId" class="form-control" ng-options="value.id as value.nome for (key, value) in grupos" required></select>
+						<select data-ng-model="grupoId" name="grupoId" id="grupoId" class="form-control" ng-options="value.id as value.nome for (key, value) in grupos | orderBy:'nome'" required></select>
 					</div>
 				</div>
 				<div class="form-group" ng-class="{ 'has-error': moduleForm.nome.$error.required || moduleForm.nome.$error.minlength || moduleForm.nome.$error.maxlength}">

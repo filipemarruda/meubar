@@ -5,6 +5,8 @@
             <tr>
                 <td>#</td>
                 <td>Nome</td>
+                <td>CNPJ</td>
+                <td>Estado</td>
                 <td>Ultima modifica&ccedil;&atilde;o</td>
                 <td>Respons&aacute;vel</td>
                 <td>A&ccedil;&atilde;s</td>
@@ -14,6 +16,8 @@
             <tr ng-repeat="item in itens">
                 <td>{{item.id}}</td>
                 <td>{{item.nome}}</td>
+                <td>{{item.cnpj}}</td>
+                <td>{{item.uf}}</td>
                 <td>{{item.dataModificacao}}</td>
                 <td>{{item.usuarioModificacao}}</td>
                 <td>

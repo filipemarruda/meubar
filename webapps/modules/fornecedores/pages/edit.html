@@ -1,0 +1,76 @@
+<section data-ng-init="findOne()">
+	<div class="col-md-4">
+		<form name="moduleForm" class="form-horizontal" data-ng-submit="update()" novalidate>
+			<fieldset>
+			
+				<div class="form-group" is-disabled="true">
+					<label class="control-label" for="id">Id</label>
+					<div class="controls">
+						<input name="id" type="text" data-ng-model="item.id" id="id" class="form-control" ng-required="true" disabled="true" >
+					</div>
+				</div>
+
+				<div class="form-group" ng-class="{ 'has-error': moduleForm.nome.$error.required || moduleForm.nome.$error.minlength || moduleForm.nome.$error.maxlength}">
+					<label class="control-label" for="nome">Nome</label>
+					<div class="controls">
+						<input name="nome" type="text" data-ng-model="item.nome" id="nome" class="form-control" required ng-minlength="5" ng-maxlength="255" >
+					</div>
+					<p ng-show="moduleForm.nome.$error.minlength" class="help-block">O nome do fornecedor &eacute; muito curto.</p>
+					<p ng-show="moduleForm.nome.$error.maxlength" class="help-block">O nome do fornecedor &eacute; muito longo.</p>
+				</div>
+				
+				<div class="form-group" ng-class="{ 'has-error': moduleForm.cnpj.$error.pattern || moduleForm.cnpj.$error.required }">
+					<label class="control-label" for="cnpj">CNPJ</label>
+					<div class="controls">
+						<input name="cnpj" type="text" data-ng-model="item.cnpj" id="cnpj" class="form-control" maxlength="14" required  ng-pattern="/^[0-9]{14}$/i">
+					</div>
+					<p ng-show="moduleForm.cnpj.$error.pattern" class="help-block">O CNPJ &eacute; composto de 14 digitos.</p>
+				</div>
+					
+				<div class="form-group" ng-class="{ 'has-error': moduleForm.estadoId.$error.required }">
+					<label class="control-label" for="grupoId">Estado</label>
+					<div class="controls">
+						<select data-ng-model="item.estadoId" name="estadoId" id="estadoId" class="form-control" ng-options="value.id as value.nome for (key, value) in estados | orderBy:'uf'" required></select>
+					</div>
+				</div>
+
+				<div class="form-group" ng-class="{ 'has-error': moduleForm.cidade.$error.required }">
+					<label class="control-label" for="cidade">Cidade</label>
+					<div class="controls">
+						<input name="cidade" type="text" data-ng-model="item.cidade" id="cidade" class="form-control" maxlength="255" required >
+					</div>
+				</div>
+				
+				<div class="form-group" ng-class="{ 'has-error': moduleForm.endereco.$error.required}">
+					<label class="control-label" for="senha">Endereco</label>
+					<div class="controls">
+						<input name="endereco" type="text" data-ng-model="item.endereco" id="endereco" class="form-control" maxlength="255" required>
+					</div>
+				</div>
+				
+				<div class="form-group" ng-class="{ 'has-error': moduleForm.telefone.$error.pattern || moduleForm.telefone.$error.required }">
+					<label class="control-label" for="telefone">Telefone</label>
+					<div class="controls">
+						<input name="telefone" type="text" data-ng-model="item.telefone" id="telefone" class="form-control" maxlength="15" required ng-pattern="/^(\+?)[0-9]*$/i">
+					</div>
+					<p ng-show="moduleForm.telefone.$error.pattern" class="help-block">O telefone pode come&ccedil;ar com caracter "+", seguido de n&uacute;meros.</p>
+				</div>
+				
+				<div class="form-group">
+					<strong ng-show="moduleForm.nome.$error.required || moduleForm.cnpj.$error.required || moduleForm.estadoId.$error.required || moduleForm.cidade.$error.required || moduleForm.endereco.$error.required || moduleForm.telefone.$error.required" ng-class="{ 'text-danger': moduleForm.nome.$error.required || moduleForm.cnpj.$error.required || moduleForm.estadoId.$error.required || moduleForm.cidade.$error.required || moduleForm.endereco.$error.required || moduleForm.telefone.$error.required}">
+						Preencha os campos obrigat&oacute;rios.
+					</strong>
+				</div>
+				
+				<div class="form-group">
+					<input type="submit" class="btn btn-default" ng-disabled="moduleForm.$invalid">
+				</div>
+				
+				<div data-ng-show="error" class="text-danger">
+					<strong data-ng-bind="error">{{error}}</strong>
+				</div>
+				
+			</fieldset>
+		</form>
+	</div>
+</section>

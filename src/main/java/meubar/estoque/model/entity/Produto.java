@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import meubar.core.model.entity.Unidade;
 import meubar.model.entity.BaseEntity;
 
 @Entity
@@ -29,6 +30,9 @@ public class Produto implements BaseEntity<Long> {
 	@ManyToOne
 	@JoinColumn(name = "categoria_id", referencedColumnName = "id")
 	private Categoria categoria;
+	@ManyToOne
+	@JoinColumn(name = "unidade_id", referencedColumnName = "id")
+	private Unidade unidade;
 
 	@Column(name = "data_criacao")
 	private Date dataCriacao;
@@ -107,6 +111,14 @@ public class Produto implements BaseEntity<Long> {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public Unidade getUnidade() {
+		return unidade;
+	}
+
+	public void setUnidade(Unidade unidade) {
+		this.unidade = unidade;
 	}
 
 }

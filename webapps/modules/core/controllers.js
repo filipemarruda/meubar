@@ -5,6 +5,7 @@ coreApp.controller('CoreCtrl', ['$rootScope', '$cookies', '$stateParams', '$loca
 		console.log("in controller of module: " + coreApp.name);
 		
 		$rootScope.moduleName = coreApp.name;
+		$rootScope.moduleHeader = $rootScope.moduleName.charAt(0).toUpperCase() + $rootScope.moduleName.slice(1);
 		
 		function logout() {
 			

@@ -33,5 +33,5 @@ usuariosApp.config(function($stateProvider, $urlRouterProvider) {
     .state( moduleName + '.edit', {
         url: '/edit/:id',
         templateUrl: pagesPath + '/edit.html'
-    })
+    });
 });

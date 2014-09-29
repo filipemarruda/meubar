@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import meubar.cadastro.model.entity.Usuario;
+import meubar.core.model.entity.Unidade;
 import meubar.estoque.dao.ProdutoDAO;
 import meubar.estoque.json.pojo.ProdutoJson;
 import meubar.estoque.model.entity.Categoria;
@@ -26,6 +27,7 @@ public class ServicoProduto extends ServicoBase<ProdutoDAO, Produto, ProdutoJson
 	protected Produto fillUpdatableFields(Produto item, ProdutoJson itemJson) {
 		item.setNome(itemJson.getNome());
 		item.setCategoria(new Categoria(itemJson.getCategoriaId()));
+		item.setUnidade(new Unidade(itemJson.getUnidadeId()));
 
 		item.setDataModificacao(new Date());
 		item.setUsuarioIdModificacao(itemJson.getUsuarioId());
@@ -37,6 +39,7 @@ public class ServicoProduto extends ServicoBase<ProdutoDAO, Produto, ProdutoJson
 		Produto item = new Produto();
 		item.setNome(itemJson.getNome());
 		item.setCategoria(new Categoria(itemJson.getCategoriaId()));
+		item.setUnidade(new Unidade(itemJson.getUnidadeId()));
 		item.setDataCriacao(new Date());
 		item.setDataModificacao(new Date());
 		item.setUsuarioIdCriacao(itemJson.getUsuarioId());
@@ -52,6 +55,8 @@ public class ServicoProduto extends ServicoBase<ProdutoDAO, Produto, ProdutoJson
 		itemJson.setNome(item.getNome());
 		itemJson.setCategoria(item.getCategoria().getNome());
 		itemJson.setCategoriaId(item.getCategoria().getId());
+		itemJson.setUnidade(item.getUnidade().getSigla());
+		itemJson.setUnidadeId(item.getUnidade().getId());
 		itemJson.setDataCriacao(item.getDataCriacao());
 		itemJson.setDataModificacao(item.getDataModificacao());
 		Usuario usuarioCriacao = getUsuarioDAO().findById(item

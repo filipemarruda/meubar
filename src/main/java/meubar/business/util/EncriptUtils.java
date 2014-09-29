@@ -18,12 +18,20 @@ import org.apache.commons.codec.binary.Base64;
 
 public class EncriptUtils {
 
-	private static SecretKey key;
 
 	private static String algorithm = "DES";
 	private static String encryptMode = "DES/ECB/PKCS7Padding";
 	private static Cipher encryptCipher;
 	private static Cipher decryptCipher;
+	private static SecretKey key;
+
+	static {
+		try {
+			key = KeyGenerator.getInstance(algorithm).generateKey();
+		} catch (NoSuchAlgorithmException e) {
+			key = null;
+		}
+	}
 
 	public static String encrypt(String strToEncrypt)
 			throws UnsupportedEncodingException, NoSuchAlgorithmException,
@@ -75,11 +83,7 @@ public class EncriptUtils {
 		return decryptCipher;
 	}
 
-	private static SecretKey getSecretKey() throws NoSuchAlgorithmException,
-			InvalidKeyException, InvalidKeySpecException {
-		if (key == null) {
-			key = KeyGenerator.getInstance(algorithm).generateKey();
-		}
+	private static SecretKey getSecretKey() {
 		return key;
 	}
 }

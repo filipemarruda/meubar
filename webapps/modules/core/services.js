@@ -24,3 +24,64 @@ coreApp.factory('Core', ['$resource', '$cookies',
 	    );
  	}
  ]);
+
+coreApp.factory('Estado', ['$resource',
+ 	function($resource){
+	    return $resource(
+	    	'http://localhost:8080/meubar/api/core/estados/:id',
+	    	{id : '@id'},
+	    	{
+	      		'query': {
+		      		method:'GET', 
+	      			isArray:true
+	      		},
+	      		'get': {
+		      		method:'GET', 
+	      			isArray:false
+	      		},
+	      		'save': {
+		      		method:'POST', 
+	      			isArray:false
+	      		},
+	      		'delete': {
+		      		method:'DELETE', 
+	      			isArray:false
+	      		},
+	      		'update': {
+		      		method:'PUT', 
+	      			isArray:false
+	      		},
+	    	}
+	    );
+ 	}
+ ]);
+coreApp.factory('Unidade', ['$resource',
+	function($resource){
+    return $resource(
+    	'http://localhost:8080/meubar/api/core/unidades/:id',
+    	{id : '@id'},
+    	{
+      		'query': {
+	      		method:'GET', 
+      			isArray:true
+      		},
+      		'get': {
+	      		method:'GET', 
+      			isArray:false
+      		},
+      		'save': {
+	      		method:'POST', 
+      			isArray:false
+      		},
+      		'delete': {
+	      		method:'DELETE', 
+      			isArray:false
+      		},
+      		'update': {
+	      		method:'PUT', 
+      			isArray:false
+      		},
+    	}
+    );
+	}
+]);

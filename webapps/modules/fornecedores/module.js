@@ -1,13 +1,13 @@
 'use strict';
 
-var moduleName = 'usuarios';
+var moduleName = 'fornecedores';
 var path = ApplicationConfiguration.modulesPath + '/' + moduleName;
 
 ApplicationConfiguration.registerMenu({
-	nome: 'usuarios',
+	nome: 'fornecedores',
 	url: moduleName + '.list',
-	classe: 'fa fa-fw fa-user',
-	label: 'Usuarios',
+	classe: 'fa fa-fw fa-truck',
+	label: 'Fornecedores',
 	permissoes: ['Administrador']
 });
 

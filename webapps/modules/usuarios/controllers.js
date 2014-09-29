@@ -4,6 +4,7 @@ usuariosApp.controller('UsuarioCtrl', ['$scope', '$cookies', '$stateParams', '$r
 	function($scope, $cookies, $stateParams, $rootScope , $location, Model, Grupo) {
 
 		$scope.moduleName = usuariosApp.name;
+		$scope.moduleHeader = $scope.moduleName.charAt(0).toUpperCase() + $scope.moduleName.slice(1);
 		
 		$scope.grupos = Grupo.query(
 			{},

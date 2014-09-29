@@ -1,11 +1,22 @@
 'use strict';
 
-gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$rootScope', '$location', 'Grupo',
-	function($scope, $cookies, $stateParams, $rootScope , $location, Model) {
+fornecedoresApp.controller('FornecedorCtrl', ['$scope', '$cookies', '$stateParams', '$rootScope', '$location', 'Fornecedor', 'Estado',
+	function($scope, $cookies, $stateParams, $rootScope , $location, Model, Estado) {
 
-		$scope.moduleName = gruposApp.name;
+		$scope.moduleName = fornecedoresApp.name;
 		$scope.moduleHeader = $scope.moduleName.charAt(0).toUpperCase() + $scope.moduleName.slice(1);
-
+		
+		$scope.estados = Estado.query(
+			{},
+			function(response, headers){
+				$cookies.auth_token = headers('auth_token');
+			},
+			function(error){
+				$rootScope.errorHandle(error.status);
+			}
+		);
+		
+		
 		$scope.find = function(){
 			$scope.itens = Model.query(
 				{},
@@ -19,6 +30,7 @@ gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$rootS
 		};
 
 		$scope.findOne = function(){
+			
 			$scope.item = Model.get(
 				{id: $stateParams.id},
 				function(response, headers){
@@ -32,7 +44,12 @@ gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$rootS
 
 		$scope.create = function() {
 			var item = new Model({
-				nome: this.nome
+				nome: this.nome,
+				cnpj: this.cnpj,
+				estadoId: this.estadoId,
+				cidade: this.cidade,
+				endereco: this.endereco,
+				telefone: this.telefone
 			});
 			item.$save(
 				function(response, headers) {
