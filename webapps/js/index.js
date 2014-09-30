@@ -10,13 +10,14 @@ meuBar.controller('AppCtrl',['$scope','$location','$http', '$cookies',
 		app.scope = $scope;
 		app.cookies = $cookies;
 
-//		if(!!app.cookies.auth_token == true && !!app.cookies.user == true){
-			delete app.cookies.auth_token;
-			delete app.cookies.user;
-//		}else{
+		if(!!app.cookies.auth_token == true && !!app.cookies.user == true){
+//			delete app.cookies.auth_token;
+//			delete app.cookies.user;
+			window.location = main_page;
+		}else{
 			app.scope.user = '';
 			app.scope.pass = '';	
-//		}
+		}
 		
 		$scope.access = function() {
 			app.scope.error = false;
@@ -44,7 +45,7 @@ meuBar.controller('AppCtrl',['$scope','$location','$http', '$cookies',
 	    	});
 
 
-	    }
+	    };
 
 	}
 ]);

@@ -30,18 +30,36 @@ public class MeuBarRequestFilter implements ContainerRequestFilter {
 
 			Map<String, Cookie> cookies = requestCtx.getCookies();
 			Cookie authCookie = cookies.get(TokenUtils.AUTH_TOKEN);
-			String token = authCookie.getValue();
-			try {
-				TokenUtils.isValidToken(token);
-				String login = TokenUtils.extractUser(token);
-				String grupo = TokenUtils.extractGrupo(token);
-				requestCtx.setProperty("login", login);
-				requestCtx.setProperty("grupo", grupo);
-			} catch (LoginException e) {
-				System.out.println("Token Negado:" + token);
-				requestCtx.abortWith(Response.status(Response.Status.FORBIDDEN).build());
+			boolean notAuth = false;
 
+			if (authCookie == null) {
+
+				notAuth = true;
+
+			} else {
+
+				String token = authCookie.getValue();
+
+				try {
+
+					TokenUtils.isValidToken(token);
+					String login = TokenUtils.extractUser(token);
+					String grupo = TokenUtils.extractGrupo(token);
+					requestCtx.setProperty("login", login);
+					requestCtx.setProperty("grupo", grupo);
+
+				} catch (LoginException e) {
+
+					System.out.println("Token Negado:" + token);
+					notAuth = true;
+
+				}
 			}
+
+			if (notAuth) {
+				requestCtx.abortWith(Response.status(Response.Status.FORBIDDEN).build());
+			}
+
 		}
 	}
 }
