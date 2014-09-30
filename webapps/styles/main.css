@@ -112,3 +112,12 @@ body {
 	font-size: 24em;
 	
 }
+.row{
+	margin-top: 8px;
+}
+.itensPorPagina{
+	margin-left: 4px;
+}
+.tableListFilter{
+	padding-left: 0px;
+}

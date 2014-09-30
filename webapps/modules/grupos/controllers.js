@@ -1,15 +1,40 @@
 'use strict';
 
-gruposApp.controller('GrupoCtrl', ['$scope', '$cookies', '$stateParams', '$rootScope', '$location', 'Grupo',
-	function($scope, $cookies, $stateParams, $rootScope , $location, Model) {
+gruposApp.controller('GrupoCtrl', ['$filter','$scope', '$cookies', '$stateParams', '$rootScope', '$location', 'Grupo',
+	function($filter, $scope, $cookies, $stateParams, $rootScope , $location, Model) {
 
 		$scope.moduleName = gruposApp.name;
 		$scope.moduleHeader = $scope.moduleName.charAt(0).toUpperCase() + $scope.moduleName.slice(1);
-
+		
+		// pagination
+		$scope.currentPage = 1;
+		$scope.maxSize = 10;
+		$scope.itensPerPage = 5;
+		$scope.bigTotalItems = 100;
+		$scope.bigCurrentPage = 1;
+		
+		$scope.setPage = function(pageNo) {
+			$scope.currentPage = pageNo;
+		};
+		
+		// filter
+		$scope.filter = function(itens, search) {
+			$scope.filteredItems = $filter('filter')(itens, search);
+			$scope.totalItems = $scope.filteredItems.length;
+		};
+		
+		// order
+		$scope.sortBy = function(predicate) {
+			$scope.predicate = predicate;
+			$scope.reverse = !$scope.reverse;
+		};
+		
 		$scope.find = function(){
 			$scope.itens = Model.query(
 				{},
 				function(response, headers){
+					$scope.filteredItems = response;
+					$scope.totalItems = response.length;
 					$cookies.auth_token = headers('auth_token');
 				},
 				function(error){

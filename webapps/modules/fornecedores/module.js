@@ -14,5 +14,6 @@ ApplicationConfiguration.registerMenu({
 
 ApplicationConfiguration.includeFile(path + '/routes.js');
 ApplicationConfiguration.includeFile(path + '/services.js');
+ApplicationConfiguration.includeFile(path + '/filters.js');
 ApplicationConfiguration.includeFile(path + '/controllers.js');
 ApplicationConfiguration.registerModule(moduleName);

@@ -21,7 +21,7 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA meubar
 --------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TYPE meubar.status_usuario AS ENUM ('A', 'I');
 CREATE TYPE meubar.status_conta AS ENUM ('A', 'F', 'P');
-CREATE TYPE meubar.status_pedido AS ENUM ('P','C', 'E');
+CREATE TYPE meubar.status_pedido AS ENUM ('S','P', 'E');
 --------------------------------------------------------------------------------------------------------------------------------------------
 -- *****************************************************************************************************************************************
 -- *****************************************************************************************************************************************
@@ -550,7 +550,7 @@ CREATE TABLE meubar.pedido
   conta_id integer,
   cardapio_item_id integer,
   preco numeric(8, 2) NOT NULL,
-  status meubar.status_pedido NOT NULL DEFAULT 'P',
+  status meubar.status_pedido NOT NULL DEFAULT 'S',
   data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp,
   data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
   usuario_id_criacao integer NOT NULL DEFAULT 1, 
