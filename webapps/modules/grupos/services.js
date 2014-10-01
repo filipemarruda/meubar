@@ -3,7 +3,7 @@
 gruposApp.factory('Grupo', ['$resource',
  	function($resource){
 	    return $resource(
-	    	'http://localhost:8080/meubar/api/' + gruposApp.name + '/:id',
+	    	'/meubar/api/' + gruposApp.name + '/:id',
 	    	{id : '@id'},
 	    	{
 	      		'query': {

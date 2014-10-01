@@ -20,11 +20,11 @@ var ApplicationConfiguration = (function() {
 
 	var includeFile = function(file){
 		document.write(unescape('%3Cscript src="' + file + '"%3E%3C/script%3E'));
-	}
+	};
 
 	var registerMenu = function(menu){
 		menus.push(menu);
-	}
+	};
 	return {
 		menus: menus,
 		contextPath: contextPath,
@@ -36,3 +36,18 @@ var ApplicationConfiguration = (function() {
 		registerMenu: registerMenu
 	};
 })();
+
+var ModuleConfig = (function(name){
+	var name = name;
+	var path = ApplicationConfiguration.modulesPath + '/' + name;
+	var header = name.charAt(0).toUpperCase() + name.slice(1);
+	var pagesPath = path + '/pages';
+	return {
+		name : name,
+		path : path,
+		header : header,
+		pagesPath : pagesPath
+		
+	};
+	
+});

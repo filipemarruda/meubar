@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import meubar.business.util.TokenUtils;
@@ -34,5 +35,6 @@ public class MeuBarResponseFilter implements ContainerResponseFilter {
 		rH.add("Access-Control-Allow-Headers", TokenUtils.AUTH_TOKEN + ", "
 				+ X_REQUESTED_HEADER + ", " + CONTENT_TYPE);
 		rH.add("Access-Control-Expose-Headers", TokenUtils.AUTH_TOKEN);
+		rH.add(CONTENT_TYPE, MediaType.APPLICATION_JSON + "; charset=UTF-8");
 	}
 }

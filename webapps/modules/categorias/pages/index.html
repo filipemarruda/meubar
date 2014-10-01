@@ -1,0 +1,9 @@
+<section data-ng-controller="CategoriaCtrl">
+<h1 class="page-header">{{moduleHeader}}</h1>
+	<a ng-class="getModuleMenuClass('list')" ui-sref=".list" class="btn btn-default">Lista</a>
+	<a ng-class="getModuleMenuClass('create')" ui-sref=".create" class="btn btn-default">Novo</a>
+
+<p></p>
+
+<div ui-view></div>
+</section>

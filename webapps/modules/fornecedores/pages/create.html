@@ -23,7 +23,7 @@
 				<div class="form-group" ng-class="{ 'has-error': moduleForm.estadoId.$error.required }">
 					<label class="control-label" for="estadoId">Estado</label>
 					<div class="controls">
-						<select data-ng-model="estadoId" name="estadoId" id="estadoId" class="form-control" ng-options="i.id as i.nome for i in estados|orderBy:'uf'" required></select>
+						<select data-ng-model="estadoId" name="estadoId" id="estadoId" class="form-control" ng-options="estado.id as estado.nome for estado in estados|orderBy:'uf'" required></select>
 					</div>
 				</div>
 

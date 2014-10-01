@@ -3,8 +3,8 @@
 fornecedoresApp.controller('FornecedorCtrl', ['$filter','$scope', '$cookies', '$stateParams', '$rootScope', '$location', 'Fornecedor', 'Estado',
 	function($filter, $scope, $cookies, $stateParams, $rootScope , $location, Model, Estado) {
 
-		$scope.moduleName = fornecedoresApp.name;
-		$scope.moduleHeader = $scope.moduleName.charAt(0).toUpperCase() + $scope.moduleName.slice(1);
+		$scope.moduleConfig = new ModuleConfig(fornecedoresApp.name);
+		$rootScope.moduleHeader = $scope.moduleConfig.header;
 		
 		// pagination
 		$scope.currentPage = 1;
@@ -79,7 +79,7 @@ fornecedoresApp.controller('FornecedorCtrl', ['$filter','$scope', '$cookies', '$
 			item.$save(
 				function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
-					$location.path( $scope.moduleName + '/list' );
+					$location.path( $scope.moduleConfig.name + '/list' );
 				},
 				function(error){
 					$rootScope.errorHandle(error.status);
@@ -92,36 +92,36 @@ fornecedoresApp.controller('FornecedorCtrl', ['$filter','$scope', '$cookies', '$
 			item.$update(
 				function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
-					$location.path( $scope.moduleName + '/list' );
+					$location.path( $scope.moduleConfig.name + '/list' );
 				}, function(error) {
 					$rootScope.errorHandle(error.status);
 				}
 			);
 		};
 		
-		$scope.remove = function(id) {
-			if (id) {
-				var item = new Model({
-					id: id
-				});
-				item.$remove(function(response, headers) {
-					$cookies.auth_token = headers('auth_token');
-				}, function(error) {
-					$rootScope.errorHandle(error.status);
-				});
-
-				for (var i in $scope.itens) {
-					if ($scope.itens[i].id === item.id) {
-						$scope.itens.splice(i, 1);
-					}
+		$scope.remove = function(item) {
+			if (item) {
+				if(Utils.showConfirmDialog('Deseja realmente escluir o fornecedor "' + item.nome + '"?')){
+					var i = new Model({
+						id: item.id
+					});
+					
+					i.$remove(function(response, headers) {
+						
+						for (var i in $scope.itens) {
+							if ($scope.itens[i].id === item.id) {
+								$scope.itens.splice(i, 1);
+							}
+						}
+						
+						$cookies.auth_token = headers('auth_token');
+						
+					}, function(error) {
+						$rootScope.errorHandle(error.status);
+					});
+					
 				}
-			} else {
-				$scope.item.$remove(function(response, headers) {
-					$cookies.auth_token = headers('auth_token');
-					$location.path( $scope.moduleName + '/list' );
-				}, function(error) {
-					$rootScope.errorHandle(error.status);
-				});
+				$location.path( $scope.moduleConfig.name + '/list' );		
 			}
 		};
 	}]

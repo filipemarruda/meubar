@@ -1,0 +1,30 @@
+<section>
+	<div class="col-md-4">
+		<form name="moduleForm" class="form-horizontal" data-ng-submit="create()" novalidate>
+			<fieldset>
+				<div class="form-group" ng-class="{ 'has-error': moduleForm.nome.$error.minlength || moduleForm.nome.$error.maxlength || moduleForm.nome.$error.required }">
+					<label class="control-label" for="nome">Nome</label>
+					<div class="controls">
+						<input name="nome" type="text" data-ng-model="nome" id="nome" class="form-control" required ng-minlength="5" ng-maxlength="20">
+					</div>
+					<p ng-show="moduleForm.nome.$error.minlength" class="help-block">O nome da categoria &eacute; muito curto.</p>
+					<p ng-show="moduleForm.nome.$error.maxlength" class="help-block">O nome da categoria &eacute; muito longo.</p>
+				</div>
+				
+				<div class="form-group">
+					<strong ng-show="moduleForm.nome.$error.required" ng-class="{ 'text-danger': moduleForm.nome.$error.required }">
+						Preencha os campos obrigat&oacute;rios.
+					</strong>
+				</div>
+				
+				<div class="form-group">
+					<input type="submit" class="btn btn-default" ng-disabled="moduleForm.$invalid">
+				</div>
+				
+				<div data-ng-show="error" class="text-danger">
+					<strong data-ng-bind="error">{{error}}</strong>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</section>

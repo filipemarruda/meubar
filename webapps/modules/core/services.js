@@ -3,7 +3,7 @@
 coreApp.factory('Core', ['$resource', '$cookies',
  	function($resource, $cookies){
 	    return $resource(
-	    	'http://localhost:8080/meubar/api/acesso',
+	    	'/meubar/api/acesso',
 	    	{},
 	    	{
 	      		query: {
@@ -28,7 +28,7 @@ coreApp.factory('Core', ['$resource', '$cookies',
 coreApp.factory('Estado', ['$resource',
  	function($resource){
 	    return $resource(
-	    	'http://localhost:8080/meubar/api/core/estados/:id',
+	    	'/meubar/api/core/estados/:id',
 	    	{id : '@id'},
 	    	{
 	      		'query': {
@@ -58,7 +58,7 @@ coreApp.factory('Estado', ['$resource',
 coreApp.factory('Unidade', ['$resource',
 	function($resource){
     return $resource(
-    	'http://localhost:8080/meubar/api/core/unidades/:id',
+    	'/meubar/api/core/unidades/:id',
     	{id : '@id'},
     	{
       		'query': {

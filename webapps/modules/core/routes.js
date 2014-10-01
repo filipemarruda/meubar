@@ -6,22 +6,20 @@ var coreApp = angular.module('core');
 
 coreApp.config(function($stateProvider, $urlRouterProvider) {
     
-  var moduleName = coreApp.name;
-  var modulePath = ApplicationConfiguration.modulesPath + '/' + moduleName;
-  var pagesPath = modulePath + '/pages';
+	var moduleConfig = new ModuleConfig(coreApp.name);
 
-    $urlRouterProvider.otherwise('/' + moduleName);
+    $urlRouterProvider.otherwise('/' + moduleConfig.name);
     
     $stateProvider
 
   // HOME STATES AND NESTED VIEWS ========================================
-    .state( moduleName , {
-        url: '/' + moduleName,
-        templateUrl: pagesPath + '/dashboard.html'
+    .state( moduleConfig.name , {
+        url: '/' + moduleConfig.name,
+        templateUrl: moduleConfig.pagesPath + '/dashboard.html'
     })
     .state( 'proibido' , {
         url: '/401',
-        templateUrl: pagesPath + '/unauthorized.html'
+        templateUrl: moduleConfig.pagesPath + '/unauthorized.html'
     });
     
 });

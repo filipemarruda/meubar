@@ -2,11 +2,11 @@
 
 
 
-var usuariosApp = angular.module('usuarios');
+var categoriasApp = angular.module('categorias');
 
-usuariosApp.config(function($stateProvider, $urlRouterProvider) {
+categoriasApp.config(function($stateProvider, $urlRouterProvider) {
     
-	var moduleConfig = new ModuleConfig(usuariosApp.name);
+  var moduleConfig = new ModuleConfig(categoriasApp.name);
 
     $stateProvider
 

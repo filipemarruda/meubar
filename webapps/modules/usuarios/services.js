@@ -3,7 +3,7 @@
 usuariosApp.factory('Usuario', ['$resource',
  	function($resource){
 	    return $resource(
-	    	'http://localhost:8080/meubar/api/' + usuariosApp.name + '/:id',
+	    	'/meubar/api/' + usuariosApp.name + '/:id',
 	    	{id : '@id'},
 	    	{
 	      		'query': {

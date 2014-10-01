@@ -1,10 +1,10 @@
 'use strict';
 
-usuariosApp.controller('UsuarioCtrl', ['$filter','$scope', '$cookies', '$stateParams', '$rootScope', '$location', 'Usuario', 'Grupo',
-	function($filter, $scope, $cookies, $stateParams, $rootScope , $location, Model, Grupo) {
+categoriasApp.controller('CategoriaCtrl', ['$filter','$scope', '$cookies', '$stateParams', '$rootScope', '$location', 'Categoria',
+	function($filter, $scope, $cookies, $stateParams, $rootScope , $location, Model) {
 
-		$scope.moduleConfig = new ModuleConfig(usuariosApp.name);
-		$rootScope.moduleHeader = $scope.moduleConfig.header;
+		$scope.moduleConfig = new ModuleConfig(categoriasApp.name);
+		$scope.moduleHeader = $scope.moduleConfig.header;
 		
 		// pagination
 		$scope.currentPage = 1;
@@ -29,17 +29,6 @@ usuariosApp.controller('UsuarioCtrl', ['$filter','$scope', '$cookies', '$statePa
 			$scope.reverse = !$scope.reverse;
 		};
 		
-		$scope.grupos = Grupo.query(
-			{},
-			function(response, headers){
-				$cookies.auth_token = headers('auth_token');
-			},
-			function(error){
-				$rootScope.errorHandle(error.status);
-			}
-		);
-		
-		
 		$scope.find = function(){
 			$scope.itens = Model.query(
 				{},
@@ -55,7 +44,6 @@ usuariosApp.controller('UsuarioCtrl', ['$filter','$scope', '$cookies', '$statePa
 		};
 
 		$scope.findOne = function(){
-			
 			$scope.item = Model.get(
 				{id: $stateParams.id},
 				function(response, headers){
@@ -69,15 +57,8 @@ usuariosApp.controller('UsuarioCtrl', ['$filter','$scope', '$cookies', '$statePa
 
 		$scope.create = function() {
 			var item = new Model({
-				login: this.login,
-				nome: this.nome,
-				cpf: this.cpf,
-				telefone: this.telefone,
-				grupoId: this.grupoId
+				nome: this.nome
 			});
-			if(!!this.senha == true){
-				item.senha = md5(this.senha);
-			}
 			item.$save(
 				function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
@@ -91,9 +72,6 @@ usuariosApp.controller('UsuarioCtrl', ['$filter','$scope', '$cookies', '$statePa
 
 		$scope.update = function() {
 			var item = $scope.item;
-			if(!!item.senha){
-				item.senha = md5($scope.item.senha);
-			}
 			item.$update(
 				function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
@@ -106,7 +84,7 @@ usuariosApp.controller('UsuarioCtrl', ['$filter','$scope', '$cookies', '$statePa
 		
 		$scope.remove = function(item) {
 			if (item) {
-				if(Utils.showConfirmDialog('Deseja realmente escluir o usuário "' + item.nome + '"?')){
+				if(Utils.showConfirmDialog('Deseja realmente escluir a categoria "' + item.nome + '"?')){
 					var i = new Model({
 						id: item.id
 					});
@@ -126,7 +104,7 @@ usuariosApp.controller('UsuarioCtrl', ['$filter','$scope', '$cookies', '$statePa
 					});
 					
 				}
-				$location.path( $scope.moduleConfig.name + '/list' );		
+				$location.path( $scope.moduleConfig.name + '/list' );
 			}
 		};
 	}]

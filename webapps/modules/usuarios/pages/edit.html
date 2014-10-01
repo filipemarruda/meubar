@@ -13,7 +13,7 @@
 				<div class="form-group" ng-class="{ 'has-error': moduleForm.grupoId.$error.required }">
 					<label class="control-label" for="grupoId">Grupo</label>
 					<div class="controls">
-						<select data-ng-model="item.grupoId" name="grupoId" id="grupoId" class="form-control" ng-options="value.id as value.nome for (key, value) in grupos | orderBy:'nome'" required></select>
+						<select data-ng-model="item.grupoId" name="grupoId" id="grupoId" class="form-control" ng-options="grupo.id as grupo.nome for grupo in grupos | orderBy:'nome'" required></select>
 					</div>
 				</div>
 				

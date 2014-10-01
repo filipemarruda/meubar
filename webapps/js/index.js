@@ -24,7 +24,7 @@ meuBar.controller('AppCtrl',['$scope','$location','$http', '$cookies',
 			console.log('Trying to acess.');
 			app.http.defaults.headers.post = { 'Content-Type' : 'application/json' };
 			app.http.post(
-				'http://localhost:8080/meubar/api/acesso',
+				'/meubar/api/acesso',
 				{
 					user: app.scope.user,
 					pass: md5(app.scope.pass)

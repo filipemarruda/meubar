@@ -1,9 +1,9 @@
 'use strict';
 
-fornecedoresApp.factory('Fornecedor', ['$resource',
+categoriasApp.factory('Categoria', ['$resource',
  	function($resource){
 	    return $resource(
-	    	'/meubar/api/' + fornecedoresApp.name + '/:id',
+	    	'/meubar/api/' + categoriasApp.name + '/:id',
 	    	{id : '@id'},
 	    	{
 	      		'query': {

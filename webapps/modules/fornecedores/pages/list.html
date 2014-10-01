@@ -48,9 +48,9 @@
 		                <td>{{item.dataModificacao}}</td>
 		                <td>{{item.usuarioModificacao}}</td>
 		                <td>
-		                    <a data-ng-href="#!/{{moduleName}}/view/{{item.id}}"><i class='fa fa-fw fa-folder-open-o'></i></a>
-		                    <a data-ng-href="#!/{{moduleName}}/edit/{{item.id}}"><i class='fa fa-fw fa-edit'></i></a>
-		                    <a data-ng-href="#!/{{moduleName}}/list" ng-click="remove(item.id)"><i class='fa fa-fw fa-trash-o'></i></a>
+		                    <a data-ng-href="#!/{{moduleConfig.name}}/view/{{item.id}}"><i class='fa fa-fw fa-folder-open-o'></i></a>
+		                    <a data-ng-href="#!/{{moduleConfig.name}}/edit/{{item.id}}"><i class='fa fa-fw fa-edit'></i></a>
+		                    <a data-ng-href="#!/{{moduleConfig.name}}/list" ng-click="remove(item)"><i class='fa fa-fw fa-trash-o'></i></a>
 		                </td>
 		            </tr>   
 		        </tbody>

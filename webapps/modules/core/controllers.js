@@ -4,25 +4,23 @@ coreApp.controller('CoreCtrl', ['$rootScope', '$cookies', '$stateParams', '$loca
 	function($rootScope, $cookies, $stateParams, $location, $state, Core) {
 		console.log("in controller of module: " + coreApp.name);
 		
-		$rootScope.moduleName = coreApp.name;
-		$rootScope.moduleHeader = $rootScope.moduleName.charAt(0).toUpperCase() + $rootScope.moduleName.slice(1);
-		
-		function logout() {
+		$rootScope.moduleConfig = new ModuleConfig(coreApp.name);
+		$rootScope.moduleHeader = $rootScope.moduleConfig.header;
+
+		$rootScope.logout = function() {
 			
 			var login_page = 'index.html';
 			delete $cookies.auth_token;
 			delete $cookies.user;
 			window.location = login_page;
 
-		}
-		
-		$rootScope.logout = logout;
+		};
 		
 		$rootScope.errorHandle = function(status, msg){
 			if(status === 401){
 				$state.transitionTo('proibido');
 			}else if(status === 403){
-				logout();
+				$rootScope.logout();
 			}else{
 				$rootScope.error = msg;
 			}

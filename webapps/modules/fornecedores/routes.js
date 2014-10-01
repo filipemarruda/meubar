@@ -5,33 +5,31 @@
 var fornecedoresApp = angular.module('fornecedores');
 
 fornecedoresApp.config(function($stateProvider, $urlRouterProvider) {
-    
-  var moduleName = fornecedoresApp.name;
-  var modulePath = ApplicationConfiguration.modulesPath + '/' + moduleName;
-  var pagesPath = modulePath + '/pages';
+	
+	var moduleConfig = new ModuleConfig(fornecedoresApp.name);
 
     $stateProvider
 
   // HOME STATES AND NESTED VIEWS ========================================
-    .state( moduleName , {
-        url: '/' + moduleName,
-        templateUrl: pagesPath + '/index.html'
+    .state( moduleConfig.name , {
+        url: '/' + moduleConfig.name,
+        templateUrl: moduleConfig.pagesPath + '/index.html'
     })
     // nested list with custom controller
-	 .state( moduleName + '.list', {
+	 .state( moduleConfig.name + '.list', {
         url: '/list',
-        templateUrl: pagesPath + '/list.html'
+        templateUrl: moduleConfig.pagesPath + '/list.html'
     })
-   .state( moduleName + '.create', {
+   .state( moduleConfig.name + '.create', {
         url: '/create',
-        templateUrl: pagesPath + '/create.html'
+        templateUrl: moduleConfig.pagesPath + '/create.html'
     })
-    .state( moduleName + '.view', {
+    .state( moduleConfig.name + '.view', {
         url: '/view/:id',
-        templateUrl: pagesPath + '/view.html'
+        templateUrl: moduleConfig.pagesPath + '/view.html'
     })
-    .state( moduleName + '.edit', {
+    .state( moduleConfig.name + '.edit', {
         url: '/edit/:id',
-        templateUrl: pagesPath + '/edit.html'
+        templateUrl: moduleConfig.pagesPath + '/edit.html'
     });
 });
