@@ -28,7 +28,8 @@ public class ServicoEstoqueEntrada extends ServicoBase<EstoqueEntradaDAO, Estoqu
 		item.setProduto(new Produto(itemJson.getProdutoId()));
 		item.setFornecedor(new Fornecedor(itemJson.getFornecedorId()));
 		item.setNotaFiscal(itemJson.getNotaFiscal());
-
+		item.setQuantidade(itemJson.getQuantidade());
+		item.setPreco(itemJson.getPreco());
 		item.setDataModificacao(new Date());
 		item.setUsuarioIdModificacao(itemJson.getUsuarioId());
 		return item;
@@ -40,6 +41,8 @@ public class ServicoEstoqueEntrada extends ServicoBase<EstoqueEntradaDAO, Estoqu
 		item.setProduto(new Produto(itemJson.getProdutoId()));
 		item.setFornecedor(new Fornecedor(itemJson.getFornecedorId()));
 		item.setNotaFiscal(itemJson.getNotaFiscal());
+		item.setQuantidade(itemJson.getQuantidade());
+		item.setPreco(itemJson.getPreco());
 		item.setDataCriacao(new Date());
 		item.setDataModificacao(new Date());
 		item.setUsuarioIdCriacao(itemJson.getUsuarioId());
@@ -57,6 +60,8 @@ public class ServicoEstoqueEntrada extends ServicoBase<EstoqueEntradaDAO, Estoqu
 		itemJson.setFornecedor(item.getFornecedor().getNome());
 		itemJson.setFornecedorId(item.getFornecedor().getId());
 		itemJson.setNotaFiscal(item.getNotaFiscal());
+		itemJson.setQuantidade(item.getQuantidade());
+		itemJson.setPreco(item.getPreco());
 		itemJson.setDataCriacao(item.getDataCriacao());
 		itemJson.setDataModificacao(item.getDataModificacao());
 		Usuario usuarioCriacao = getUsuarioDAO().findById(item

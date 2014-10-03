@@ -1,5 +1,6 @@
 package meubar.estoque.model.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -33,6 +34,11 @@ public class EstoqueEntrada implements BaseEntity<Long> {
 
 	@Column(name = "nota_fiscal", length = 50)
 	private String notaFiscal;
+
+	@Column(name = "quantidade", length = 7, precision = 2)
+	private BigDecimal quantidade;
+	@Column(name = "preco", length = 8, precision = 2)
+	private BigDecimal preco;
 
 	@Column(name = "data_criacao")
 	private Date dataCriacao;
@@ -114,6 +120,22 @@ public class EstoqueEntrada implements BaseEntity<Long> {
 
 	public void setNotaFiscal(String notaFiscal) {
 		this.notaFiscal = notaFiscal;
+	}
+
+	public BigDecimal getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(BigDecimal quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public BigDecimal getPreco() {
+		return preco;
+	}
+
+	public void setPreco(BigDecimal preco) {
+		this.preco = preco;
 	}
 
 }

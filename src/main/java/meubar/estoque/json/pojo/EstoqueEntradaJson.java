@@ -1,5 +1,7 @@
 package meubar.estoque.json.pojo;
 
+import java.math.BigDecimal;
+
 import meubar.json.pojo.JsonBase;
 
 public class EstoqueEntradaJson extends JsonBase {
@@ -9,6 +11,8 @@ public class EstoqueEntradaJson extends JsonBase {
 	private Long fornecedorId;
 	private Long produtoId;
 	private String notaFiscal;
+	private BigDecimal quantidade;
+	private BigDecimal preco;
 
 	public String getFornecedor() {
 		return fornecedor;
@@ -50,5 +54,20 @@ public class EstoqueEntradaJson extends JsonBase {
 		this.notaFiscal = notaFiscal;
 	}
 
+	public BigDecimal getPreco() {
+		return preco;
+	}
+
+	public void setPreco(BigDecimal preco) {
+		this.preco = preco;
+	}
+
+	public void setQuantidade(BigDecimal quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public BigDecimal getQuantidade() {
+		return quantidade;
+	}
 
 }
