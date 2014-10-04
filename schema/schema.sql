@@ -356,6 +356,124 @@ GRANT USAGE ON SEQUENCE meubar.estoque_controle_id_seq TO application;
 -- *****************************************************************************************************************************************
 -- *****************************************************************************************************************************************
 --------------------------------------------------------------------------------------------------------------------------------------------
+-- Function: meubar.updateestoque()
+-- DROP FUNCTION IF EXISTS meubar.updateestoque() CASCADE;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION meubar.updateestoque() RETURNS TRIGGER AS $entrada_estoque_update_estoque_tg$
+    DECLARE
+	actual_qtd_item numeric(8,2);
+	new_qtd_item numeric(8,2);
+	new_qtd_old_item numeric(8,2);
+	actual_qtd_old_item numeric(8,2);
+    BEGIN
+	IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
+		SELECT quantidade into actual_qtd_item
+		FROM meubar.estoque_controle
+		WHERE produto_id = new.produto_id;
+	END IF;
+
+	IF TG_OP = 'DELETE' OR TG_OP = 'UPDATE' THEN
+		SELECT quantidade into actual_qtd_old_item
+		FROM meubar.estoque_controle
+		WHERE produto_id = old.produto_id;
+	END IF;
+	
+	IF TG_OP = 'INSERT' THEN
+	  IF actual_qtd_item ISNULL THEN
+		INSERT INTO meubar.estoque_controle(produto_id, quantidade) VALUES (new.produto_id, new.quantidade);
+	  ELSE
+		new_qtd_item = actual_qtd_item + new.quantidade;
+		UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = new.produto_id;
+	  END IF;
+	ELSEIF  TG_OP = 'UPDATE'  THEN
+
+	  IF old.produto_id = new.produto_id THEN
+		IF actual_qtd_item ISNULL THEN
+			new_qtd_item = new.quantidade - old.quantidade;
+			IF new_qtd_item < 0 THEN
+				RAISE EXCEPTION 'Impossivel retirar tantos itens do item de origem<quantidade atual nao existe>';
+			ELSEIF new_qtd_item > 0 THEN
+				INSERT INTO meubar.estoque_controle(produto_id, quantidade) VALUES (new.produto_id, new_qtd_item);
+			ELSE
+				
+				DELETE FROM meubar.estoque_controle WHERE produto_id = old.produto_id;
+			END IF;
+		ELSE
+			new_qtd_item = actual_qtd_item + (new.quantidade - old.quantidade);
+			IF new_qtd_item < 0 THEN
+				RAISE EXCEPTION 'Impossivel retirar tantos itens do item de origem';
+			ELSEIF new_qtd_item > 0 THEN
+				UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = new.produto_id;
+			ELSE
+				DELETE FROM meubar.estoque_controle WHERE produto_id = old.produto_id;
+			END IF;
+		END IF;
+	  ELSE
+
+		new_qtd_old_item = actual_qtd_old_item - (new.quantidade - old.quantidade);
+		IF new_qtd_old_item < 0 THEN
+			RAISE EXCEPTION 'Impossivel retirar tantos itens do produto anterior';
+		ELSEIF new_qtd_old_item > 0 THEN
+			IF actual_qtd_item ISNULL THEN
+				INSERT INTO meubar.estoque_controle(produto_id, quantidade) VALUES (new.produto_id, new_qtd_item);
+			ELSE
+				new_qtd_item = actual_qtd_item + (new.quantidade - old.quantidade);
+				IF new_qtd_item < 0 THEN
+					RAISE EXCEPTION 'Impossivel retirar tantos itens do novo item';
+				ELSEIF new_qtd_item > 0 THEN
+					UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = new.produto_id;
+				ELSE
+					DELETE FROM meubar.estoque_controle WHERE produto_id = new.produto_id;
+				END IF;
+				
+			END IF;
+			UPDATE meubar.estoque_controle SET quantidade=new_qtd_old_item WHERE produto_id = old.produto_id;
+		ELSE
+			IF new_qtd_item < 0 THEN
+				RAISE EXCEPTION 'Impossivel retirar tantos itens do novo item';
+			ELSEIF new_qtd_item > 0 THEN
+				UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = new.produto_id;
+			ELSE
+				DELETE FROM meubar.estoque_controle WHERE produto_id = new.produto_id;
+			END IF;
+			DELETE FROM meubar.estoque_controle WHERE produto_id = old.produto_id;
+		END IF;
+		
+	  END IF;
+	  
+	ELSEIF  TG_OP = 'DELETE'  THEN
+	  IF actual_qtd_old_item ISNULL THEN
+		RAISE EXCEPTION 'Impossivel retirar tal quandidade dos itens atuais<nao existe quantidade>';
+	  ELSE
+		new_qtd_item = old.quantidade - actual_qtd_old_item;
+		IF new_qtd_item < 0 THEN
+			RAISE EXCEPTION 'Impossivel retirar tal quandidade dos itens atuais';
+		ELSEIF new_qtd_item > 0 THEN
+			UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = old.produto_id;
+		ELSE
+			DELETE FROM meubar.estoque_controle WHERE produto_id = old.produto_id;
+		END IF;
+	  END IF;
+	END IF;
+	
+	RETURN NEW;
+    END;    
+$entrada_estoque_update_estoque_tg$ LANGUAGE plpgsql;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Trigger: entrada_estoque_update_estoque_tg
+-- DROP TRIGGER IF EXISTS entrada_estoque_update_estoque_tg ON meubar.estoque_entrada CASCADE;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE CONSTRAINT 
+TRIGGER entrada_estoque_update_estoque_tg AFTER INSERT OR UPDATE OR DELETE ON meubar.estoque_entrada
+FOR EACH ROW
+EXECUTE PROCEDURE meubar.updateEstoque();
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
 -- Table: meubar.cardapio_secao
 -- DROP TABLE meubar.cardapio_secao;
 --------------------------------------------------------------------------------------------------------------------------------------------
