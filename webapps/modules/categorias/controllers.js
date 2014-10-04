@@ -84,26 +84,29 @@ categoriasApp.controller('CategoriaCtrl', ['$filter','$scope', '$cookies', '$sta
 		
 		$scope.remove = function(item) {
 			if (item) {
-				if(Utils.showConfirmDialog('Deseja realmente escluir a categoria "' + item.nome + '"?')){
-					var i = new Model({
-						id: item.id
-					});
-					
-					i.$remove(function(response, headers) {
+				Utils.showConfirmDialog('Excluir Categoria', 'Deseja realmente escluir a categoria "' + item.nome + '"?',
+					function(){
+						var i = new Model({
+							id: item.id
+						});
 						
-						for (var i in $scope.itens) {
-							if ($scope.itens[i].id === item.id) {
-								$scope.itens.splice(i, 1);
+						i.$remove(function(response, headers) {
+							
+							for (var i in $scope.itens) {
+								if ($scope.itens[i].id === item.id) {
+									$scope.itens.splice(i, 1);
+								}
 							}
-						}
-						
-						$cookies.auth_token = headers('auth_token');
-						
-					}, function(error) {
-						$rootScope.errorHandle(error.status);
-					});
-					
-				}
+							$scope.setPage(1);
+							$scope.totalItems--;
+							
+							$cookies.auth_token = headers('auth_token');
+							
+						}, function(error) {
+							$rootScope.errorHandle(error.status);
+						});
+					}
+				);
 				$location.path( $scope.moduleConfig.name + '/list' );
 			}
 		};

@@ -106,27 +106,30 @@ usuariosApp.controller('UsuarioCtrl', ['$filter','$scope', '$cookies', '$statePa
 		
 		$scope.remove = function(item) {
 			if (item) {
-				if(Utils.showConfirmDialog('Deseja realmente escluir o usuário "' + item.nome + '"?')){
-					var i = new Model({
-						id: item.id
-					});
-					
-					i.$remove(function(response, headers) {
+				Utils.showConfirmDialog('Excluir Usuário','Deseja realmente escluir o usuário "' + item.nome + '"?',
+					function(){
+						var i = new Model({
+							id: item.id
+						});
 						
-						for (var i in $scope.itens) {
-							if ($scope.itens[i].id === item.id) {
-								$scope.itens.splice(i, 1);
+						i.$remove(function(response, headers) {
+							
+							for (var i in $scope.itens) {
+								if ($scope.itens[i].id === item.id) {
+									$scope.itens.splice(i, 1);
+								}
 							}
-						}
-						
-						$cookies.auth_token = headers('auth_token');
-						
-					}, function(error) {
-						$rootScope.errorHandle(error.status);
-					});
-					
-				}
-				$location.path( $scope.moduleConfig.name + '/list' );		
+							$scope.setPage(1);
+							$scope.totalItems--;
+							
+							$cookies.auth_token = headers('auth_token');
+							
+						}, function(error) {
+							$rootScope.errorHandle(error.status);
+						});
+					}
+				);
+				$location.path( $scope.moduleConfig.name + '/list' );	
 			}
 		};
 	}]
