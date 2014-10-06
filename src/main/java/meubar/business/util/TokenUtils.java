@@ -9,7 +9,7 @@ import meubar.acesso.exceptions.LoginException;
 
 public class TokenUtils {
 
-	private static int EXPIRES_INTERVAL = 3;
+	private static int EXPIRES_INTERVAL = 10;// 'Session Time'
 	public static String AUTH_TOKEN = "auth_token";
 	private TokenUtils() {
 	}
