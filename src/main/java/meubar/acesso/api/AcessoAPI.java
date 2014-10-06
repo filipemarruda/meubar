@@ -24,28 +24,30 @@ import meubar.cadastro.model.entity.Usuario;
 import meubar.json.pojo.Messagem;
 
 import com.google.gson.Gson;
- 
 
 @Path("acesso")
 @Produces(MediaType.APPLICATION_JSON)
 public class AcessoAPI extends BaseAPIImpl {
 
-
 	@Context
-    private UriInfo context;
- 
-    public AcessoAPI() {
-    }
+	private UriInfo context;
+
+	public AcessoAPI() {
+	}
 
 	@PermitAll
 	@OPTIONS
 	public Response doOptions() {
+
 		return Response.status(Status.OK).build();
-	};
-    
+
+	}
+
 	@GET
 	public Response doGet(String token) {
+
 		return Response.status(Status.FORBIDDEN).build();
+
 	}
 
 	@GET
@@ -53,12 +55,12 @@ public class AcessoAPI extends BaseAPIImpl {
 	public Response doGet(String token, String id) {
 
 		Messagem msg = new Messagem(Messages.WRONG_FUNCTION_USE);
-    	Gson gson = new Gson();
+		Gson gson = new Gson();
 		String result = gson.toJson(msg);
 		return Response.status(Status.FORBIDDEN).entity(result).build();
 
-    }
-    
+	}
+
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -67,36 +69,37 @@ public class AcessoAPI extends BaseAPIImpl {
 		Object result;
 		Gson gson = new Gson();
 		AcessoJson acesso = gson.fromJson(json, AcessoJson.class);
-		boolean accepted = getServicoAcesso().acesso(acesso.getUser(),
-				acesso.getPass());
+		boolean accepted = getServicoAcesso().acesso(acesso.getUser(), acesso.getPass());
 
 		if (accepted) {
+
 			Usuario usuario = getServicoAcesso().findByLogin(acesso.getUser());
-			result = new TokenJson(TokenUtils.generateToken(acesso.getUser(),
-					usuario.getGrupo().getNome()),
-					Long.toString(usuario.getId()), usuario.getNome(), usuario
-							.getGrupo()
-							.getNome());
+			result = new TokenJson(TokenUtils.generateToken(acesso.getUser(), usuario.getGrupo().getNome()),
+					Long.toString(usuario.getId()), usuario.getNome(), usuario.getGrupo().getNome());
+
 		} else {
+
 			return Response.status(Status.FORBIDDEN).build();
+
 		}
 
 		String jsonReturn = gson.toJson(result);
 		return Response.status(Status.ACCEPTED).entity(jsonReturn).build();
 
-    }
+	}
 
 	@DELETE
 	public Response doDelete(String token, String id) {
+
 		return Response.status(Status.FORBIDDEN).build();
 
 	}
 
 	@PUT
 	public Response doPut(String token, String id, String json) {
+
 		return Response.status(Status.FORBIDDEN).build();
 
 	}
-
 
 }

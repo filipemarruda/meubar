@@ -391,7 +391,7 @@ CREATE OR REPLACE FUNCTION meubar.updateestoque() RETURNS TRIGGER AS $entrada_es
 		IF actual_qtd_item ISNULL THEN
 			new_qtd_item = new.quantidade - old.quantidade;
 			IF new_qtd_item < 0 THEN
-				RAISE EXCEPTION 'Impossivel retirar tantos itens do item de origem<quantidade atual nao existe>';
+				RAISE EXCEPTION '[ERR-UPEST001]Impossivel retirar tantos itens do item de origem<quantidade atual nao existe>';
 			ELSEIF new_qtd_item > 0 THEN
 				INSERT INTO meubar.estoque_controle(produto_id, quantidade) VALUES (new.produto_id, new_qtd_item);
 			ELSE
@@ -401,7 +401,7 @@ CREATE OR REPLACE FUNCTION meubar.updateestoque() RETURNS TRIGGER AS $entrada_es
 		ELSE
 			new_qtd_item = actual_qtd_item + (new.quantidade - old.quantidade);
 			IF new_qtd_item < 0 THEN
-				RAISE EXCEPTION 'Impossivel retirar tantos itens do item de origem';
+				RAISE EXCEPTION '[ERR-UPEST002]Impossivel retirar tantos itens do item de origem';
 			ELSEIF new_qtd_item > 0 THEN
 				UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = new.produto_id;
 			ELSE
@@ -412,14 +412,14 @@ CREATE OR REPLACE FUNCTION meubar.updateestoque() RETURNS TRIGGER AS $entrada_es
 
 		new_qtd_old_item = actual_qtd_old_item - (new.quantidade - old.quantidade);
 		IF new_qtd_old_item < 0 THEN
-			RAISE EXCEPTION 'Impossivel retirar tantos itens do produto anterior';
+			RAISE EXCEPTION '[ERR-UPEST003]Impossivel retirar tantos itens do produto anterior';
 		ELSEIF new_qtd_old_item > 0 THEN
 			IF actual_qtd_item ISNULL THEN
 				INSERT INTO meubar.estoque_controle(produto_id, quantidade) VALUES (new.produto_id, new_qtd_item);
 			ELSE
 				new_qtd_item = actual_qtd_item + (new.quantidade - old.quantidade);
 				IF new_qtd_item < 0 THEN
-					RAISE EXCEPTION 'Impossivel retirar tantos itens do novo item';
+					RAISE EXCEPTION '[ERR-UPEST004]Impossivel retirar tantos itens do novo item';
 				ELSEIF new_qtd_item > 0 THEN
 					UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = new.produto_id;
 				ELSE
@@ -430,7 +430,7 @@ CREATE OR REPLACE FUNCTION meubar.updateestoque() RETURNS TRIGGER AS $entrada_es
 			UPDATE meubar.estoque_controle SET quantidade=new_qtd_old_item WHERE produto_id = old.produto_id;
 		ELSE
 			IF new_qtd_item < 0 THEN
-				RAISE EXCEPTION 'Impossivel retirar tantos itens do novo item';
+				RAISE EXCEPTION '[ERR-UPEST005]Impossivel retirar tantos itens do novo item';
 			ELSEIF new_qtd_item > 0 THEN
 				UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = new.produto_id;
 			ELSE
@@ -443,11 +443,11 @@ CREATE OR REPLACE FUNCTION meubar.updateestoque() RETURNS TRIGGER AS $entrada_es
 	  
 	ELSEIF  TG_OP = 'DELETE'  THEN
 	  IF actual_qtd_old_item ISNULL THEN
-		RAISE EXCEPTION 'Impossivel retirar tal quandidade dos itens atuais<nao existe quantidade>';
+		RAISE EXCEPTION '[ERR-UPEST006]Impossivel retirar tal quandidade dos itens atuais<nao existe quantidade>';
 	  ELSE
-		new_qtd_item = old.quantidade - actual_qtd_old_item;
+		new_qtd_item = actual_qtd_old_item - old.quantidade;
 		IF new_qtd_item < 0 THEN
-			RAISE EXCEPTION 'Impossivel retirar tal quandidade dos itens atuais';
+			RAISE EXCEPTION '[ERR-UPEST007]Impossivel retirar tal quandidade dos itens atuais - Estoque: % - Deleted: %', actual_qtd_old_item, old.quantidade;
 		ELSEIF new_qtd_item > 0 THEN
 			UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = old.produto_id;
 		ELSE

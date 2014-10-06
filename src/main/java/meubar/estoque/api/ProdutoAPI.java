@@ -19,107 +19,179 @@ import javax.ws.rs.core.Response.Status;
 
 import meubar.api.impl.BaseAPIImpl;
 import meubar.aspects.Permissoes;
+import meubar.business.exceptions.DBException;
 import meubar.estoque.json.pojo.ProdutoJson;
 import meubar.estoque.servico.ServicoProduto;
 import meubar.json.pojo.Messagem;
 
 import com.google.gson.Gson;
- 
 
 @Path("/produtos")
 @Produces(MediaType.APPLICATION_JSON)
 public class ProdutoAPI extends BaseAPIImpl {
 
 	@EJB
-	ServicoProduto servicoProduto;
- 
-    public ProdutoAPI() {
-    }
+	ServicoProduto servico;
+
+	public ProdutoAPI() {
+	}
 
 	@PermitAll
 	@OPTIONS
 	public Response doOptions() {
+
 		return Response.status(Status.OK).build();
-	};
+
+	}
 
 	@Permissoes(values = { "Administrador" })
 	@GET
 	public Response doGet(@CookieParam("auth_token") String token) {
-		List<ProdutoJson> list = servicoProduto.getAll();
+
+		Status status = Status.NOT_FOUND;
+		String result = null;
 		Gson gson = new Gson();
-		String result = gson.toJson(list);
-		return Response.status(Status.OK).entity(result).build();
+		List<ProdutoJson> list;
+
+		try {
+
+			list = servico.getAll();
+			result = gson.toJson(list);
+			status = Status.OK;
+
+		} catch (DBException e) {
+
+			status = Status.INTERNAL_SERVER_ERROR;
+			Messagem msg = new Messagem(e.getMessage());
+			result = gson.toJson(msg);
+
+		}
+
+		return Response.status(status).entity(result).build();
+
 	}
 
 	@Permissoes(values = { "Administrador" })
 	@GET
 	@Path("/{id: [0-9]*}")
-	public Response doGet(@CookieParam("auth_token") String token,
-			@PathParam("id") String id) {
-		ProdutoJson item = servicoProduto.getById(id);
+	public Response doGet(@CookieParam("auth_token") String token, @PathParam("id") String id) {
+
+		Status status = Status.NOT_FOUND;
+		String result = null;
 		Gson gson = new Gson();
-		String result = gson.toJson(item);
-		return Response.status(Status.OK).entity(result).build();
+
+		try {
+
+			ProdutoJson item = servico.getById(id);
+
+			if (item != null) {
+
+				result = gson.toJson(item);
+				status = Status.OK;
+
+			}
+
+		} catch (DBException e) {
+
+			status = Status.INTERNAL_SERVER_ERROR;
+			Messagem msg = new Messagem(e.getMessage());
+			result = gson.toJson(msg);
+
+		}
+
+		return Response.status(status).entity(result).build();
+
 	}
 
 	@Permissoes(values = { "Administrador" })
 	@POST
 	public Response doPost(@CookieParam("auth_token") String token, String json) {
-		Object result;
+
+		Status status = Status.NOT_FOUND;
+		String result = null;
 		Gson gson = new Gson();
-		
+
 		try {
 
 			ProdutoJson itemJson = gson.fromJson(json, ProdutoJson.class);
 			itemJson.setUsuarioId(getUsuarioIdFromToken(token));
-			result = servicoProduto.cadastrar(itemJson);
+			servico.cadastrar(itemJson);
+			status = Status.ACCEPTED;
 
-		} catch (Exception e) {
-			result = new Messagem(e.getMessage());
+		} catch (DBException e) {
+
+			status = Status.INTERNAL_SERVER_ERROR;
+			Messagem msg = new Messagem(e.getMessage());
+			result = gson.toJson(msg);
+
 		}
-		
-		return Response.status(Status.ACCEPTED).entity(result).build();
+
+		return Response.status(status).entity(result).build();
+
 	}
 
 	@Permissoes(values = { "Administrador" })
 	@DELETE
 	@Path("/{id: [0-9]*}")
-	public Response doDelete(@CookieParam("auth_token") String token,
-			@PathParam("id") String id) {
+	public Response doDelete(@CookieParam("auth_token") String token, @PathParam("id") String id) {
 
-		Status result = Status.NOT_FOUND;
-		boolean deleted = servicoProduto.deletar(id);
-		if (deleted) {
-			result = Status.ACCEPTED;
+		Status status = Status.NOT_FOUND;
+		String result = null;
+		Gson gson = new Gson();
+
+		try {
+
+			boolean deleted = servico.deletar(id);
+
+			if (deleted) {
+
+				status = Status.ACCEPTED;
+
+			}
+
+		} catch (DBException e) {
+
+			status = Status.INTERNAL_SERVER_ERROR;
+			Messagem msg = new Messagem(e.getMessage());
+			result = gson.toJson(msg);
+
 		}
 
-		return Response.status(result).build();
+		return Response.status(status).entity(result).build();
+
 	}
 
 	@Permissoes(values = { "Administrador" })
 	@PUT
 	@Path("/{id: [0-9]*}")
-	public Response doPut(@CookieParam("auth_token") String token,
-			@PathParam("id") String id, String json) {
-		Object resultObj = null;
-		Status result = Status.NOT_FOUND;
-		boolean updated = false;
+	public Response doPut(@CookieParam("auth_token") String token, @PathParam("id") String id, String json) {
+
+		Status status = Status.NOT_FOUND;
+		String result = null;
 		Gson gson = new Gson();
 
 		try {
 
+			boolean updated = false;
 			ProdutoJson itemJson = gson.fromJson(json, ProdutoJson.class);
 			itemJson.setUsuarioId(getUsuarioIdFromToken(token));
-			updated = servicoProduto.update(id, itemJson);
+			updated = servico.update(id, itemJson);
 
-		} catch (Exception e) {
-			resultObj = new Messagem(e.getMessage());
+			if (updated) {
+
+				status = Status.ACCEPTED;
+
+			}
+
+		} catch (DBException e) {
+
+			status = Status.INTERNAL_SERVER_ERROR;
+			Messagem msg = new Messagem(e.getMessage());
+			result = gson.toJson(msg);
+
 		}
 
-		if (updated) {
-			result = Status.ACCEPTED;
-		}
+		return Response.status(status).entity(result).build();
 
-		return Response.status(result).entity(resultObj).build();
 	}
 }

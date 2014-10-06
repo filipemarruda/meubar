@@ -6,9 +6,12 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import meubar.business.exceptions.DBException;
 import meubar.cadastro.model.dao.UsuarioDAO;
 import meubar.model.dao.BaseDAO;
 import meubar.model.entity.BaseEntity;
+
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 @Stateless
 public abstract class ServicoBase<S extends BaseDAO<T, Long>, T extends BaseEntity<Long>, J> {
@@ -28,46 +31,62 @@ public abstract class ServicoBase<S extends BaseDAO<T, Long>, T extends BaseEnti
 	// This method need to be overrided
 	protected abstract J createItemJson(T item);
 
-	public J getById(String id) {
-		long lId = Long.parseLong(id);
-		T item = (T) getItemDao().findById(lId);
-		return createItemJson(item);
-	}
-
-	public List<J> getAll() {
-		List<T> results = getItemDao().findAll(null);
-
-		List<J> itens = new ArrayList<>();
-		for (T item : results) {
-			J itemJson = createItemJson(item);
-			itens.add(itemJson);
+	public J getById(String id) throws DBException {
+		try {
+			long lId = Long.parseLong(id);
+			T item = (T) getItemDao().findById(lId);
+			return createItemJson(item);
+		} catch (Exception e) {
+			throw new DBException(ExceptionUtils.getRootCauseMessage(e));
 		}
-		return itens;
-
 	}
 
-	public T cadastrar(J itemJson) {
+	public List<J> getAll() throws DBException {
+		try {
+
+			List<T> results = getItemDao().findAll(null);
+			List<J> itens = new ArrayList<>();
+			for (T item : results) {
+				J itemJson = createItemJson(item);
+				itens.add(itemJson);
+			}
+			return itens;
+
+		} catch (Exception e) {
+			throw new DBException(ExceptionUtils.getRootCauseMessage(e));
+		}
+	}
+
+	public T cadastrar(J itemJson) throws DBException {
 
 		T item = createItemFromJson(itemJson);
-		return getItemDao().save(item);
+		try {
+			return getItemDao().save(item);
+		} catch (Exception e) {
+			throw new DBException(ExceptionUtils.getRootCauseMessage(e));
+		}
 
 	}
 
-	public boolean deletar(String id) {
+	public boolean deletar(String id) throws DBException {
 
 		boolean result = false;
 		long lId = Long.parseLong(id);
 		T item = (T) getItemDao().findById(lId);
 
 		if (item != null) {
-			getItemDao().remove(item);
-			result = true;
+			try {
+				getItemDao().remove(item);
+				result = true;
+			} catch (Exception e) {
+				throw new DBException(ExceptionUtils.getRootCauseMessage(e));
+			}
 		}
 		return result;
 
 	}
 
-	public boolean update(String id, J itemJson) {
+	public boolean update(String id, J itemJson) throws DBException {
 
 		boolean result = false;
 		long lId = Long.parseLong(id);
@@ -75,8 +94,12 @@ public abstract class ServicoBase<S extends BaseDAO<T, Long>, T extends BaseEnti
 
 		if (item != null) {
 			item = fillUpdatableFields(item, itemJson);
-			getItemDao().save(item);
-			result = true;
+			try {
+				getItemDao().save(item);
+				result = true;
+			} catch (Exception e) {
+				throw new DBException(ExceptionUtils.getRootCauseMessage(e));
+			}
 
 		}
 

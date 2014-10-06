@@ -16,13 +16,17 @@ coreApp.controller('CoreCtrl', ['$rootScope', '$cookies', '$stateParams', '$loca
 
 		};
 		
-		$rootScope.errorHandle = function(status, msg){
-			if(status === 401){
+		$rootScope.errorHandle = function(error, escopo){
+			if(error.status === 401){
 				$state.transitionTo('proibido');
-			}else if(status === 403){
+			}else if(error.status === 403){
 				$rootScope.logout();
 			}else{
-				$rootScope.error = msg;
+				if(!!error.data && !!error.data.message){
+					escopo.error = error.data.message;					
+				}else{
+					escopo.error = "Erro desconhecido!";
+				}
 			}
 		};
 		

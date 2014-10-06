@@ -29,7 +29,12 @@ gruposApp.controller('GrupoCtrl', ['$filter','$scope', '$cookies', '$stateParams
 			$scope.reverse = !$scope.reverse;
 		};
 		
+		$scope.clear = function(){
+			$scope.error = '';
+		};
+		
 		$scope.find = function(){
+			$scope.clear();
 			$scope.itens = Model.query(
 				{},
 				function(response, headers){
@@ -38,24 +43,26 @@ gruposApp.controller('GrupoCtrl', ['$filter','$scope', '$cookies', '$stateParams
 					$cookies.auth_token = headers('auth_token');
 				},
 				function(error){
-					$rootScope.errorHandle(error.status);
+					$rootScope.errorHandle(error,$scope);
 				}
 			);
 		};
 
 		$scope.findOne = function(){
+			$scope.clear();
 			$scope.item = Model.get(
 				{id: $stateParams.id},
 				function(response, headers){
 					$cookies.auth_token = headers('auth_token');
 				},
 				function(error){
-					$rootScope.errorHandle(error.status);
+					$rootScope.errorHandle(error,$scope);
 				}
 			);
 		};
 
 		$scope.create = function() {
+			$scope.clear();
 			var item = new Model({
 				nome: this.nome
 			});
@@ -65,24 +72,26 @@ gruposApp.controller('GrupoCtrl', ['$filter','$scope', '$cookies', '$stateParams
 					$location.path( $scope.moduleConfig.name + '/list' );
 				},
 				function(error){
-					$rootScope.errorHandle(error.status);
+					$rootScope.errorHandle(error,$scope);
 				}
 			);
 		};
 
 		$scope.update = function() {
+			$scope.clear();
 			var item = $scope.item;
 			item.$update(
 				function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
 					$location.path( $scope.moduleConfig.name + '/list' );
 				}, function(error) {
-					$rootScope.errorHandle(error.status);
+					$rootScope.errorHandle(error,$scope);
 				}
 			);
 		};
 		
 		$scope.remove = function(item) {
+			$scope.clear();
 			if (item) {
 				Utils.showConfirmDialog('Excluir Grupo', 'Deseja realmente escluir o grupo "' + item.nome + '"?',
 					function(){
@@ -97,13 +106,13 @@ gruposApp.controller('GrupoCtrl', ['$filter','$scope', '$cookies', '$stateParams
 									$scope.itens.splice(i, 1);
 								}
 							}
+							
 							$scope.setPage(1);
 							$scope.totalItems--;
-							
 							$cookies.auth_token = headers('auth_token');
 							
 						}, function(error) {
-							$rootScope.errorHandle(error.status);
+							$rootScope.errorHandle(error,$scope);
 						});
 					}
 				);

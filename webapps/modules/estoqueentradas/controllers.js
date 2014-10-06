@@ -35,6 +35,7 @@ estoqueEntradasApp.controller('EstoqueEntradaCtrl', ['$filter','$scope', '$cooki
 		
 		$scope.clear = function(){
 			$scope.unidade = '';
+			$scope.error = '';
 		};
 		
 		$scope.produtos = Produto.query(
@@ -43,7 +44,7 @@ estoqueEntradasApp.controller('EstoqueEntradaCtrl', ['$filter','$scope', '$cooki
 				$cookies.auth_token = headers('auth_token');
 			},
 			function(error){
-				$rootScope.errorHandle(error.status);
+				$rootScope.errorHandle(error,$scope);
 			}
 		);
 		
@@ -53,11 +54,12 @@ estoqueEntradasApp.controller('EstoqueEntradaCtrl', ['$filter','$scope', '$cooki
 				$cookies.auth_token = headers('auth_token');
 			},
 			function(error){
-				$rootScope.errorHandle(error.status);
+				$rootScope.errorHandle(error,$scope);
 			}
 		);
 		
 		$scope.find = function(){
+			$scope.clear();
 			$scope.itens = Model.query(
 				{},
 				function(response, headers){
@@ -66,14 +68,13 @@ estoqueEntradasApp.controller('EstoqueEntradaCtrl', ['$filter','$scope', '$cooki
 					$cookies.auth_token = headers('auth_token');
 				},
 				function(error){
-					$rootScope.errorHandle(error.status);
+					$rootScope.errorHandle(error,$scope);
 				}
 			);
 		};
 		
-		
 		$scope.findOne = function(){
-			
+			$scope.clear();
 			$scope.item = Model.get(
 				{id: $stateParams.id},
 				function(response, headers){
@@ -81,12 +82,13 @@ estoqueEntradasApp.controller('EstoqueEntradaCtrl', ['$filter','$scope', '$cooki
 					$cookies.auth_token = headers('auth_token');
 				},
 				function(error){
-					$rootScope.errorHandle(error.status);
+					$rootScope.errorHandle(error,$scope);
 				}
 			);
 		};
 
 		$scope.create = function() {
+			$scope.clear();
 			var item = new Model({
 				notaFiscal: this.notaFiscal,
 				preco: this.preco,
@@ -100,24 +102,26 @@ estoqueEntradasApp.controller('EstoqueEntradaCtrl', ['$filter','$scope', '$cooki
 					$location.path( $scope.moduleConfig.name + '/list' );
 				},
 				function(error){
-					$rootScope.errorHandle(error.status);
+					$rootScope.errorHandle(error,$scope);
 				}
 			);
 		};
 
 		$scope.update = function() {
+			$scope.clear();
 			var item = $scope.item;
 			item.$update(
 				function(response, headers) {
 					$cookies.auth_token = headers('auth_token');
 					$location.path( $scope.moduleConfig.name + '/list' );
 				}, function(error) {
-					$rootScope.errorHandle(error.status);
+					$rootScope.errorHandle(error,$scope);
 				}
 			);
 		};
 		
 		$scope.remove = function(item) {
+			$scope.clear();
 			if (item) {
 				Utils.showConfirmDialog('Excluir Entrada de Estoque','Deseja realmente escluir a entrada do produto "' + item.produto + '" na nota fiscal '+ item.notaFiscal +'?',
 					function(){
@@ -132,12 +136,13 @@ estoqueEntradasApp.controller('EstoqueEntradaCtrl', ['$filter','$scope', '$cooki
 									$scope.itens.splice(i, 1);
 								}
 							}
+							
 							$scope.setPage(1);
 							$scope.totalItems--;
 							$cookies.auth_token = headers('auth_token');
 							
 						}, function(error) {
-							$rootScope.errorHandle(error.status);
+							$rootScope.errorHandle(error,$scope);
 						});
 					}
 				);

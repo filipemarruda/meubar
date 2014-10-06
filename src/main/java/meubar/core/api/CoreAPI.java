@@ -24,7 +24,6 @@ import meubar.core.json.pojo.UnidadeJson;
 import meubar.core.servico.ServicoCore;
 
 import com.google.gson.Gson;
- 
 
 @Path("/core")
 @Produces(MediaType.APPLICATION_JSON)
@@ -32,66 +31,78 @@ public class CoreAPI extends BaseAPIImpl {
 
 	@EJB
 	ServicoCore servicoCore;
- 
-    public CoreAPI() {
-    }
+
+	public CoreAPI() {
+	}
 
 	@Permissoes(values = { "Administrador" })
 	@GET
 	@Path("/estados")
 	public Response doGetEstados(@CookieParam(value = "auth_token") String token) {
+
 		List<EstadoJson> list = servicoCore.getEstados();
 		Gson gson = new Gson();
 		String result = gson.toJson(list);
 		return Response.status(Status.OK).entity(result).build();
+
 	}
 
 	@Permissoes(values = { "Administrador" })
 	@GET
 	@Path("/unidades")
 	public Response doGetUnidades(@CookieParam(value = "auth_token") String token) {
+
 		List<UnidadeJson> list = servicoCore.getUnidades();
 		Gson gson = new Gson();
 		String result = gson.toJson(list);
 		return Response.status(Status.OK).entity(result).build();
+
 	}
 
 	@PermitAll
 	@OPTIONS
 	public Response doOptions() {
+
 		return Response.status(Status.OK).build();
-	};
+
+	}
 
 	@Permissoes(values = { "Administrador" })
 	@GET
 	public Response doGet(@CookieParam(value = "auth_token") String token) {
+
 		return Response.status(Status.UNAUTHORIZED).build();
+
 	}
 
 	@GET
 	@Path("/{id: [0-9]*}")
-	public Response doGet(@CookieParam(value = "auth_token") String token,
-			@PathParam("id") String id) {
+	public Response doGet(@CookieParam(value = "auth_token") String token, @PathParam("id") String id) {
+
 		return Response.status(Status.UNAUTHORIZED).build();
+
 	}
 
 	@POST
-	public Response doPost(@CookieParam(value = "auth_token") String token,
-			String json) {
+	public Response doPost(@CookieParam(value = "auth_token") String token, String json) {
+
 		return Response.status(Status.UNAUTHORIZED).build();
+
 	}
 
 	@DELETE
 	@Path("/{id: [0-9]*}")
-	public Response doDelete(@CookieParam(value = "auth_token") String token,
-			@PathParam("id") String id) {
+	public Response doDelete(@CookieParam(value = "auth_token") String token, @PathParam("id") String id) {
+
 		return Response.status(Status.UNAUTHORIZED).build();
+
 	}
 
 	@PUT
 	@Path("/{id: [0-9]*}")
-	public Response doPut(@CookieParam(value = "auth_token") String token,
-			@PathParam("id") String id, String json) {
+	public Response doPut(@CookieParam(value = "auth_token") String token, @PathParam("id") String id, String json) {
+
 		return Response.status(Status.UNAUTHORIZED).build();
+
 	}
 }
