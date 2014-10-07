@@ -12,6 +12,9 @@ import meubar.core.json.pojo.EstadoJson;
 import meubar.core.json.pojo.UnidadeJson;
 import meubar.core.model.entity.Estado;
 import meubar.core.model.entity.Unidade;
+import meubar.estoque.dao.EstoqueControleDAO;
+import meubar.estoque.json.pojo.EstoqueControleJson;
+import meubar.estoque.model.entity.EstoqueControle;
 
 @Stateless
 public class ServicoCore {
@@ -20,6 +23,8 @@ public class ServicoCore {
 	private EstadoDAO estadoDAO;
 	@EJB
 	private UnidadeDAO unidadeDAO;
+	@EJB
+	private EstoqueControleDAO estoqueDAO;
 
 	public List<EstadoJson> getEstados() {
 
@@ -47,6 +52,30 @@ public class ServicoCore {
 		}
 		return itens;
 
+	}
+
+	public List<EstoqueControleJson> getEstoque() {
+
+		List<EstoqueControle> results = estoqueDAO.findAll(null);
+
+		List<EstoqueControleJson> itens = new ArrayList<>();
+
+		for (EstoqueControle item : results) {
+			EstoqueControleJson itemJson = createEstoqueControleJson(item);
+			itens.add(itemJson);
+		}
+		return itens;
+
+	}
+
+	private EstoqueControleJson createEstoqueControleJson(EstoqueControle item) {
+		final EstoqueControleJson itemJson = new EstoqueControleJson();
+		itemJson.setId(item.getId());
+		itemJson.setProdutoId(item.getProduto().getId());
+		itemJson.setProduto(item.getProduto().getNome());
+		itemJson.setUnidade(item.getProduto().getUnidade().getSigla());
+		itemJson.setQuantidade(item.getQuantidade());
+		return itemJson;
 	}
 
 	private EstadoJson createEstadosJson(Estado item) {

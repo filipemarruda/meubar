@@ -1,0 +1,1770 @@
+<?xml version='1.0' encoding='ISO-8859-1' standalone='yes'?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN' 'http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' >
+<head>
+<title>Database Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<style type='text/css'>
+body {
+    /*margin: 20px auto;*/
+    font-family: 'trebuchet MS', 'Lucida sans', Arial;
+    font-size: 12px;
+    color: #444;
+}
+
+table {
+    *border-collapse: collapse; /* IE7 and lower */
+    border-spacing: 0;
+    /*width: 100%;*/
+}
+
+.bordered {
+    border: solid #ccc 1px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 1px #ccc;
+    -moz-box-shadow: 0 1px 1px #ccc;
+    box-shadow: 0 1px 1px #ccc;
+}
+
+.bordered tr:hover {
+    background: #fbf8e9;
+    -o-transition: all 0.1s ease-in-out;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+
+.bordered td, .bordered th {
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    padding: 4px;
+    text-align: left;
+}
+
+.bordered th {
+    background-color: #d7d7ea;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#f4f4fb), to(#d7d7ea));
+    background-image: -webkit-linear-gradient(top, #f4f4fb, #d7d7ea);
+    background-image:    -moz-linear-gradient(top, #f4f4fb, #d7d7ea);
+    background-image:     -ms-linear-gradient(top, #f4f4fb, #d7d7ea);
+    background-image:      -o-linear-gradient(top, #f4f4fb, #d7d7ea);
+    background-image:         linear-gradient(top, #f4f4fb, #d7d7ea);
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+    -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+    border-top: none;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+
+.bordered td:first-child, .bordered th:first-child {
+    border-left: none;
+}
+
+.bordered th:first-child {
+    -moz-border-radius: 6px 0 0 0;
+    -webkit-border-radius: 6px 0 0 0;
+    border-radius: 6px 0 0 0;
+}
+
+.bordered th:last-child {
+    -moz-border-radius: 0 6px 0 0;
+    -webkit-border-radius: 0 6px 0 0;
+    border-radius: 0 6px 0 0;
+}
+
+.bordered th:only-child{
+    -moz-border-radius: 6px 6px 0 0;
+    -webkit-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}
+
+.bordered tr:last-child td:first-child {
+    -moz-border-radius: 0 0 0 6px;
+    -webkit-border-radius: 0 0 0 6px;
+    border-radius: 0 0 0 6px;
+}
+
+.bordered tr:last-child td:last-child {
+    -moz-border-radius: 0 0 6px 0;
+    -webkit-border-radius: 0 0 6px 0;
+    border-radius: 0 0 6px 0;
+}
+
+</style>
+</head>
+
+<body>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'   width='1200' height='1100' viewbox='0 0 1200 1100' >
+<style type='text/css'>
+  text                { fill:#000000; font-family: 'trebuchet MS', 'Lucida sans', Dialog, Dialog, Arial; font-size:11px; stroke:#000000; stroke-width:0.1; }
+  text:hover          { fill:#a00000; font-size:12px;}
+  text.colType        { fill:#a9bdc6; }
+  text.tableTitle     { fill:#000000; }
+  path                { stroke:#5e554d; stroke-width:1.1; fill:none; }
+  rect.table          { fill:#ffffff; stroke:#222; stroke-width:0.2; filter:url(#shadow); }
+  line.table          { stroke:#222; stroke-width:0.2; }
+  rect.callout        { fill:url(#calloutGradient); stroke:#bebdbd; stroke-width:0.5; }
+  rect.grp            { opacity:0.5; stroke:#b1b1b1; stroke-width:1.7; }
+</style>
+<defs>
+  <pattern patternUnits='userSpaceOnUse' id='layoutBgA' width='10' height='20' x='0' y='0' viewBox='0 0 5 10'>  
+     <line x1='-2' y1='1' x2='7' y2='10' stroke='#f0f0f0' stroke-width='.5'/>  
+     <line x1='-2' y1='6' x2='7' y2='15' stroke='#f0f0f0' stroke-width='.5'/>  
+     <line x1='-2' y1='-4' x2='7' y2='5' stroke='#f0f0f0' stroke-width='.5'/>  
+  </pattern>  
+  <radialGradient id='layoutBgB' gradientUnits='userSpaceOnUse' cx='50%' cy='50%' r='75%' fx='46%' fy='22%'>
+     <stop offset='0%' stop-opacity='.2' stop-color='#f5f5f5' />  
+     <stop offset='100%' stop-color='#f0f0f0' />  
+  </radialGradient>
+  <linearGradient id='tableHeaderGradient1' x1='0%' y1='0%' x2='0%' y2='90%' >
+          <stop offset='0%' stop-color='#b2cdf7'/> 
+          <stop offset='30%' stop-color='white'/> 
+          <stop offset='100%' stop-color='#b2cdf7'/> 
+   </linearGradient>
+  <linearGradient id='tableHeaderGradient2' x1='0%' y1='0%' x2='0%' y2='90%' >
+          <stop offset='0%' stop-color='#ff9999'/> 
+          <stop offset='30%' stop-color='white'/> 
+          <stop offset='100%' stop-color='#ff9999'/> 
+   </linearGradient>
+  <linearGradient id='tableHeaderGradient3' x1='0%' y1='0%' x2='0%' y2='90%' >
+          <stop offset='0%' stop-color='#cccccc'/> 
+          <stop offset='30%' stop-color='white'/> 
+          <stop offset='100%' stop-color='#cccccc'/> 
+   </linearGradient>
+  <linearGradient id='tableHeaderGradient0' x1='0%' y1='0%' x2='0%' y2='90%' >
+          <stop offset='0%' stop-color='#ffffcc'/> 
+          <stop offset='30%' stop-color='white'/> 
+          <stop offset='100%' stop-color='#ffffcc'/> 
+   </linearGradient>
+  <linearGradient id='groupUnderTitleLine' x1='0%' y1='0%' x2='100%' y2='0%' >
+          <stop offset='0%' stop-color='#999999' stop-opacity='0.7'/> 
+          <stop offset='100%' stop-color='#999999' stop-opacity='0' /> 
+   </linearGradient>
+  <radialGradient id='calloutGradient' cx='20%' cy='20%' r='100%' fx='10%' fy='10%'>
+	   <stop offset='0%' stop-color='#ffffff' />
+    <stop offset='100%' stop-color='#f8f6d1' />
+  </radialGradient>
+  <filter id='shadow' width='120%' height='120%'> 
+      <feOffset result='offOut' in='SourceGraphic' dx='2' dy='2' /> 
+      <feColorMatrix result='matrixOut' in='offOut' type='matrix' 
+      values='0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.5 0' /> 
+      <feGaussianBlur result='blurOut' in='matrixOut' stdDeviation='2' /> 
+      <feBlend in='SourceGraphic' in2='blurOut' mode='normal' /> 
+    </filter> 
+  <filter id='formerShadow' height='130%'> 
+    <feGaussianBlur in='SourceAlpha' stdDeviation='1.5'/> <!-- stdDeviation is how much to blur -->
+    <feOffset dx='1.2' dy='1.2' result='offsetblur'/> <!-- how much to offset -->
+    <feMerge>
+    <feMergeNode/> <!-- this contains the offset blurred image -->
+    <feMergeNode in='SourceGraphic'/> <!-- this contains the element that the filter is applied to -->
+    </feMerge>
+  </filter>
+  <filter id='legendShadow' filterUnits='userSpaceOnUse' x='0' y='0' width='400' height='120'> 
+     <feGaussianBlur in='SourceAlpha' stdDeviation='3' result='blur'/> 
+     <feOffset in='blur' dx='2' dy='2' result='offsetBlur'/> 
+     <feSpecularLighting in='blur' surfaceScale='5' specularConstant='.75' specularExponent='20' lighting-color='#bbbbbb' result='specOut'>
+        <fePointLight x='-5000' y='-10000' z='20000'/>  
+     </feSpecularLighting> 
+     <feComposite in='specOut' in2='SourceAlpha' operator='in' result='specOut'/> 
+     <feComposite in='SourceGraphic' in2='specOut' operator='arithmetic' k1='0' k2='1' k3='1' k4='0' result='litPaint'/>  
+     <feMerge> 
+         <feMergeNode in='offsetBlur'/> 
+         <feMergeNode in='litPaint'/> 
+     </feMerge> 
+  </filter> 
+  <radialGradient id='legendGradient' fx='5%' fy='5%' r='75%' spreadMethod='pad'>
+          <stop offset='0%' stop-color='#eaeef6' stop-opacity='1'/> 
+          <stop offset='100%' stop-color='#cad2e3' stop-opacity='1' /> 
+   </radialGradient>
+  <symbol id='calloutArrowDown' overflow='visible' >
+      <path d='M 0,0 L 7,11 L 15,0 z' style='fill:#f8f6d1;stroke:none;' />
+      <path d='M 0,0 L 7,11 L 15,0' style='stroke:#bebdbd; stroke-width:0.5;' />
+  </symbol>
+  <symbol id='calloutArrowUp' overflow='visible' >
+      <path d='M 0,15 L 7,3 L 15,15 z' style='fill:#ffffff; stroke:none;' />
+      <path d='M 0,15 L 7,3 L 15,15' style='stroke:#bebdbd; stroke-width:0.5;' />
+  </symbol>
+  <symbol id='pk' overflow='visible' >
+    <g transform='scale(0.99)'>
+     <path style='fill:#fbea8e;stroke:#763f17;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;'
+        d='M 9.3678877,3.5695485 C 9.1030218,3.2729386 9.0796382,2.7628519 9.3396185,2.4517097 9.5449651,2.1956495 9.9040386,2.0980533 10.199638,2.2169415 10.533525,2.3415459 10.775153,2.706942 10.750675,3.0842709 10.737029,3.3980003 10.541153,3.699122 10.258248,3.8066067 9.966649,3.9250429 9.6169668,3.8418805 9.4008073,3.6062324 9.3894892,3.5943518 9.3785264,3.582104 9.3678886,3.5695487 z M 11.226617,6.9916004 C 11.888137,6.3548946 12.293488,5.4172188 12.311087,4.442353 12.378144,2.7379364 11.248678,1.0541269 9.7322318,0.44767357 8.3887112,-0.1280313 6.7865012,0.26822889 5.8918395,1.4007929 5.080823,2.3839145 4.9336815,3.8452096 5.3635544,5.101615 L 4.3670905,5.315913 C 4.0664984,5.3682645 4.0967703,5.6316724 4.2574957,5.8208829 L 4.9124,6.5655244 4.1543436,7.2512357 3.2136002,7.2163506 3.1674775,8.5586827 2.0406832,8.5086512 1.5965306,8.9299953 1.5471661,10.179833 0.75616674,10.195223 0.2112857,10.758575 0.15354288,11.735988 0.07199052,12.765553 c 0.36440953,0.238225 0.79006967,0.195492 1.44938278,-0.02675 L 6.3033562,8.1282037 6.8217102,8.6765688 C 6.9985465,8.8799427 7.3003699,8.7497574 7.358381,8.5016252 L 7.4938877,7.5084164 c 0.8537488,0.3985387 1.8303125,0.4711541 2.6851793,0.1427713 0.393927,-0.1407258 0.746858,-0.3701772 1.04755,-0.6595873 z'/>
+     <path d='M 6.8014948,6.3102123 0.15369063,13.024481 0.21560535,12.141962 6.0062342,6.2683782 z'
+        style='fill:#ffe5a5;fill-opacity:1;stroke:#854e31;stroke-width:0.06912433;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:3.00300009'/>
+    </g>
+  </symbol>
+  <symbol id='unq' overflow='visible' >
+    <g transform='scale(0.99)'>
+      <rect style='fill:#e07554;stroke:#7e4d31;stroke-width:0.71934468;stroke-linecap:round;stroke-linejoin:round;'
+         width='2.29' height='8.43' x='7.48' y='-0.76' ry='1.14' transform='matrix(0.701,0.713,-0.727,0.685,0,0)' />
+      <path style='fill:white;stroke:#858585;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;'
+         d='m 26.04,8.64 a 4.13,4.13 0 1 1 -8.26,0 4.13,4.13 0 1 1 8.26,0 z'
+         transform='matrix(1.025,0,0,0.987,-14.690,-3.862)' />
+      <text x='5.5' y='7.7' style='font-size:8px;fill:#0460b5;'>1</text>
+    </g>
+  </symbol>
+  <symbol id='idx' overflow='visible' >
+    <g transform='scale(0.99)'>
+      <rect style='fill:#e07554;stroke:#7e4d31;stroke-width:0.71934468;stroke-linecap:round;stroke-linejoin:round;'
+         width='2.29' height='8.43' x='7.48' y='-0.76' ry='1.14' transform='matrix(0.701,0.713,-0.727,0.685,0,0)' />
+      <path style='fill:white;stroke:#858585;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;'
+         d='m 26.04,8.64 a 4.13,4.13 0 1 1 -8.26,0 4.13,4.13 0 1 1 8.26,0 z'
+         transform='matrix(1.025,0,0,0.987,-14.690,-3.862)' />
+    </g>
+  </symbol>
+  <symbol id='fk' overflow='visible' >
+    <g transform='scale(0.92)'>
+      <path style='fill:#b7d0f6;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+      d='M 12.48,0.33 7.07,0.89 9.067,2.974 0.329,11.731 1.073,12.597 9.811,3.841 11.77,5.78 z' />
+    </g>
+  </symbol>
+  <symbol id='ref' overflow='visible' >
+    <g transform='scale(0.92)'>
+      <path style='fill:#b7d0f6;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+          d='M 0.10,12.70 5.31,12.15 3.40,10.06 11.82,1.32 11.11,0.45 2.68,9.19 0.80,7.24 z'/>
+    </g>
+  </symbol>
+  <symbol id='flag' overflow='visible' >
+    <g transform='scale(0.92)'>
+      <path style='fill:#b7d0f6;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+          d='M 0.12,12.67 0.16,7.22 C 2.59,7.22 4.13,8.78 9.22,4.22 5.68,4.98 2.53,4.50 0.09,1.80 z'/>
+    </g>
+  </symbol>
+  <symbol id='nn' overflow='visible' >
+  <path style='stroke:#9b3e50;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+          d='M 0,0 3,3 M 0,3 3,0 z'/>
+  </symbol>
+  <marker id='arrow' viewBox='0 0 7 7' refX='0' refY='3' markerUnits='strokeWidth' markerWidth='7' markerHeight='7' orient='auto'>
+    <path d='M 0,0 L 7, 3 L 0,7 z' style='fill:#584739; stroke-width:0px;' />
+  </marker>
+  <marker id='foot' viewBox='0 0 7 7' refX='7' refY='3' markerUnits='strokeWidth' markerWidth='7' markerHeight='7' orient='auto'>
+    <path d='M 0,3 L 15, 3 z' style='stroke:#584739;' />
+  </marker>
+</defs>
+
+<!-- ============= Desktop ============= -->
+<rect x='1' y='1' width='1198' height='1098' rx='7' ry='7' style='fill:url(#layoutBgA); stroke:#333333; stroke-width:0.5;' />
+<rect width='120%' x='-10%' y='-10%' height='120%' fill='url(#layoutBgB)'/>
+<!-- ============= Legend ============= -->
+<g transform='translate(10,10)'>
+  <rect x='10' y='10' width='300' height='64' rx='6' ry='6' style='fill:url(#legendGradient);filter:url(#legendShadow);'/> 
+  <text x='20' y='30'><tspan>Project</tspan> schema.sql @ <a xlink:href='http://www.dbschema.com'>DbSchema</a></text> 
+  <text x='20' y='44'><tspan>Layout</tspan> Layout</text> 
+  <text x='20' y='58' style='fill:#777'><tspan>Hint: Schema comments available as mouse-over tooltips.</tspan></text> 
+</g>
+
+<g transform='translate(0,110)'>
+<!-- ============= Group 'ESTOQUE' ============= -->
+<rect class='grp' style='fill:#c4e0f9;stroke:#c5d4e0' x='464' y='475' width='707' height='485' />
+<text x='475' y='490'>ESTOQUE</text>
+<rect style='fill:url(#groupUnderTitleLine); stroke-width:2;' x='475' y='493' width='685' height='2' />
+
+<!-- ============= Group 'CARDAPIO' ============= -->
+<rect class='grp' style='fill:#ffcccc;stroke:#e0c5c5' x='29' y='10' width='392' height='425' />
+<text x='40' y='25'>CARDAPIO</text>
+<rect style='fill:url(#groupUnderTitleLine); stroke-width:2;' x='40' y='28' width='370' height='2' />
+
+<!-- ============= Group 'CONTA' ============= -->
+<rect class='grp' style='fill:#ffffcc;stroke:#e0e0c5' x='464' y='10' width='707' height='425' />
+<text x='475' y='25'>CONTA</text>
+<rect style='fill:url(#groupUnderTitleLine); stroke-width:2;' x='475' y='28' width='685' height='2' />
+
+<!-- ============= Group 'CORE' ============= -->
+<rect class='grp' style='fill:#cccccc;stroke:#e0c5c5' x='224' y='475' width='197' height='245' />
+<text x='235' y='490'>CORE</text>
+<rect style='fill:url(#groupUnderTitleLine); stroke-width:2;' x='235' y='493' width='175' height='2' />
+
+<path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 465 60 L 405,60' >
+	<title>Foreign Key pedido_cardapio_item_fk
+	pedido references cardapio_item ( cardapio_item_id -> id )</title>
+</path>
+<text x='386' y='55' transform='rotate(0 386,55)' title='Foreign Key pedido_cardapio_item_fk
+	pedido references cardapio_item ( cardapio_item_id -> id )' style='fill:#a1a0a0;'>cardapio_item_id</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 630 60 L 690,60' >
+	<title>Foreign Key pedido_conta_fk
+	pedido references conta ( conta_id -> id )</title>
+</path>
+<text x='637' y='55' transform='rotate(0 637,55)' title='Foreign Key pedido_conta_fk
+	pedido references conta ( conta_id -> id )' style='fill:#a1a0a0;'>conta_id</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 870 525 L 990,525' >
+	<title>Foreign Key estoque_entrada_fornecedor_fk
+	estoque_entrada references fornecedor ( fornecedor_id -> id )</title>
+</path>
+<text x='877' y='520' transform='rotate(0 877,520)' title='Foreign Key estoque_entrada_fornecedor_fk
+	estoque_entrada references fornecedor ( fornecedor_id -> id )' style='fill:#a1a0a0;'>fornecedor_id</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 705 525 L 645,525' >
+	<title>Foreign Key estoque_entrada_produto_fk
+	estoque_entrada references produto ( produto_id -> id )</title>
+</path>
+<text x='656' y='520' transform='rotate(0 656,520)' title='Foreign Key estoque_entrada_produto_fk
+	estoque_entrada references produto ( produto_id -> id )' style='fill:#a1a0a0;'>produto_id</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 240 60 L 195,60' >
+	<title>Foreign Key cardapio_item_cardapio_secao_fk
+	cardapio_item references cardapio_secao ( cardapio_secao_id -> id )</title>
+</path>
+<text x='150' y='55' transform='rotate(0 150,55)' title='Foreign Key cardapio_item_cardapio_secao_fk
+	cardapio_item references cardapio_secao ( cardapio_secao_id -> id )' style='fill:#a1a0a0;'>cardapio_secao_id</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 690 180 L 682,180 Q 675,180 675,187 L 675,697 Q 675,705 667,705 L 397,705 Q 390,705 390,697 L 390,690' >
+	<title>Foreign Key conta_mesa_fk
+	conta references mesa ( mesa_id -> id )</title>
+</path>
+<text x='652' y='175' transform='rotate(0 652,175)' title='Foreign Key conta_mesa_fk
+	conta references mesa ( mesa_id -> id )' style='fill:#a1a0a0;'>mesa_id</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 195 405 L 502,405 Q 510,405 510,412 L 510,495' >
+	<title>Foreign Key cardapio_item_composicao_produto_fk
+	cardapio_item_composicao references produto ( produto_id -> id )</title>
+</path>
+<text x='202' y='400' transform='rotate(0 202,400)' title='Foreign Key cardapio_item_composicao_produto_fk
+	cardapio_item_composicao references produto ( produto_id -> id )' style='fill:#a1a0a0;'>produto_id</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 195 255 L 262,255 Q 270,255 270,247 L 270,225' >
+	<title>Foreign Key cardapio_item_composicao_cardapio_item_fk
+	cardapio_item_composicao references cardapio_item ( cardapio_item_id -> id )</title>
+</path>
+<text x='202' y='250' transform='rotate(0 202,250)' title='Foreign Key cardapio_item_composicao_cardapio_item_fk
+	cardapio_item_composicao references cardapio_item ( cardapio_item_id -> id )' style='fill:#a1a0a0;'>cardapio_item_id</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 990 60 L 855,60' >
+	<title>Foreign Key pagamento_conta_fk
+	pagamento references conta ( conta_id -> id )</title>
+</path>
+<text x='951' y='55' transform='rotate(0 951,55)' title='Foreign Key pagamento_conta_fk
+	pagamento references conta ( conta_id -> id )' style='fill:#a1a0a0;'>conta_id</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 1020 210 L 1020,240' >
+	<title>Foreign Key pagamento_tipo_pagamento_fk
+	pagamento references tipo_pagamento ( tipo_pagamento_id -> id )</title>
+</path>
+<text x='1033' y='210' transform='rotate(90 1033,210)' title='Foreign Key pagamento_tipo_pagamento_fk
+	pagamento references tipo_pagamento ( tipo_pagamento_id -> id )' style='fill:#a1a0a0;'>tipo_pagamento_id</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 510 675 L 510,795' >
+	<title>Foreign Key produto_categoria_fk
+	produto references categoria ( categoria_id -> id )</title>
+</path>
+<text x='523' y='675' transform='rotate(90 523,675)' title='Foreign Key produto_categoria_fk
+	produto references categoria ( categoria_id -> id )' style='fill:#a1a0a0;'>categoria_id</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 480 525 L 300,525' >
+	<title>Foreign Key produto_unidade_fk
+	produto references unidade ( unidade_id -> id )</title>
+</path>
+<text x='430' y='520' transform='rotate(0 430,520)' title='Foreign Key produto_unidade_fk
+	produto references unidade ( unidade_id -> id )' style='fill:#a1a0a0;'>unidade_id</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 990 690 L 892,690 Q 885,690 885,697 L 885,712 Q 885,720 877,720 L 292,720 Q 285,720 285,712 L 285,705' >
+	<title>Foreign Key fornecedor_estado_fk
+	fornecedor references estado ( estado_id -> id )</title>
+</path>
+<text x='945' y='685' transform='rotate(0 945,685)' title='Foreign Key fornecedor_estado_fk
+	fornecedor references estado ( estado_id -> id )' style='fill:#a1a0a0;'>estado_id</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 885 750 L 637,750 Q 630,750 630,742 L 630,675' >
+	<title>Foreign Key estoque_avulso_produto_fk
+	estoque_avulso references produto ( produto_id -> id )</title>
+</path>
+<text x='836' y='745' transform='rotate(0 836,745)' title='Foreign Key estoque_avulso_produto_fk
+	estoque_avulso references produto ( produto_id -> id )' style='fill:#a1a0a0;'>produto_id</text><path transform='translate(7,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  d='M 705 810 L 667,810 Q 660,810 660,802 L 660,667 Q 660,660 652,660 L 645,660' >
+	<title>Foreign Key estoque_controle_produto_fk
+	estoque_controle references produto ( produto_id -> id )</title>
+</path>
+<text x='656' y='805' transform='rotate(0 656,805)' title='Foreign Key estoque_controle_produto_fk
+	estoque_controle references produto ( produto_id -> id )' style='fill:#a1a0a0;'>produto_id</text><!-- ============= Table 'pedido' ============= -->
+<rect class='table' x='480' y='38' width='150' height='180' rx='7' ry='7' />
+<path d='M 480.50 64.50 L 480.50 45.50 Q 480.50 38.50 487.50 38.50 L 622.50 38.50 Q 629.50 38.50 629.50 45.50 L 629.50 64.50 L480.50 64.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#pedido'><text x='539' y='52' class='tableTitle'>pedido</text><title>Table meubar.pedido</title></a>
+  <use id='nn' x='482' y='72' xlink:href='#nn'/><a xlink:href='#pedido.id'><use id='pk' x='482' y='71' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#pedido.id'><text x='498' y='82'>id</text><title>id serial not null</title></a>
+  <a xlink:href='#pedido.conta_id'><text x='498' y='97'>conta_id</text><title>conta_id integer</title></a>
+<a xlink:href='#pedido.conta_id'><use id='fk' x='618' y='86' xlink:href='#fk'/><title>References conta ( conta_id -> id ) </title></a>
+  <a xlink:href='#pedido.cardapio_item_id'><text x='498' y='112'>cardapio_item_id</text><title>cardapio_item_id integer</title></a>
+<a xlink:href='#pedido.cardapio_item_id'><use id='fk' x='618' y='101' xlink:href='#fk'/><title>References cardapio_item ( cardapio_item_id -> id ) </title></a>
+  <use id='nn' x='482' y='117' xlink:href='#nn'/><a xlink:href='#pedido.preco'><text x='498' y='127'>preco</text><title>preco numeric&#040;8&#044;2&#041; not null</title></a>
+  <use id='nn' x='482' y='132' xlink:href='#nn'/><a xlink:href='#pedido.status'><text x='498' y='142'>status</text><title>status varchar&#040;1&#041; not null default &#039;S&#039;&#058;&#058;character varying</title></a>
+  <use id='nn' x='482' y='147' xlink:href='#nn'/><a xlink:href='#pedido.data_criacao'><text x='498' y='157'>data_criacao</text><title>data_criacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='482' y='162' xlink:href='#nn'/><a xlink:href='#pedido.data_modificacao'><text x='498' y='172'>data_modificacao</text><title>data_modificacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='482' y='177' xlink:href='#nn'/><a xlink:href='#pedido.usuario_id_criacao'><text x='498' y='187'>usuario_id_criacao</text><title>usuario_id_criacao integer not null default 1</title></a>
+  <use id='nn' x='482' y='192' xlink:href='#nn'/><a xlink:href='#pedido.usuario_id_modificacao'><text x='498' y='202'>usuario_id_modificacao</text><title>usuario_id_modificacao integer not null default 1</title></a>
+<a xlink:href='#pedido.usuario_id_modificacao'><use id='fk' x='618' y='191' xlink:href='#fk'/><title>References usuario ( usuario_id_modificacao -> id ) </title></a>
+
+<!-- ============= Table 'estoque_entrada' ============= -->
+<rect class='table' x='720' y='503' width='150' height='195' rx='7' ry='7' />
+<path d='M 720.50 529.50 L 720.50 510.50 Q 720.50 503.50 727.50 503.50 L 862.50 503.50 Q 869.50 503.50 869.50 510.50 L 869.50 529.50 L720.50 529.50 ' style='fill:url(#tableHeaderGradient1); stroke:none;' />
+<a xlink:href='#estoque_entrada'><text x='754' y='517' class='tableTitle'>estoque_entrada</text><title>Table meubar.estoque_entrada</title></a>
+  <use id='nn' x='722' y='537' xlink:href='#nn'/><a xlink:href='#estoque_entrada.id'><use id='pk' x='722' y='536' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#estoque_entrada.id'><text x='738' y='547'>id</text><title>id serial not null</title></a>
+  <a xlink:href='#estoque_entrada.fornecedor_id'><text x='738' y='562'>fornecedor_id</text><title>fornecedor_id integer</title></a>
+<a xlink:href='#estoque_entrada.fornecedor_id'><use id='fk' x='858' y='551' xlink:href='#fk'/><title>References fornecedor ( fornecedor_id -> id ) </title></a>
+  <a xlink:href='#estoque_entrada.produto_id'><use id='unq' x='722' y='566' xlink:href='#unq'/><title>Unique Index  ( nota_fiscal, produto_id ) </title></a>
+<a xlink:href='#estoque_entrada.produto_id'><text x='738' y='577'>produto_id</text><title>produto_id integer</title></a>
+<a xlink:href='#estoque_entrada.produto_id'><use id='fk' x='858' y='566' xlink:href='#fk'/><title>References produto ( produto_id -> id ) </title></a>
+  <a xlink:href='#estoque_entrada.nota_fiscal'><use id='unq' x='722' y='581' xlink:href='#unq'/><title>Unique Index  ( nota_fiscal, produto_id ) </title></a>
+<a xlink:href='#estoque_entrada.nota_fiscal'><text x='738' y='592'>nota_fiscal</text><title>nota_fiscal varchar&#040;30&#041;</title></a>
+  <use id='nn' x='722' y='597' xlink:href='#nn'/><a xlink:href='#estoque_entrada.quantidade'><text x='738' y='607'>quantidade</text><title>quantidade numeric&#040;7&#044;2&#041; not null</title></a>
+  <use id='nn' x='722' y='612' xlink:href='#nn'/><a xlink:href='#estoque_entrada.preco'><text x='738' y='622'>preco</text><title>preco numeric&#040;8&#044;2&#041; not null</title></a>
+  <use id='nn' x='722' y='627' xlink:href='#nn'/><a xlink:href='#estoque_entrada.data_criacao'><text x='738' y='637'>data_criacao</text><title>data_criacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='722' y='642' xlink:href='#nn'/><a xlink:href='#estoque_entrada.data_modificacao'><text x='738' y='652'>data_modificacao</text><title>data_modificacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='722' y='657' xlink:href='#nn'/><a xlink:href='#estoque_entrada.usuario_id_criacao'><text x='738' y='667'>usuario_id_criacao</text><title>usuario_id_criacao integer not null default 1</title></a>
+  <use id='nn' x='722' y='672' xlink:href='#nn'/><a xlink:href='#estoque_entrada.usuario_id_modificacao'><text x='738' y='682'>usuario_id_modificacao</text><title>usuario_id_modificacao integer not null default 1</title></a>
+<a xlink:href='#estoque_entrada.usuario_id_modificacao'><use id='fk' x='858' y='671' xlink:href='#fk'/><title>References usuario ( usuario_id_modificacao -> id ) </title></a>
+
+<!-- ============= Table 'cardapio_item' ============= -->
+<rect class='table' x='255' y='38' width='150' height='180' rx='7' ry='7' />
+<path d='M 255.50 64.50 L 255.50 45.50 Q 255.50 38.50 262.50 38.50 L 397.50 38.50 Q 404.50 38.50 404.50 45.50 L 404.50 64.50 L255.50 64.50 ' style='fill:url(#tableHeaderGradient2); stroke:none;' />
+<a xlink:href='#cardapio_item'><text x='296' y='52' class='tableTitle'>cardapio_item</text><title>Table meubar.cardapio_item</title></a>
+  <use id='nn' x='257' y='72' xlink:href='#nn'/><a xlink:href='#cardapio_item.id'><use id='pk' x='257' y='71' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#cardapio_item.id'><text x='273' y='82'>id</text><title>id serial not null</title></a>
+<a xlink:href='#cardapio_item.id'><use id='ref' x='393' y='71' xlink:href='#ref'/><title>Referred by cardapio_item_composicao ( cardapio_item_id -> id ) 
+Referred by pedido ( cardapio_item_id -> id ) </title></a>
+  <use id='nn' x='257' y='87' xlink:href='#nn'/><a xlink:href='#cardapio_item.nome'><use id='unq' x='257' y='86' xlink:href='#unq'/><title>Unique Index  ( cardapio_secao_id, nome ) </title></a>
+<a xlink:href='#cardapio_item.nome'><text x='273' y='97'>nome</text><title>nome varchar&#040;30&#041; not null</title></a>
+  <use id='nn' x='257' y='102' xlink:href='#nn'/><a xlink:href='#cardapio_item.preco'><text x='273' y='112'>preco</text><title>preco numeric&#040;8&#044;2&#041; not null</title></a>
+  <a xlink:href='#cardapio_item.cardapio_secao_id'><use id='unq' x='257' y='116' xlink:href='#unq'/><title>Unique Index  ( cardapio_secao_id, nome ) </title></a>
+<a xlink:href='#cardapio_item.cardapio_secao_id'><text x='273' y='127'>cardapio_secao_id</text><title>cardapio_secao_id integer</title></a>
+<a xlink:href='#cardapio_item.cardapio_secao_id'><use id='fk' x='393' y='116' xlink:href='#fk'/><title>References cardapio_secao ( cardapio_secao_id -> id ) </title></a>
+  <use id='nn' x='257' y='132' xlink:href='#nn'/><a xlink:href='#cardapio_item.data_criacao'><text x='273' y='142'>data_criacao</text><title>data_criacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='257' y='147' xlink:href='#nn'/><a xlink:href='#cardapio_item.data_modificacao'><text x='273' y='157'>data_modificacao</text><title>data_modificacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='257' y='162' xlink:href='#nn'/><a xlink:href='#cardapio_item.usuario_id_criacao'><text x='273' y='172'>usuario_id_criacao</text><title>usuario_id_criacao integer not null default 1</title></a>
+  <use id='nn' x='257' y='177' xlink:href='#nn'/><a xlink:href='#cardapio_item.usuario_id_modificacao'><text x='273' y='187'>usuario_id_modificacao</text><title>usuario_id_modificacao integer not null default 1</title></a>
+<a xlink:href='#cardapio_item.usuario_id_modificacao'><use id='fk' x='393' y='176' xlink:href='#fk'/><title>References usuario ( usuario_id_modificacao -> id ) </title></a>
+  <a xlink:href='#cardapio_item.numero'><use id='unq' x='257' y='191' xlink:href='#unq'/><title>Unique Index  ( numero ) </title></a>
+<a xlink:href='#cardapio_item.numero'><text x='273' y='202'>numero</text><title>numero integer</title></a>
+
+<!-- ============= Table 'cardapio_secao' ============= -->
+<rect class='table' x='45' y='38' width='150' height='135' rx='7' ry='7' />
+<path d='M 45.50 64.50 L 45.50 45.50 Q 45.50 38.50 52.50 38.50 L 187.50 38.50 Q 194.50 38.50 194.50 45.50 L 194.50 64.50 L45.50 64.50 ' style='fill:url(#tableHeaderGradient2); stroke:none;' />
+<a xlink:href='#cardapio_secao'><text x='81' y='52' class='tableTitle'>cardapio_secao</text><title>Table meubar.cardapio_secao</title></a>
+  <use id='nn' x='47' y='72' xlink:href='#nn'/><a xlink:href='#cardapio_secao.id'><use id='pk' x='47' y='71' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#cardapio_secao.id'><text x='63' y='82'>id</text><title>id serial not null</title></a>
+<a xlink:href='#cardapio_secao.id'><use id='ref' x='183' y='71' xlink:href='#ref'/><title>Referred by cardapio_item ( cardapio_secao_id -> id ) </title></a>
+  <use id='nn' x='47' y='87' xlink:href='#nn'/><a xlink:href='#cardapio_secao.nome'><use id='unq' x='47' y='86' xlink:href='#unq'/><title>Unique Index  ( nome ) </title></a>
+<a xlink:href='#cardapio_secao.nome'><text x='63' y='97'>nome</text><title>nome varchar&#040;30&#041; not null</title></a>
+  <use id='nn' x='47' y='102' xlink:href='#nn'/><a xlink:href='#cardapio_secao.data_criacao'><text x='63' y='112'>data_criacao</text><title>data_criacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='47' y='117' xlink:href='#nn'/><a xlink:href='#cardapio_secao.data_modificacao'><text x='63' y='127'>data_modificacao</text><title>data_modificacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='47' y='132' xlink:href='#nn'/><a xlink:href='#cardapio_secao.usuario_id_criacao'><text x='63' y='142'>usuario_id_criacao</text><title>usuario_id_criacao integer not null default 1</title></a>
+  <use id='nn' x='47' y='147' xlink:href='#nn'/><a xlink:href='#cardapio_secao.usuario_id_modificacao'><text x='63' y='157'>usuario_id_modificacao</text><title>usuario_id_modificacao integer not null default 1</title></a>
+<a xlink:href='#cardapio_secao.usuario_id_modificacao'><use id='fk' x='183' y='146' xlink:href='#fk'/><title>References usuario ( usuario_id_modificacao -> id ) </title></a>
+
+<!-- ============= Table 'conta' ============= -->
+<rect class='table' x='705' y='38' width='150' height='165' rx='7' ry='7' />
+<path d='M 705.50 64.50 L 705.50 45.50 Q 705.50 38.50 712.50 38.50 L 847.50 38.50 Q 854.50 38.50 854.50 45.50 L 854.50 64.50 L705.50 64.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#conta'><text x='766' y='52' class='tableTitle'>conta</text><title>Table meubar.conta</title></a>
+  <use id='nn' x='707' y='72' xlink:href='#nn'/><a xlink:href='#conta.id'><use id='pk' x='707' y='71' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#conta.id'><text x='723' y='82'>id</text><title>id serial not null</title></a>
+<a xlink:href='#conta.id'><use id='ref' x='843' y='71' xlink:href='#ref'/><title>Referred by pagamento ( conta_id -> id ) 
+Referred by pedido ( conta_id -> id ) </title></a>
+  <a xlink:href='#conta.mesa_id'><text x='723' y='97'>mesa_id</text><title>mesa_id integer</title></a>
+<a xlink:href='#conta.mesa_id'><use id='fk' x='843' y='86' xlink:href='#fk'/><title>References mesa ( mesa_id -> id ) </title></a>
+  <use id='nn' x='707' y='102' xlink:href='#nn'/><a xlink:href='#conta.status'><text x='723' y='112'>status</text><title>status varchar&#040;1&#041; not null default &#039;A&#039;&#058;&#058;character varying</title></a>
+  <use id='nn' x='707' y='117' xlink:href='#nn'/><a xlink:href='#conta.saldo'><text x='723' y='127'>saldo</text><title>saldo numeric&#040;8&#044;2&#041; not null</title></a>
+  <use id='nn' x='707' y='132' xlink:href='#nn'/><a xlink:href='#conta.data_criacao'><text x='723' y='142'>data_criacao</text><title>data_criacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='707' y='147' xlink:href='#nn'/><a xlink:href='#conta.data_modificacao'><text x='723' y='157'>data_modificacao</text><title>data_modificacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='707' y='162' xlink:href='#nn'/><a xlink:href='#conta.usuario_id_criacao'><text x='723' y='172'>usuario_id_criacao</text><title>usuario_id_criacao integer not null default 1</title></a>
+  <use id='nn' x='707' y='177' xlink:href='#nn'/><a xlink:href='#conta.usuario_id_modificacao'><text x='723' y='187'>usuario_id_modificacao</text><title>usuario_id_modificacao integer not null default 1</title></a>
+<a xlink:href='#conta.usuario_id_modificacao'><use id='fk' x='843' y='176' xlink:href='#fk'/><title>References usuario ( usuario_id_modificacao -> id ) </title></a>
+
+<!-- ============= Table 'estado' ============= -->
+<rect class='table' x='240' y='608' width='60' height='90' rx='7' ry='7' />
+<path d='M 240.50 634.50 L 240.50 615.50 Q 240.50 608.50 247.50 608.50 L 292.50 608.50 Q 299.50 608.50 299.50 615.50 L 299.50 634.50 L240.50 634.50 ' style='fill:url(#tableHeaderGradient3); stroke:none;' />
+<a xlink:href='#estado'><text x='253' y='622' class='tableTitle'>estado</text><title>Table meubar.estado</title></a>
+  <use id='nn' x='242' y='642' xlink:href='#nn'/><a xlink:href='#estado.id'><use id='pk' x='242' y='641' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#estado.id'><text x='258' y='652'>id</text><title>id serial not null</title></a>
+<a xlink:href='#estado.id'><use id='ref' x='288' y='641' xlink:href='#ref'/><title>Referred by fornecedor ( estado_id -> id ) </title></a>
+  <use id='nn' x='242' y='657' xlink:href='#nn'/><a xlink:href='#estado.uf'><use id='unq' x='242' y='656' xlink:href='#unq'/><title>Unique Index  ( uf ) </title></a>
+<a xlink:href='#estado.uf'><text x='258' y='667'>uf</text><title>uf varchar&#040;2&#041; not null</title></a>
+  <use id='nn' x='242' y='672' xlink:href='#nn'/><a xlink:href='#estado.nome'><use id='unq' x='242' y='671' xlink:href='#unq'/><title>Unique Index  ( nome ) </title></a>
+<a xlink:href='#estado.nome'><text x='258' y='682'>nome</text><title>nome varchar&#040;20&#041; not null</title></a>
+
+<!-- ============= Table 'mesa' ============= -->
+<rect class='table' x='330' y='608' width='75' height='75' rx='7' ry='7' />
+<path d='M 330.50 634.50 L 330.50 615.50 Q 330.50 608.50 337.50 608.50 L 397.50 608.50 Q 404.50 608.50 404.50 615.50 L 404.50 634.50 L330.50 634.50 ' style='fill:url(#tableHeaderGradient3); stroke:none;' />
+<a xlink:href='#mesa'><text x='354' y='622' class='tableTitle'>mesa</text><title>Table meubar.mesa</title></a>
+  <use id='nn' x='332' y='642' xlink:href='#nn'/><a xlink:href='#mesa.id'><use id='pk' x='332' y='641' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#mesa.id'><text x='348' y='652'>id</text><title>id serial not null</title></a>
+<a xlink:href='#mesa.id'><use id='ref' x='393' y='641' xlink:href='#ref'/><title>Referred by conta ( mesa_id -> id ) </title></a>
+  <use id='nn' x='332' y='657' xlink:href='#nn'/><a xlink:href='#mesa.numero'><use id='unq' x='332' y='656' xlink:href='#unq'/><title>Unique Index  ( numero ) </title></a>
+<a xlink:href='#mesa.numero'><text x='348' y='667'>numero</text><title>numero varchar&#040;10&#041; not null</title></a>
+
+<!-- ============= Table 'unidade' ============= -->
+<rect class='table' x='240' y='503' width='60' height='90' rx='7' ry='7' />
+<path d='M 240.50 529.50 L 240.50 510.50 Q 240.50 503.50 247.50 503.50 L 292.50 503.50 Q 299.50 503.50 299.50 510.50 L 299.50 529.50 L240.50 529.50 ' style='fill:url(#tableHeaderGradient3); stroke:none;' />
+<a xlink:href='#unidade'><text x='251' y='517' class='tableTitle'>unidade</text><title>Table meubar.unidade</title></a>
+  <use id='nn' x='242' y='537' xlink:href='#nn'/><a xlink:href='#unidade.id'><use id='pk' x='242' y='536' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#unidade.id'><text x='258' y='547'>id</text><title>id serial not null</title></a>
+<a xlink:href='#unidade.id'><use id='ref' x='288' y='536' xlink:href='#ref'/><title>Referred by produto ( unidade_id -> id ) </title></a>
+  <use id='nn' x='242' y='552' xlink:href='#nn'/><a xlink:href='#unidade.sigla'><use id='unq' x='242' y='551' xlink:href='#unq'/><title>Unique Index  ( sigla ) </title></a>
+<a xlink:href='#unidade.sigla'><text x='258' y='562'>sigla</text><title>sigla varchar&#040;4&#041; not null</title></a>
+  <use id='nn' x='242' y='567' xlink:href='#nn'/><a xlink:href='#unidade.nome'><use id='unq' x='242' y='566' xlink:href='#unq'/><title>Unique Index  ( nome ) </title></a>
+<a xlink:href='#unidade.nome'><text x='258' y='577'>nome</text><title>nome varchar&#040;20&#041; not null</title></a>
+
+<!-- ============= Table 'categoria' ============= -->
+<rect class='table' x='480' y='803' width='150' height='135' rx='7' ry='7' />
+<path d='M 480.50 829.50 L 480.50 810.50 Q 480.50 803.50 487.50 803.50 L 622.50 803.50 Q 629.50 803.50 629.50 810.50 L 629.50 829.50 L480.50 829.50 ' style='fill:url(#tableHeaderGradient1); stroke:none;' />
+<a xlink:href='#categoria'><text x='532' y='817' class='tableTitle'>categoria</text><title>Table meubar.categoria</title></a>
+  <use id='nn' x='482' y='837' xlink:href='#nn'/><a xlink:href='#categoria.id'><use id='pk' x='482' y='836' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#categoria.id'><text x='498' y='847'>id</text><title>id serial not null</title></a>
+<a xlink:href='#categoria.id'><use id='ref' x='618' y='836' xlink:href='#ref'/><title>Referred by produto ( categoria_id -> id ) </title></a>
+  <use id='nn' x='482' y='852' xlink:href='#nn'/><a xlink:href='#categoria.nome'><use id='unq' x='482' y='851' xlink:href='#unq'/><title>Unique Index  ( nome ) </title></a>
+<a xlink:href='#categoria.nome'><text x='498' y='862'>nome</text><title>nome varchar&#040;20&#041; not null</title></a>
+  <use id='nn' x='482' y='867' xlink:href='#nn'/><a xlink:href='#categoria.data_criacao'><text x='498' y='877'>data_criacao</text><title>data_criacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='482' y='882' xlink:href='#nn'/><a xlink:href='#categoria.data_modificacao'><text x='498' y='892'>data_modificacao</text><title>data_modificacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='482' y='897' xlink:href='#nn'/><a xlink:href='#categoria.usuario_id_criacao'><text x='498' y='907'>usuario_id_criacao</text><title>usuario_id_criacao integer not null</title></a>
+<a xlink:href='#categoria.usuario_id_criacao'><use id='fk' x='618' y='896' xlink:href='#fk'/><title>References usuario ( usuario_id_criacao -> id ) </title></a>
+  <use id='nn' x='482' y='912' xlink:href='#nn'/><a xlink:href='#categoria.usuario_id_modificacao'><text x='498' y='922'>usuario_id_modificacao</text><title>usuario_id_modificacao integer not null</title></a>
+<a xlink:href='#categoria.usuario_id_modificacao'><use id='fk' x='618' y='911' xlink:href='#fk'/><title>References usuario ( usuario_id_modificacao -> id ) </title></a>
+
+<!-- ============= Table 'cardapio_item_composicao' ============= -->
+<rect class='table' x='45' y='233' width='150' height='180' rx='7' ry='7' />
+<path d='M 45.50 259.50 L 45.50 240.50 Q 45.50 233.50 52.50 233.50 L 187.50 233.50 Q 194.50 233.50 194.50 240.50 L 194.50 259.50 L45.50 259.50 ' style='fill:url(#tableHeaderGradient2); stroke:none;' />
+<a xlink:href='#cardapio_item_composicao'><text x='54' y='247' class='tableTitle'>cardapio_item_composicao</text><title>Table meubar.cardapio_item_composicao</title></a>
+  <use id='nn' x='47' y='267' xlink:href='#nn'/><a xlink:href='#cardapio_item_composicao.id'><use id='pk' x='47' y='266' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#cardapio_item_composicao.id'><text x='63' y='277'>id</text><title>id serial not null</title></a>
+  <a xlink:href='#cardapio_item_composicao.produto_id'><text x='63' y='292'>produto_id</text><title>produto_id integer</title></a>
+<a xlink:href='#cardapio_item_composicao.produto_id'><use id='fk' x='183' y='281' xlink:href='#fk'/><title>References produto ( produto_id -> id ) </title></a>
+  <use id='nn' x='47' y='297' xlink:href='#nn'/><a xlink:href='#cardapio_item_composicao.quantidade'><text x='63' y='307'>quantidade</text><title>quantidade numeric&#040;8&#044;2&#041; not null</title></a>
+  <a xlink:href='#cardapio_item_composicao.cardapio_secao_id'><text x='63' y='322'>cardapio_secao_id</text><title>cardapio_secao_id integer</title></a>
+  <use id='nn' x='47' y='327' xlink:href='#nn'/><a xlink:href='#cardapio_item_composicao.data_criacao'><text x='63' y='337'>data_criacao</text><title>data_criacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='47' y='342' xlink:href='#nn'/><a xlink:href='#cardapio_item_composicao.data_modificacao'><text x='63' y='352'>data_modificacao</text><title>data_modificacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='47' y='357' xlink:href='#nn'/><a xlink:href='#cardapio_item_composicao.usuario_id_criacao'><text x='63' y='367'>usuario_id_criacao</text><title>usuario_id_criacao integer not null default 1</title></a>
+  <use id='nn' x='47' y='372' xlink:href='#nn'/><a xlink:href='#cardapio_item_composicao.usuario_id_modificacao'><text x='63' y='382'>usuario_id_modificacao</text><title>usuario_id_modificacao integer not null default 1</title></a>
+<a xlink:href='#cardapio_item_composicao.usuario_id_modificacao'><use id='fk' x='183' y='371' xlink:href='#fk'/><title>References usuario ( usuario_id_modificacao -> id ) </title></a>
+  <a xlink:href='#cardapio_item_composicao.cardapio_item_id'><use id='unq' x='47' y='386' xlink:href='#unq'/><title>Unique Index  ( cardapio_item_id ) </title></a>
+<a xlink:href='#cardapio_item_composicao.cardapio_item_id'><text x='63' y='397'>cardapio_item_id</text><title>cardapio_item_id integer</title></a>
+<a xlink:href='#cardapio_item_composicao.cardapio_item_id'><use id='fk' x='183' y='386' xlink:href='#fk'/><title>References cardapio_item ( cardapio_item_id -> id ) </title></a>
+
+<!-- ============= Table 'tipo_pagamento' ============= -->
+<rect class='table' x='1005' y='248' width='150' height='165' rx='7' ry='7' />
+<path d='M 1005.50 274.50 L 1005.50 255.50 Q 1005.50 248.50 1012.50 248.50 L 1147.50 248.50 Q 1154.50 248.50 1154.50 255.50 L 1154.50 274.50 L1005.50 274.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#tipo_pagamento'><text x='1042' y='262' class='tableTitle'>tipo_pagamento</text><title>Table meubar.tipo_pagamento</title></a>
+  <use id='nn' x='1007' y='282' xlink:href='#nn'/><a xlink:href='#tipo_pagamento.id'><use id='pk' x='1007' y='281' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#tipo_pagamento.id'><text x='1023' y='292'>id</text><title>id serial not null</title></a>
+<a xlink:href='#tipo_pagamento.id'><use id='ref' x='1143' y='281' xlink:href='#ref'/><title>Referred by pagamento ( tipo_pagamento_id -> id ) </title></a>
+  <use id='nn' x='1007' y='297' xlink:href='#nn'/><a xlink:href='#tipo_pagamento.nome'><use id='unq' x='1007' y='296' xlink:href='#unq'/><title>Unique Index  ( nome ) </title></a>
+<a xlink:href='#tipo_pagamento.nome'><text x='1023' y='307'>nome</text><title>nome varchar&#040;30&#041; not null</title></a>
+  <use id='nn' x='1007' y='312' xlink:href='#nn'/><a xlink:href='#tipo_pagamento.destino'><text x='1023' y='322'>destino</text><title>destino varchar&#040;50&#041; not null</title></a>
+  <a xlink:href='#tipo_pagamento.outras_informacoes'><text x='1023' y='337'>outras_informacoes</text><title>outras_informacoes varchar&#040;500&#041;</title></a>
+  <use id='nn' x='1007' y='342' xlink:href='#nn'/><a xlink:href='#tipo_pagamento.data_criacao'><text x='1023' y='352'>data_criacao</text><title>data_criacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='1007' y='357' xlink:href='#nn'/><a xlink:href='#tipo_pagamento.data_modificacao'><text x='1023' y='367'>data_modificacao</text><title>data_modificacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='1007' y='372' xlink:href='#nn'/><a xlink:href='#tipo_pagamento.usuario_id_criacao'><text x='1023' y='382'>usuario_id_criacao</text><title>usuario_id_criacao integer not null default 1</title></a>
+  <use id='nn' x='1007' y='387' xlink:href='#nn'/><a xlink:href='#tipo_pagamento.usuario_id_modificacao'><text x='1023' y='397'>usuario_id_modificacao</text><title>usuario_id_modificacao integer not null default 1</title></a>
+<a xlink:href='#tipo_pagamento.usuario_id_modificacao'><use id='fk' x='1143' y='386' xlink:href='#fk'/><title>References usuario ( usuario_id_modificacao -> id ) </title></a>
+
+<!-- ============= Table 'pagamento' ============= -->
+<rect class='table' x='1005' y='38' width='150' height='165' rx='7' ry='7' />
+<path d='M 1005.50 64.50 L 1005.50 45.50 Q 1005.50 38.50 1012.50 38.50 L 1147.50 38.50 Q 1154.50 38.50 1154.50 45.50 L 1154.50 64.50 L1005.50 64.50 ' style='fill:url(#tableHeaderGradient0); stroke:none;' />
+<a xlink:href='#pagamento'><text x='1053' y='52' class='tableTitle'>pagamento</text><title>Table meubar.pagamento</title></a>
+  <use id='nn' x='1007' y='72' xlink:href='#nn'/><a xlink:href='#pagamento.id'><use id='pk' x='1007' y='71' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#pagamento.id'><text x='1023' y='82'>id</text><title>id serial not null</title></a>
+  <a xlink:href='#pagamento.conta_id'><text x='1023' y='97'>conta_id</text><title>conta_id integer</title></a>
+<a xlink:href='#pagamento.conta_id'><use id='fk' x='1143' y='86' xlink:href='#fk'/><title>References conta ( conta_id -> id ) </title></a>
+  <a xlink:href='#pagamento.tipo_pagamento_id'><text x='1023' y='112'>tipo_pagamento_id</text><title>tipo_pagamento_id integer</title></a>
+<a xlink:href='#pagamento.tipo_pagamento_id'><use id='fk' x='1143' y='101' xlink:href='#fk'/><title>References tipo_pagamento ( tipo_pagamento_id -> id ) </title></a>
+  <use id='nn' x='1007' y='117' xlink:href='#nn'/><a xlink:href='#pagamento.valor'><text x='1023' y='127'>valor</text><title>valor numeric&#040;8&#044;2&#041; not null</title></a>
+  <use id='nn' x='1007' y='132' xlink:href='#nn'/><a xlink:href='#pagamento.data_criacao'><text x='1023' y='142'>data_criacao</text><title>data_criacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='1007' y='147' xlink:href='#nn'/><a xlink:href='#pagamento.data_modificacao'><text x='1023' y='157'>data_modificacao</text><title>data_modificacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='1007' y='162' xlink:href='#nn'/><a xlink:href='#pagamento.usuario_id_criacao'><text x='1023' y='172'>usuario_id_criacao</text><title>usuario_id_criacao integer not null default 1</title></a>
+  <use id='nn' x='1007' y='177' xlink:href='#nn'/><a xlink:href='#pagamento.usuario_id_modificacao'><text x='1023' y='187'>usuario_id_modificacao</text><title>usuario_id_modificacao integer not null default 1</title></a>
+<a xlink:href='#pagamento.usuario_id_modificacao'><use id='fk' x='1143' y='176' xlink:href='#fk'/><title>References usuario ( usuario_id_modificacao -> id ) </title></a>
+
+<!-- ============= Table 'produto' ============= -->
+<rect class='table' x='495' y='503' width='150' height='165' rx='7' ry='7' />
+<path d='M 495.50 529.50 L 495.50 510.50 Q 495.50 503.50 502.50 503.50 L 637.50 503.50 Q 644.50 503.50 644.50 510.50 L 644.50 529.50 L495.50 529.50 ' style='fill:url(#tableHeaderGradient1); stroke:none;' />
+<a xlink:href='#produto'><text x='551' y='517' class='tableTitle'>produto</text><title>Table meubar.produto</title></a>
+  <use id='nn' x='497' y='537' xlink:href='#nn'/><a xlink:href='#produto.id'><use id='pk' x='497' y='536' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#produto.id'><text x='513' y='547'>id</text><title>id serial not null</title></a>
+<a xlink:href='#produto.id'><use id='ref' x='633' y='536' xlink:href='#ref'/><title>Referred by cardapio_item_composicao ( produto_id -> id ) 
+Referred by estoque_avulso ( produto_id -> id ) 
+Referred by estoque_controle ( produto_id -> id ) 
+Referred by estoque_entrada ( produto_id -> id ) </title></a>
+  <use id='nn' x='497' y='552' xlink:href='#nn'/><a xlink:href='#produto.nome'><use id='unq' x='497' y='551' xlink:href='#unq'/><title>Unique Index  ( nome, categoria_id ) </title></a>
+<a xlink:href='#produto.nome'><text x='513' y='562'>nome</text><title>nome varchar&#040;50&#041; not null</title></a>
+  <a xlink:href='#produto.categoria_id'><use id='unq' x='497' y='566' xlink:href='#unq'/><title>Unique Index  ( nome, categoria_id ) </title></a>
+<a xlink:href='#produto.categoria_id'><text x='513' y='577'>categoria_id</text><title>categoria_id integer</title></a>
+<a xlink:href='#produto.categoria_id'><use id='fk' x='633' y='566' xlink:href='#fk'/><title>References categoria ( categoria_id -> id ) </title></a>
+  <use id='nn' x='497' y='582' xlink:href='#nn'/><a xlink:href='#produto.data_criacao'><text x='513' y='592'>data_criacao</text><title>data_criacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='497' y='597' xlink:href='#nn'/><a xlink:href='#produto.data_modificacao'><text x='513' y='607'>data_modificacao</text><title>data_modificacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='497' y='612' xlink:href='#nn'/><a xlink:href='#produto.usuario_id_criacao'><text x='513' y='622'>usuario_id_criacao</text><title>usuario_id_criacao integer not null default 1</title></a>
+<a xlink:href='#produto.usuario_id_criacao'><use id='fk' x='633' y='611' xlink:href='#fk'/><title>References usuario ( usuario_id_criacao -> id ) </title></a>
+  <use id='nn' x='497' y='627' xlink:href='#nn'/><a xlink:href='#produto.usuario_id_modificacao'><text x='513' y='637'>usuario_id_modificacao</text><title>usuario_id_modificacao integer not null default 1</title></a>
+<a xlink:href='#produto.usuario_id_modificacao'><use id='fk' x='633' y='626' xlink:href='#fk'/><title>References usuario ( usuario_id_modificacao -> id ) </title></a>
+  <a xlink:href='#produto.unidade_id'><text x='513' y='652'>unidade_id</text><title>unidade_id integer</title></a>
+<a xlink:href='#produto.unidade_id'><use id='fk' x='633' y='641' xlink:href='#fk'/><title>References unidade ( unidade_id -> id ) </title></a>
+
+<!-- ============= Table 'fornecedor' ============= -->
+<rect class='table' x='1005' y='503' width='150' height='210' rx='7' ry='7' />
+<path d='M 1005.50 529.50 L 1005.50 510.50 Q 1005.50 503.50 1012.50 503.50 L 1147.50 503.50 Q 1154.50 503.50 1154.50 510.50 L 1154.50 529.50 L1005.50 529.50 ' style='fill:url(#tableHeaderGradient1); stroke:none;' />
+<a xlink:href='#fornecedor'><text x='1053' y='517' class='tableTitle'>fornecedor</text><title>Table meubar.fornecedor</title></a>
+  <use id='nn' x='1007' y='537' xlink:href='#nn'/><a xlink:href='#fornecedor.id'><use id='pk' x='1007' y='536' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#fornecedor.id'><text x='1023' y='547'>id</text><title>id serial not null</title></a>
+<a xlink:href='#fornecedor.id'><use id='ref' x='1143' y='536' xlink:href='#ref'/><title>Referred by estoque_entrada ( fornecedor_id -> id ) </title></a>
+  <use id='nn' x='1007' y='552' xlink:href='#nn'/><a xlink:href='#fornecedor.nome'><text x='1023' y='562'>nome</text><title>nome varchar&#040;50&#041; not null</title></a>
+  <use id='nn' x='1007' y='567' xlink:href='#nn'/><a xlink:href='#fornecedor.cnpj'><use id='unq' x='1007' y='566' xlink:href='#unq'/><title>Unique Index  ( cnpj ) </title></a>
+<a xlink:href='#fornecedor.cnpj'><text x='1023' y='577'>cnpj</text><title>cnpj varchar&#040;14&#041; not null</title></a>
+  <a xlink:href='#fornecedor.estado_id'><text x='1023' y='592'>estado_id</text><title>estado_id integer</title></a>
+<a xlink:href='#fornecedor.estado_id'><use id='fk' x='1143' y='581' xlink:href='#fk'/><title>References estado ( estado_id -> id ) </title></a>
+  <a xlink:href='#fornecedor.cidade'><text x='1023' y='607'>cidade</text><title>cidade varchar&#040;255&#041;</title></a>
+  <a xlink:href='#fornecedor.endereco'><text x='1023' y='622'>endereco</text><title>endereco varchar&#040;255&#041;</title></a>
+  <a xlink:href='#fornecedor.telefone'><text x='1023' y='637'>telefone</text><title>telefone varchar&#040;15&#041;</title></a>
+  <use id='nn' x='1007' y='642' xlink:href='#nn'/><a xlink:href='#fornecedor.data_criacao'><text x='1023' y='652'>data_criacao</text><title>data_criacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='1007' y='657' xlink:href='#nn'/><a xlink:href='#fornecedor.data_modificacao'><text x='1023' y='667'>data_modificacao</text><title>data_modificacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='1007' y='672' xlink:href='#nn'/><a xlink:href='#fornecedor.usuario_id_criacao'><text x='1023' y='682'>usuario_id_criacao</text><title>usuario_id_criacao integer not null default 1</title></a>
+<a xlink:href='#fornecedor.usuario_id_criacao'><use id='fk' x='1143' y='671' xlink:href='#fk'/><title>References usuario ( usuario_id_criacao -> id ) </title></a>
+  <use id='nn' x='1007' y='687' xlink:href='#nn'/><a xlink:href='#fornecedor.usuario_id_modificacao'><text x='1023' y='697'>usuario_id_modificacao</text><title>usuario_id_modificacao integer not null default 1</title></a>
+<a xlink:href='#fornecedor.usuario_id_modificacao'><use id='fk' x='1143' y='686' xlink:href='#fk'/><title>References usuario ( usuario_id_modificacao -> id ) </title></a>
+
+<!-- ============= Table 'estoque_avulso' ============= -->
+<rect class='table' x='900' y='743' width='150' height='195' rx='7' ry='7' />
+<path d='M 900.50 769.50 L 900.50 750.50 Q 900.50 743.50 907.50 743.50 L 1042.50 743.50 Q 1049.50 743.50 1049.50 750.50 L 1049.50 769.50 L900.50 769.50 ' style='fill:url(#tableHeaderGradient1); stroke:none;' />
+<a xlink:href='#estoque_avulso'><text x='936' y='757' class='tableTitle'>estoque_avulso</text><title>Table meubar.estoque_avulso</title></a>
+  <use id='nn' x='902' y='777' xlink:href='#nn'/><a xlink:href='#estoque_avulso.id'><use id='pk' x='902' y='776' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#estoque_avulso.id'><text x='918' y='787'>id</text><title>id serial not null</title></a>
+  <a xlink:href='#estoque_avulso.produto_id'><use id='unq' x='902' y='791' xlink:href='#unq'/><title>Unique Index  ( produto_id ) </title></a>
+<a xlink:href='#estoque_avulso.produto_id'><text x='918' y='802'>produto_id</text><title>produto_id integer</title></a>
+<a xlink:href='#estoque_avulso.produto_id'><use id='fk' x='1038' y='791' xlink:href='#fk'/><title>References produto ( produto_id -> id ) </title></a>
+  <use id='nn' x='902' y='807' xlink:href='#nn'/><a xlink:href='#estoque_avulso.quantidade'><text x='918' y='817'>quantidade</text><title>quantidade numeric&#040;8&#044;2&#041; not null</title></a>
+  <use id='nn' x='902' y='822' xlink:href='#nn'/><a xlink:href='#estoque_avulso.motivo'><text x='918' y='832'>motivo</text><title>motivo varchar&#040;500&#041; not null</title></a>
+  <use id='nn' x='902' y='837' xlink:href='#nn'/><a xlink:href='#estoque_avulso.data_criacao'><text x='918' y='847'>data_criacao</text><title>data_criacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='902' y='852' xlink:href='#nn'/><a xlink:href='#estoque_avulso.data_modificacao'><text x='918' y='862'>data_modificacao</text><title>data_modificacao timestamp not null default now&#040;&#041;</title></a>
+  <use id='nn' x='902' y='867' xlink:href='#nn'/><a xlink:href='#estoque_avulso.usuario_id_criacao'><text x='918' y='877'>usuario_id_criacao</text><title>usuario_id_criacao integer not null default 1</title></a>
+  <use id='nn' x='902' y='882' xlink:href='#nn'/><a xlink:href='#estoque_avulso.usuario_id_modificacao'><text x='918' y='892'>usuario_id_modificacao</text><title>usuario_id_modificacao integer not null default 1</title></a>
+<a xlink:href='#estoque_avulso.usuario_id_modificacao'><use id='fk' x='1038' y='881' xlink:href='#fk'/><title>References usuario ( usuario_id_modificacao -> id ) </title></a>
+  <use id='nn' x='902' y='897' xlink:href='#nn'/><a xlink:href='#estoque_avulso.tipo'><text x='918' y='907'>tipo</text><title>tipo varchar&#040;1&#041; not null</title></a>
+  <use id='nn' x='902' y='912' xlink:href='#nn'/><a xlink:href='#estoque_avulso.preco'><text x='918' y='922'>preco</text><title>preco numeric&#040;8&#044;2&#041; not null default 0</title></a>
+
+<!-- ============= Table 'estoque_controle' ============= -->
+<rect class='table' x='720' y='803' width='105' height='90' rx='7' ry='7' />
+<path d='M 720.50 829.50 L 720.50 810.50 Q 720.50 803.50 727.50 803.50 L 817.50 803.50 Q 824.50 803.50 824.50 810.50 L 824.50 829.50 L720.50 829.50 ' style='fill:url(#tableHeaderGradient1); stroke:none;' />
+<a xlink:href='#estoque_controle'><text x='730' y='817' class='tableTitle'>estoque_controle</text><title>Table meubar.estoque_controle</title></a>
+  <use id='nn' x='722' y='837' xlink:href='#nn'/><a xlink:href='#estoque_controle.id'><use id='pk' x='722' y='836' xlink:href='#pk'/><title>Primary Key  ( id ) </title></a>
+<a xlink:href='#estoque_controle.id'><text x='738' y='847'>id</text><title>id serial not null</title></a>
+  <a xlink:href='#estoque_controle.produto_id'><use id='unq' x='722' y='851' xlink:href='#unq'/><title>Unique Index  ( produto_id ) </title></a>
+<a xlink:href='#estoque_controle.produto_id'><text x='738' y='862'>produto_id</text><title>produto_id integer</title></a>
+<a xlink:href='#estoque_controle.produto_id'><use id='fk' x='813' y='851' xlink:href='#fk'/><title>References produto ( produto_id -> id ) </title></a>
+  <use id='nn' x='722' y='867' xlink:href='#nn'/><a xlink:href='#estoque_controle.quantidade'><text x='738' y='877'>quantidade</text><title>quantidade numeric&#040;8&#044;2&#041; not null</title></a>
+
+</g></svg>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='pedido'>Table pedido</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='pedido.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='pedido.conta_id'>conta&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='pedido.cardapio_item_id'>cardapio&#095;item&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='pedido.preco'>preco</a></td>
+		<td> numeric&#040; 8&#044; 2 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='pedido.status'>status</a></td>
+		<td> varchar&#040; 1 &#041;   DEFO 'S'::character varying </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='pedido.data_criacao'>data&#095;criacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='pedido.data_modificacao'>data&#095;modificacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='pedido.usuario_id_criacao'>usuario&#095;id&#095;criacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='pedido.usuario_id_modificacao'>usuario&#095;id&#095;modificacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>pedido&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Foreign Keys</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td>pedido_cardapio_item_fk</td>
+		<td > ( cardapio&#095;item&#095;id ) ref <a href='#cardapio&#095;item'>cardapio&#095;item</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>pedido_conta_fk</td>
+		<td > ( conta&#095;id ) ref <a href='#conta'>conta</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>pedido_usuario_id_modificacao_fk</td>
+		<td > ( usuario&#095;id&#095;modificacao ) ref <a href='#usuario'>usuario</a> (id) </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Constraints</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td> pedido_status_check </td><td> &#040;status&#041;&#058;&#058;text &#061; ANY &#040;&#040;ARRAY&#091;&#039;S&#039;&#058;&#058;character varying&#044; &#039;P&#039;&#058;&#058;character varying&#044; &#039;E&#039;&#058;&#058;character varying&#093;&#041;&#058;&#058;text&#091;&#093;&#041; </td><td> </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='estoque_entrada'>Table estoque_entrada</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_entrada.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='estoque_entrada.fornecedor_id'>fornecedor&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='estoque_entrada.produto_id'>produto&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='estoque_entrada.nota_fiscal'>nota&#095;fiscal</a></td>
+		<td> varchar&#040; 30 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_entrada.quantidade'>quantidade</a></td>
+		<td> numeric&#040; 7&#044; 2 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_entrada.preco'>preco</a></td>
+		<td> numeric&#040; 8&#044; 2 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_entrada.data_criacao'>data&#095;criacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_entrada.data_modificacao'>data&#095;modificacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_entrada.usuario_id_criacao'>usuario&#095;id&#095;criacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_entrada.usuario_id_modificacao'>usuario&#095;id&#095;modificacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>estoque&#095;entrada&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;estoque&#095;entrada&#095;nota&#095;fiscal&#095;produto</td>
+		<td> ON nota&#095;fiscal&#044; produto&#095;id</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Foreign Keys</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td>estoque_entrada_fornecedor_fk</td>
+		<td > ( fornecedor&#095;id ) ref <a href='#fornecedor'>fornecedor</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>estoque_entrada_produto_fk</td>
+		<td > ( produto&#095;id ) ref <a href='#produto'>produto</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>estoque_entrada_usuario_id_modificacao_fk</td>
+		<td > ( usuario&#095;id&#095;modificacao ) ref <a href='#usuario'>usuario</a> (id) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='cardapio_item'>Table cardapio_item</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_item.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_item.nome'>nome</a></td>
+		<td> varchar&#040; 30 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_item.preco'>preco</a></td>
+		<td> numeric&#040; 8&#044; 2 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='cardapio_item.cardapio_secao_id'>cardapio&#095;secao&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_item.data_criacao'>data&#095;criacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_item.data_modificacao'>data&#095;modificacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_item.usuario_id_criacao'>usuario&#095;id&#095;criacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_item.usuario_id_modificacao'>usuario&#095;id&#095;modificacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='cardapio_item.numero'>numero</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>cardapio&#095;item&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;cardapio&#095;item&#095;cardapio&#095;secao&#095;nome</td>
+		<td> ON cardapio&#095;secao&#095;id&#044; nome</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;cardapio&#095;item&#095;numero</td>
+		<td> ON numero</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Foreign Keys</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td>cardapio_item_cardapio_secao_fk</td>
+		<td > ( cardapio&#095;secao&#095;id ) ref <a href='#cardapio&#095;secao'>cardapio&#095;secao</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>cardapio_item_usuario_id_modificacao_fk</td>
+		<td > ( usuario&#095;id&#095;modificacao ) ref <a href='#usuario'>usuario</a> (id) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='cardapio_secao'>Table cardapio_secao</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_secao.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_secao.nome'>nome</a></td>
+		<td> varchar&#040; 30 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_secao.data_criacao'>data&#095;criacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_secao.data_modificacao'>data&#095;modificacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_secao.usuario_id_criacao'>usuario&#095;id&#095;criacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_secao.usuario_id_modificacao'>usuario&#095;id&#095;modificacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>cardapio&#095;secao&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;cardapio&#095;secao&#095;nome</td>
+		<td> ON nome</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Foreign Keys</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td>cardapio_secao_usuario_id_modificacao_fk</td>
+		<td > ( usuario&#095;id&#095;modificacao ) ref <a href='#usuario'>usuario</a> (id) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='conta'>Table conta</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='conta.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='conta.mesa_id'>mesa&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='conta.status'>status</a></td>
+		<td> varchar&#040; 1 &#041;   DEFO 'A'::character varying </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='conta.saldo'>saldo</a></td>
+		<td> numeric&#040; 8&#044; 2 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='conta.data_criacao'>data&#095;criacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='conta.data_modificacao'>data&#095;modificacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='conta.usuario_id_criacao'>usuario&#095;id&#095;criacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='conta.usuario_id_modificacao'>usuario&#095;id&#095;modificacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>conta&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Foreign Keys</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td>conta_mesa_fk</td>
+		<td > ( mesa&#095;id ) ref <a href='#mesa'>mesa</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>conta_usuario_id_modificacao_fk</td>
+		<td > ( usuario&#095;id&#095;modificacao ) ref <a href='#usuario'>usuario</a> (id) </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Constraints</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td> conta_status_check </td><td> &#040;status&#041;&#058;&#058;text &#061; ANY &#040;&#040;ARRAY&#091;&#039;A&#039;&#058;&#058;character varying&#044; &#039;F&#039;&#058;&#058;character varying&#044; &#039;P&#039;&#058;&#058;character varying&#093;&#041;&#058;&#058;text&#091;&#093;&#041; </td><td> </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='estado'>Table estado</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='estado.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estado.uf'>uf</a></td>
+		<td> varchar&#040; 2 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estado.nome'>nome</a></td>
+		<td> varchar&#040; 20 &#041;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>estado&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;estado&#095;nome</td>
+		<td> ON nome</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;estado&#095;uf</td>
+		<td> ON uf</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='mesa'>Table mesa</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='mesa.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='mesa.numero'>numero</a></td>
+		<td> varchar&#040; 10 &#041;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>mesa&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;mesa&#095;numero</td>
+		<td> ON numero</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='unidade'>Table unidade</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='unidade.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='unidade.sigla'>sigla</a></td>
+		<td> varchar&#040; 4 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='unidade.nome'>nome</a></td>
+		<td> varchar&#040; 20 &#041;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>unidade&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;unidade&#095;nome</td>
+		<td> ON nome</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;unidade&#095;sigla</td>
+		<td> ON sigla</td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='categoria'>Table categoria</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='categoria.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='categoria.nome'>nome</a></td>
+		<td> varchar&#040; 20 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='categoria.data_criacao'>data&#095;criacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='categoria.data_modificacao'>data&#095;modificacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='categoria.usuario_id_criacao'>usuario&#095;id&#095;criacao</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='categoria.usuario_id_modificacao'>usuario&#095;id&#095;modificacao</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>categoria&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;categoria&#095;nome</td>
+		<td> ON nome</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Foreign Keys</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td>categoria_usuario_id_criacao_fk</td>
+		<td > ( usuario&#095;id&#095;criacao ) ref <a href='#usuario'>usuario</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>categoria_usuario_id_modificacao_fk</td>
+		<td > ( usuario&#095;id&#095;modificacao ) ref <a href='#usuario'>usuario</a> (id) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='cardapio_item_composicao'>Table cardapio_item_composicao</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_item_composicao.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='cardapio_item_composicao.produto_id'>produto&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_item_composicao.quantidade'>quantidade</a></td>
+		<td> numeric&#040; 8&#044; 2 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='cardapio_item_composicao.cardapio_secao_id'>cardapio&#095;secao&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_item_composicao.data_criacao'>data&#095;criacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_item_composicao.data_modificacao'>data&#095;modificacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_item_composicao.usuario_id_criacao'>usuario&#095;id&#095;criacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='cardapio_item_composicao.usuario_id_modificacao'>usuario&#095;id&#095;modificacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='cardapio_item_composicao.cardapio_item_id'>cardapio&#095;item&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>cardapio&#095;item&#095;composicao&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;cardapio&#095;item&#095;composicao&#095;cardapio&#095;item</td>
+		<td> ON cardapio&#095;item&#095;id</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Foreign Keys</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td>cardapio_item_composicao_produto_fk</td>
+		<td > ( produto&#095;id ) ref <a href='#produto'>produto</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>cardapio_item_composicao_usuario_id_modificacao_fk</td>
+		<td > ( usuario&#095;id&#095;modificacao ) ref <a href='#usuario'>usuario</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>cardapio_item_composicao_cardapio_item_fk</td>
+		<td > ( cardapio&#095;item&#095;id ) ref <a href='#cardapio&#095;item'>cardapio&#095;item</a> (id) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='tipo_pagamento'>Table tipo_pagamento</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='tipo_pagamento.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='tipo_pagamento.nome'>nome</a></td>
+		<td> varchar&#040; 30 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='tipo_pagamento.destino'>destino</a></td>
+		<td> varchar&#040; 50 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='tipo_pagamento.outras_informacoes'>outras&#095;informacoes</a></td>
+		<td> varchar&#040; 500 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='tipo_pagamento.data_criacao'>data&#095;criacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='tipo_pagamento.data_modificacao'>data&#095;modificacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='tipo_pagamento.usuario_id_criacao'>usuario&#095;id&#095;criacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='tipo_pagamento.usuario_id_modificacao'>usuario&#095;id&#095;modificacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>tipo&#095;pagamento&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;tipo&#095;pagamento&#095;nome</td>
+		<td> ON nome</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Foreign Keys</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td>tipo_pagamento_usuario_id_modificacao_fk</td>
+		<td > ( usuario&#095;id&#095;modificacao ) ref <a href='#usuario'>usuario</a> (id) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='pagamento'>Table pagamento</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='pagamento.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='pagamento.conta_id'>conta&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='pagamento.tipo_pagamento_id'>tipo&#095;pagamento&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='pagamento.valor'>valor</a></td>
+		<td> numeric&#040; 8&#044; 2 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='pagamento.data_criacao'>data&#095;criacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='pagamento.data_modificacao'>data&#095;modificacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='pagamento.usuario_id_criacao'>usuario&#095;id&#095;criacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='pagamento.usuario_id_modificacao'>usuario&#095;id&#095;modificacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>pagamento&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Foreign Keys</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td>pagamento_conta_fk</td>
+		<td > ( conta&#095;id ) ref <a href='#conta'>conta</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>pagamento_tipo_pagamento_fk</td>
+		<td > ( tipo&#095;pagamento&#095;id ) ref <a href='#tipo&#095;pagamento'>tipo&#095;pagamento</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>pagamento_usuario_id_modificacao_fk</td>
+		<td > ( usuario&#095;id&#095;modificacao ) ref <a href='#usuario'>usuario</a> (id) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='produto'>Table produto</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='produto.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='produto.nome'>nome</a></td>
+		<td> varchar&#040; 50 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='produto.categoria_id'>categoria&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='produto.data_criacao'>data&#095;criacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='produto.data_modificacao'>data&#095;modificacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='produto.usuario_id_criacao'>usuario&#095;id&#095;criacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='produto.usuario_id_modificacao'>usuario&#095;id&#095;modificacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='produto.unidade_id'>unidade&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>produto&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;produto&#095;nome&#095;categoria</td>
+		<td> ON nome&#044; categoria&#095;id</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Foreign Keys</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td>produto_categoria_fk</td>
+		<td > ( categoria&#095;id ) ref <a href='#categoria'>categoria</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>produto_unidade_fk</td>
+		<td > ( unidade&#095;id ) ref <a href='#unidade'>unidade</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>produto_usuario_id_criacao_fk</td>
+		<td > ( usuario&#095;id&#095;criacao ) ref <a href='#usuario'>usuario</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>produto_usuario_id_modificacao_fk</td>
+		<td > ( usuario&#095;id&#095;modificacao ) ref <a href='#usuario'>usuario</a> (id) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='fornecedor'>Table fornecedor</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='fornecedor.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='fornecedor.nome'>nome</a></td>
+		<td> varchar&#040; 50 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='fornecedor.cnpj'>cnpj</a></td>
+		<td> varchar&#040; 14 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='fornecedor.estado_id'>estado&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='fornecedor.cidade'>cidade</a></td>
+		<td> varchar&#040; 255 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='fornecedor.endereco'>endereco</a></td>
+		<td> varchar&#040; 255 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='fornecedor.telefone'>telefone</a></td>
+		<td> varchar&#040; 15 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='fornecedor.data_criacao'>data&#095;criacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='fornecedor.data_modificacao'>data&#095;modificacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='fornecedor.usuario_id_criacao'>usuario&#095;id&#095;criacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='fornecedor.usuario_id_modificacao'>usuario&#095;id&#095;modificacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>fornecedor&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;fornecedor&#095;cnpj</td>
+		<td> ON cnpj</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Foreign Keys</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td>fornecedor_estado_fk</td>
+		<td > ( estado&#095;id ) ref <a href='#estado'>estado</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>fornecedor_usuario_id_criacao_fk</td>
+		<td > ( usuario&#095;id&#095;criacao ) ref <a href='#usuario'>usuario</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>fornecedor_usuario_id_modificacao_fk</td>
+		<td > ( usuario&#095;id&#095;modificacao ) ref <a href='#usuario'>usuario</a> (id) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='estoque_avulso'>Table estoque_avulso</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_avulso.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='estoque_avulso.produto_id'>produto&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_avulso.quantidade'>quantidade</a></td>
+		<td> numeric&#040; 8&#044; 2 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_avulso.motivo'>motivo</a></td>
+		<td> varchar&#040; 500 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_avulso.data_criacao'>data&#095;criacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_avulso.data_modificacao'>data&#095;modificacao</a></td>
+		<td> timestamp   DEFO now() </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_avulso.usuario_id_criacao'>usuario&#095;id&#095;criacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_avulso.usuario_id_modificacao'>usuario&#095;id&#095;modificacao</a></td>
+		<td> integer   DEFO 1 </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_avulso.tipo'>tipo</a></td>
+		<td> varchar&#040; 1 &#041;   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_avulso.preco'>preco</a></td>
+		<td> numeric&#040; 8&#044; 2 &#041;   DEFO 0 </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>estoque&#095;avulso&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;estoque&#095;avulso&#095;produto</td>
+		<td> ON produto&#095;id</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Foreign Keys</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td>estoque_avulso_produto_fk</td>
+		<td > ( produto&#095;id ) ref <a href='#produto'>produto</a> (id) </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td>estoque_avulso_usuario_id_modificacao_fk</td>
+		<td > ( usuario&#095;id&#095;modificacao ) ref <a href='#usuario'>usuario</a> (id) </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Constraints</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td> estoque_avulso_tipo_check </td><td> &#040;tipo&#041;&#058;&#058;text &#061; ANY &#040;&#040;ARRAY&#091;&#039;S&#039;&#058;&#058;character varying&#044; &#039;E&#039;&#058;&#058;character varying&#093;&#041;&#058;&#058;text&#091;&#093;&#041; </td><td> </td>
+	</tr>
+</tbody>
+</table>
+
+<br/><br/>
+<table class='bordered'>
+<thead>
+<tr><th colspan='4'><a name='estoque_controle'>Table estoque_controle</a></th></tr>
+</thead>
+<tbody>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_controle.id'>id</a></td>
+		<td> serial   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a name='estoque_controle.produto_id'>produto&#095;id</a></td>
+		<td> integer   </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td>*</td>
+		<td><a name='estoque_controle.quantidade'>quantidade</a></td>
+		<td> numeric&#040; 8&#044; 2 &#041;   </td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Indexes</b></th></tr>
+	<tr>		<td>Pk</td><td>estoque&#095;controle&#095;pkey</td>
+		<td> ON id</td>
+		<td>  </td>
+	</tr>
+	<tr>		<td>U</td><td>uq&#095;estoque&#095;controle&#095;produto</td>
+		<td> ON produto&#095;id</td>
+		<td>  </td>
+	</tr>
+<tr><th colspan='4'><b>Foreign Keys</b></th></tr>
+	<tr>
+		<td>&nbsp;</td><td>estoque_controle_produto_fk</td>
+		<td > ( produto&#095;id ) ref <a href='#produto'>produto</a> (id) </td>
+		<td>  </td>
+	</tr>
+</tbody>
+</table>
+
+</body></html>

@@ -14,8 +14,9 @@
 		"angular-ui-utils": "~0.1.1",
 		"angular-ui-router": "~0.2.10",
 		"angular-truncate" : "latest",
-	    	"angular-route": "~1.2.x",
-    		"font-awesome" : "latest",
-		"bootbox" : "latest"
+	    "angular-route": "~1.2.x",
+    	"font-awesome" : "latest",
+		"bootbox" : "latest",
+		"angular-google-chart" : "latest"
 	}
 }

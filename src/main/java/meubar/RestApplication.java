@@ -11,6 +11,7 @@ import meubar.cadastro.api.GrupoAPI;
 import meubar.cadastro.api.UsuarioAPI;
 import meubar.core.api.CoreAPI;
 import meubar.estoque.api.CategoriaAPI;
+import meubar.estoque.api.EstoqueAvulsoAPI;
 import meubar.estoque.api.EstoqueEntradaAPI;
 import meubar.estoque.api.FornecedorAPI;
 import meubar.estoque.api.ProdutoAPI;
@@ -32,6 +33,7 @@ public class RestApplication extends Application{
 		classes.add(CategoriaAPI.class);
 		classes.add(ProdutoAPI.class);
 		classes.add(EstoqueEntradaAPI.class);
+		classes.add(EstoqueAvulsoAPI.class);
 		classes.add(MeuBarResponseFilter.class);
 		
 		return classes;

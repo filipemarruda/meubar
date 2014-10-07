@@ -7,7 +7,7 @@ var ApplicationConfiguration = (function() {
 	var contextPath = '/meubar';
 	var modulesPath = contextPath + '/modules';
 	var applicationModuleName = 'meuBar';
-	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies', 'ui.router', 'ui.bootstrap'];
+	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies', 'ui.router', 'ui.bootstrap', 'googlechart'];
 
 	// Add a new vertical module
 	var registerModule = function(moduleName, dependencies) {

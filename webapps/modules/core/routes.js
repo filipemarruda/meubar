@@ -15,6 +15,10 @@ coreApp.config(function($stateProvider, $urlRouterProvider) {
   // HOME STATES AND NESTED VIEWS ========================================
     .state( moduleConfig.name , {
         url: '/' + moduleConfig.name,
+        templateUrl: moduleConfig.pagesPath + '/index.html'
+    })
+    .state( moduleConfig.name + '.estoque' , {
+        url: '/estoque',
         templateUrl: moduleConfig.pagesPath + '/dashboard.html'
     })
     .state( 'proibido' , {

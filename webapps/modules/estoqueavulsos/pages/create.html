@@ -1,0 +1,76 @@
+<section data-ng-init="clear()">
+
+	<div class="col-md-4">
+		<form name="moduleForm" class="form-horizontal" data-ng-submit="create()" novalidate>
+			<fieldset>
+				<div class="container-fluid">
+					
+					<div class="row">		
+						<div class="form-group col-md-12" ng-class="{ 'has-error': moduleForm.tipo.$error.required }">
+							<label class="control-label" for="tipo">Tipo</label>
+							<div class="controls">
+								<select data-ng-model="tipo" name="tipo" id="tipo" class="form-control" ng-options="tipo.id as tipo.nome for tipo in tipos|orderBy:'nome'" required></select>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">		
+						<div class="form-group col-md-12" ng-class="{ 'has-error': moduleForm.produtoId.$error.required }">
+							<label class="control-label" for="produtoId">Produto</label>
+							<div class="controls">
+								<select data-ng-model="produtoId" ng-change="changeUnidade(produtoId)" name="produtoId" id="produtoId" class="form-control" ng-options="produto.id as produto.nome for produto in produtos|orderBy:'nome'" required></select>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="form-group col-md-12" ng-class="{ 'has-error': moduleForm.quantidade.$error.pattern || moduleForm.quantidade.$error.required }">
+							<label class="control-label" for="quantidade">Quantidade</label>
+							<div class="controls">
+								<input name="quantidade" data-ng-model="quantidade" id="quantidade" class="form-control" maxlength="9" required ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/i">
+								<span ng-show="unidade">{{unidade}}</span>
+							</div>
+							<p ng-show="moduleForm.quantidade.$error.pattern" class="help-block">A quantidade deve ser um valor num&eacute;rico.</p>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="form-group col-md-12" ng-class="{ 'has-error': moduleForm.motivo.$error.required || moduleForm.motivo.$error.minlength || moduleForm.motivo.$error.maxlength}">
+							<label class="control-label" for="motivo">Motivo</label>
+							<div class="controls">
+								<textarea name="motivo" type="text" data-ng-model="motivo"  id="motivo" class="form-control" maxlength="300" required ng-minlength="10" ng-maxlength="300"></textarea>
+							</div>
+							<p ng-show="moduleForm.motivo.$error.minlength" class="help-block">O motivo da manipula&ccedil;&atilde;o &eacute; muito curto.</p>
+							<p ng-show="moduleForm.motivo.$error.maxlength" class="help-block">O motivo da manipula&ccedil;&atilde;o &eacute; muito longo.</p>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="form-group col-md-12" ng-class="{ 'has-error': moduleForm.preco.$error.pattern }">
+							<label class="control-label" for="preco">Pre&ccedil;o</label>
+							<div class="controls">
+								<input name="preco" data-ng-model="preco" id="preco" class="form-control" maxlength="10" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/i">
+							</div>
+							<p ng-show="moduleForm.preco.$error.pattern" class="help-block">O pre&ccedil;o deve ser um valor num&eacute;rico.</p>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="form-group">
+							<strong ng-show="moduleForm.tipo.$error.required || moduleForm.produtoId.$error.required || moduleForm.quantidade.$error.required || moduleForm.motivo.$error.required" ng-class="{ 'text-danger': moduleForm.tipo.$error.required || moduleForm.produtoId.$error.required || moduleForm.quantidade.$error.required || moduleForm.motivo.$error.required}">
+								Preencha os campos obrigat&oacute;rios.
+							</strong>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="form-group">
+							<input type="submit" class="btn btn-default" ng-disabled="moduleForm.$invalid">
+						</div>
+					</div>
+					
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</section>

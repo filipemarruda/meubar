@@ -15,17 +15,6 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA meubar
 -- *****************************************************************************************************************************************
 -- *****************************************************************************************************************************************
 --------------------------------------------------------------------------------------------------------------------------------------------
--- Types
--- DROP TYPE meubar.status_usuario;
--- DROP TYPE meubar.status_conta;
---------------------------------------------------------------------------------------------------------------------------------------------
-CREATE TYPE meubar.status_usuario AS ENUM ('A', 'I');
-CREATE TYPE meubar.status_conta AS ENUM ('A', 'F', 'P');
-CREATE TYPE meubar.status_pedido AS ENUM ('S','P', 'E');
---------------------------------------------------------------------------------------------------------------------------------------------
--- *****************************************************************************************************************************************
--- *****************************************************************************************************************************************
---------------------------------------------------------------------------------------------------------------------------------------------
 -- Table: meubar.estado
 -- DROP TABLE meubar.estado;
 --------------------------------------------------------------------------------------------------------------------------------------------
@@ -131,9 +120,9 @@ GRANT ALL ON TABLE meubar.unidade TO application;
 GRANT USAGE ON SEQUENCE meubar.unidade_id_seq TO postgres;
 GRANT USAGE ON SEQUENCE meubar.unidade_id_seq TO application;
 
-INSERT INTO meubar.unidade(sigla, nome)  VALUES  ('U','UNIDADE');
+INSERT INTO meubar.unidade(sigla, nome)  VALUES  ('Un','UNIDADE');
 INSERT INTO meubar.unidade(sigla, nome)  VALUES  ('L','LITRO');
-INSERT INTO meubar.unidade(sigla, nome)  VALUES  ('KG','KILOS');
+INSERT INTO meubar.unidade(sigla, nome)  VALUES  ('Kg','KILOS');
 --------------------------------------------------------------------------------------------------------------------------------------------
 -- *****************************************************************************************************************************************
 -- *****************************************************************************************************************************************
@@ -178,13 +167,14 @@ CREATE TABLE meubar.usuario
   nome character varying(255) NOT NULL,
   cpf character varying(11) NOT NULL,
   telefone character varying(15),
-  status meubar.status_usuario NOT NULL DEFAULT 'A',
+  status character varying(1) NOT NULL DEFAULT 'A',
   grupo_id integer,
   data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
   data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
   usuario_id_criacao integer NOT NULL DEFAULT 1, 
   usuario_id_modificacao integer NOT NULL DEFAULT 1,
   CONSTRAINT usuario_grupo_fk FOREIGN KEY ("grupo_id") REFERENCES meubar.grupo (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT usuario_status_check CHECK (status IN ('A','I')),
   CONSTRAINT usuario_pkey PRIMARY KEY (id),
   CONSTRAINT uq_usuario_login UNIQUE (login),
   CONSTRAINT uq_usuario_cpf UNIQUE (cpf)
@@ -298,6 +288,30 @@ GRANT USAGE ON SEQUENCE meubar.produto_id_seq TO application;
 -- *****************************************************************************************************************************************
 -- *****************************************************************************************************************************************
 --------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.estoque_controle
+-- DROP TABLE meubar.estoque_controle;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.estoque_controle
+(
+  id serial NOT NULL,
+  produto_id integer,
+  quantidade numeric(8, 2) NOT NULL,
+  CONSTRAINT estoque_controle_produto_fk FOREIGN KEY ("produto_id") REFERENCES meubar.produto (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT estoque_controle_pkey PRIMARY KEY (id),
+  CONSTRAINT uq_estoque_controle_produto UNIQUE (produto_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.estoque_controle OWNER TO postgres;
+GRANT ALL ON TABLE meubar.estoque_controle TO postgres;
+GRANT ALL ON TABLE meubar.estoque_controle TO application;
+GRANT USAGE ON SEQUENCE meubar.estoque_controle_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.estoque_controle_id_seq TO application;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
 -- Table: meubar.estoque_entrada
 -- DROP TABLE meubar.estoque_entrada;
 --------------------------------------------------------------------------------------------------------------------------------------------
@@ -332,119 +346,60 @@ GRANT USAGE ON SEQUENCE meubar.estoque_entrada_id_seq TO application;
 -- *****************************************************************************************************************************************
 -- *****************************************************************************************************************************************
 --------------------------------------------------------------------------------------------------------------------------------------------
--- Table: meubar.estoque_controle
--- DROP TABLE meubar.estoque_controle;
+-- Function: meubar.insertEstoqueEntrada()
+-- DROP FUNCTION IF EXISTS meubar.insertEstoqueEntrada() CASCADE;
 --------------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE meubar.estoque_controle
-(
-  id serial NOT NULL,
-  produto_id integer,
-  quantidade numeric(8, 2) NOT NULL,
-  CONSTRAINT estoque_controle_produto_fk FOREIGN KEY ("produto_id") REFERENCES meubar.produto (id) ON UPDATE NO ACTION ON DELETE SET NULL,
-  CONSTRAINT estoque_controle_pkey PRIMARY KEY (id),
-  CONSTRAINT uq_estoque_controle_produto UNIQUE (produto_id)
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE meubar.estoque_controle OWNER TO postgres;
-GRANT ALL ON TABLE meubar.estoque_controle TO postgres;
-GRANT ALL ON TABLE meubar.estoque_controle TO application;
-GRANT USAGE ON SEQUENCE meubar.estoque_controle_id_seq TO postgres;
-GRANT USAGE ON SEQUENCE meubar.estoque_controle_id_seq TO application;
---------------------------------------------------------------------------------------------------------------------------------------------
--- *****************************************************************************************************************************************
--- *****************************************************************************************************************************************
---------------------------------------------------------------------------------------------------------------------------------------------
--- Function: meubar.updateestoque()
--- DROP FUNCTION IF EXISTS meubar.updateestoque() CASCADE;
---------------------------------------------------------------------------------------------------------------------------------------------
-CREATE OR REPLACE FUNCTION meubar.updateestoque() RETURNS TRIGGER AS $entrada_estoque_update_estoque_tg$
+CREATE OR REPLACE FUNCTION meubar.insertEstoqueEntrada() RETURNS TRIGGER AS $entrada_estoque_insert_tg$
     DECLARE
 	actual_qtd_item numeric(8,2);
 	new_qtd_item numeric(8,2);
-	new_qtd_old_item numeric(8,2);
-	actual_qtd_old_item numeric(8,2);
     BEGIN
-	IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
-		SELECT quantidade into actual_qtd_item
-		FROM meubar.estoque_controle
-		WHERE produto_id = new.produto_id;
-	END IF;
-
-	IF TG_OP = 'DELETE' OR TG_OP = 'UPDATE' THEN
-		SELECT quantidade into actual_qtd_old_item
-		FROM meubar.estoque_controle
-		WHERE produto_id = old.produto_id;
-	END IF;
 	
-	IF TG_OP = 'INSERT' THEN
-	  IF actual_qtd_item ISNULL THEN
+	SELECT quantidade into actual_qtd_item
+	FROM meubar.estoque_controle
+	WHERE produto_id = new.produto_id;
+	
+	IF actual_qtd_item ISNULL THEN
 		INSERT INTO meubar.estoque_controle(produto_id, quantidade) VALUES (new.produto_id, new.quantidade);
-	  ELSE
+	ELSE
 		new_qtd_item = actual_qtd_item + new.quantidade;
 		UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = new.produto_id;
-	  END IF;
-	ELSEIF  TG_OP = 'UPDATE'  THEN
+	END IF;
+	
+	RETURN NEW;
+    END;    
+$entrada_estoque_insert_tg$ LANGUAGE plpgsql;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Trigger: entrada_estoque_insert_tg
+-- DROP TRIGGER IF EXISTS entrada_estoque_insert_tg ON meubar.estoque_entrada CASCADE;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE CONSTRAINT 
+TRIGGER entrada_estoque_insert_tg AFTER INSERT ON meubar.estoque_entrada
+FOR EACH ROW
+EXECUTE PROCEDURE meubar.insertEstoqueEntrada();
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Function: meubar.deleteEstoqueEntrada()
+-- DROP FUNCTION IF EXISTS meubar.deleteEstoqueEntrada() CASCADE;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION meubar.deleteEstoqueEntrada() RETURNS TRIGGER AS $entrada_estoque_delete_tg$
+    DECLARE
+	new_qtd_item numeric(8,2);
+	actual_qtd_old_item numeric(8,2);
+    BEGIN
 
-	  IF old.produto_id = new.produto_id THEN
-		IF actual_qtd_item ISNULL THEN
-			new_qtd_item = new.quantidade - old.quantidade;
-			IF new_qtd_item < 0 THEN
-				RAISE EXCEPTION '[ERR-UPEST001]Impossivel retirar tantos itens do item de origem<quantidade atual nao existe>';
-			ELSEIF new_qtd_item > 0 THEN
-				INSERT INTO meubar.estoque_controle(produto_id, quantidade) VALUES (new.produto_id, new_qtd_item);
-			ELSE
-				
-				DELETE FROM meubar.estoque_controle WHERE produto_id = old.produto_id;
-			END IF;
-		ELSE
-			new_qtd_item = actual_qtd_item + (new.quantidade - old.quantidade);
-			IF new_qtd_item < 0 THEN
-				RAISE EXCEPTION '[ERR-UPEST002]Impossivel retirar tantos itens do item de origem';
-			ELSEIF new_qtd_item > 0 THEN
-				UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = new.produto_id;
-			ELSE
-				DELETE FROM meubar.estoque_controle WHERE produto_id = old.produto_id;
-			END IF;
-		END IF;
-	  ELSE
-
-		new_qtd_old_item = actual_qtd_old_item - (new.quantidade - old.quantidade);
-		IF new_qtd_old_item < 0 THEN
-			RAISE EXCEPTION '[ERR-UPEST003]Impossivel retirar tantos itens do produto anterior';
-		ELSEIF new_qtd_old_item > 0 THEN
-			IF actual_qtd_item ISNULL THEN
-				INSERT INTO meubar.estoque_controle(produto_id, quantidade) VALUES (new.produto_id, new_qtd_item);
-			ELSE
-				new_qtd_item = actual_qtd_item + (new.quantidade - old.quantidade);
-				IF new_qtd_item < 0 THEN
-					RAISE EXCEPTION '[ERR-UPEST004]Impossivel retirar tantos itens do novo item';
-				ELSEIF new_qtd_item > 0 THEN
-					UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = new.produto_id;
-				ELSE
-					DELETE FROM meubar.estoque_controle WHERE produto_id = new.produto_id;
-				END IF;
-				
-			END IF;
-			UPDATE meubar.estoque_controle SET quantidade=new_qtd_old_item WHERE produto_id = old.produto_id;
-		ELSE
-			IF new_qtd_item < 0 THEN
-				RAISE EXCEPTION '[ERR-UPEST005]Impossivel retirar tantos itens do novo item';
-			ELSEIF new_qtd_item > 0 THEN
-				UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = new.produto_id;
-			ELSE
-				DELETE FROM meubar.estoque_controle WHERE produto_id = new.produto_id;
-			END IF;
-			DELETE FROM meubar.estoque_controle WHERE produto_id = old.produto_id;
-		END IF;
-		
-	  END IF;
-	  
-	ELSEIF  TG_OP = 'DELETE'  THEN
-	  IF actual_qtd_old_item ISNULL THEN
+	SELECT quantidade into actual_qtd_old_item
+	FROM meubar.estoque_controle
+	WHERE produto_id = old.produto_id;
+	
+	IF actual_qtd_old_item ISNULL THEN
 		RAISE EXCEPTION '[ERR-UPEST006]Impossivel retirar tal quandidade dos itens atuais<nao existe quantidade>';
-	  ELSE
+	ELSE
 		new_qtd_item = actual_qtd_old_item - old.quantidade;
 		IF new_qtd_item < 0 THEN
 			RAISE EXCEPTION '[ERR-UPEST007]Impossivel retirar tal quandidade dos itens atuais - Estoque: % - Deleted: %', actual_qtd_old_item, old.quantidade;
@@ -453,23 +408,133 @@ CREATE OR REPLACE FUNCTION meubar.updateestoque() RETURNS TRIGGER AS $entrada_es
 		ELSE
 			DELETE FROM meubar.estoque_controle WHERE produto_id = old.produto_id;
 		END IF;
-	  END IF;
 	END IF;
 	
 	RETURN NEW;
     END;    
-$entrada_estoque_update_estoque_tg$ LANGUAGE plpgsql;
+$entrada_estoque_delete_tg$ LANGUAGE plpgsql;
 --------------------------------------------------------------------------------------------------------------------------------------------
 -- *****************************************************************************************************************************************
 -- *****************************************************************************************************************************************
 --------------------------------------------------------------------------------------------------------------------------------------------
--- Trigger: entrada_estoque_update_estoque_tg
--- DROP TRIGGER IF EXISTS entrada_estoque_update_estoque_tg ON meubar.estoque_entrada CASCADE;
+-- Trigger: entrada_estoque_delete_tg
+-- DROP TRIGGER IF EXISTS entrada_estoque_delete_tg ON meubar.estoque_entrada CASCADE;
 --------------------------------------------------------------------------------------------------------------------------------------------
 CREATE CONSTRAINT 
-TRIGGER entrada_estoque_update_estoque_tg AFTER INSERT OR UPDATE OR DELETE ON meubar.estoque_entrada
+TRIGGER entrada_estoque_delete_tg AFTER DELETE ON meubar.estoque_entrada
 FOR EACH ROW
-EXECUTE PROCEDURE meubar.updateEstoque();
+EXECUTE PROCEDURE meubar.deleteEstoqueEntrada();
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Function: meubar.updateEstoqueEntrada()
+-- DROP FUNCTION IF EXISTS meubar.updateEstoqueEntrada() CASCADE;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION meubar.updateEstoqueEntrada() RETURNS TRIGGER AS $entrada_estoque_update_tg$
+	DECLARE
+		actual_qtd_item numeric(8,2);
+		new_qtd_item numeric(8,2);
+		new_qtd_old_item numeric(8,2);
+		actual_qtd_old_item numeric(8,2);
+    BEGIN
+	
+		SELECT quantidade into actual_qtd_item
+		FROM meubar.estoque_controle
+		WHERE produto_id = new.produto_id;
+
+		SELECT quantidade into actual_qtd_old_item
+		FROM meubar.estoque_controle
+		WHERE produto_id = old.produto_id;
+		
+		IF old.produto_id = new.produto_id THEN
+			IF actual_qtd_item ISNULL THEN
+				new_qtd_item = new.quantidade - old.quantidade;
+				IF new_qtd_item < 0 THEN
+					RAISE EXCEPTION '[ERR-UPEST001]Impossivel retirar tantos itens do item de origem<quantidade atual nao existe>';
+				ELSEIF new_qtd_item > 0 THEN
+					INSERT INTO meubar.estoque_controle(produto_id, quantidade) VALUES (new.produto_id, new_qtd_item);
+				ELSE
+					DELETE FROM meubar.estoque_controle WHERE produto_id = old.produto_id;
+				END IF;
+			ELSE
+				new_qtd_item = actual_qtd_item + (new.quantidade - old.quantidade);
+				IF new_qtd_item < 0 THEN
+					RAISE EXCEPTION '[ERR-UPEST002]Impossivel retirar tantos itens do item de origem';
+				ELSEIF new_qtd_item > 0 THEN
+					UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = new.produto_id;
+				ELSE
+					DELETE FROM meubar.estoque_controle WHERE produto_id = old.produto_id;
+				END IF;
+			END IF;
+		ELSE
+
+			new_qtd_old_item = actual_qtd_old_item - old.quantidade;
+			IF new_qtd_old_item < 0 THEN
+				RAISE EXCEPTION '[ERR-UPEST003]Impossivel retirar tantos itens do produto anterior';
+			ELSEIF new_qtd_old_item > 0 THEN
+				UPDATE meubar.estoque_controle SET quantidade=new_qtd_old_item WHERE produto_id = old.produto_id;
+			ELSE
+				DELETE FROM meubar.estoque_controle WHERE produto_id = old.produto_id;
+			END IF;
+			
+			IF actual_qtd_item ISNULL THEN
+				INSERT INTO meubar.estoque_controle(produto_id, quantidade) VALUES (new.produto_id, new.quantidade);
+			ELSE
+				new_qtd_item = actual_qtd_item + new.quantidade;
+				UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = new.produto_id;
+			END IF;
+
+		END IF;
+		
+		RETURN NEW;
+    END;    
+$entrada_estoque_update_tg$ LANGUAGE plpgsql;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Trigger: entrada_estoque_update_tg
+-- DROP TRIGGER IF EXISTS entrada_estoque_update_tg ON meubar.estoque_entrada CASCADE;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE CONSTRAINT 
+TRIGGER entrada_estoque_update_tg AFTER UPDATE ON meubar.estoque_entrada
+FOR EACH ROW
+EXECUTE PROCEDURE meubar.updateEstoqueEntrada();
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- *****************************************************************************************************************************************
+-- *****************************************************************************************************************************************
+--------------------------------------------------------------------------------------------------------------------------------------------
+-- Table: meubar.estoque_avulso
+-- DROP TABLE meubar.estoque_avulso;
+--------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE meubar.estoque_avulso
+(
+  id serial NOT NULL,
+  produto_id integer,
+  tipo character varying(1) NOT NULL,
+  quantidade numeric(8, 2) NOT NULL,
+  motivo character varying(500) NOT NULL,
+  preco numeric(8, 2) NOT NULL DEFAULT 0,
+  data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp,
+  data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
+  usuario_id_criacao integer NOT NULL DEFAULT 1, 
+  usuario_id_modificacao integer NOT NULL DEFAULT 1,
+  CONSTRAINT estoque_avulso_produto_fk FOREIGN KEY ("produto_id") REFERENCES meubar.produto (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT estoque_avulso_usuario_id_criacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT estoque_avulso_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT estoque_avulso_pkey PRIMARY KEY (id),
+  CONSTRAINT uq_estoque_avulso_produto UNIQUE (produto_id),
+  CONSTRAINT estoque_avulso_tipo_check CHECK (tipo in ('S','E'))
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE meubar.estoque_avulso OWNER TO postgres;
+GRANT ALL ON TABLE meubar.estoque_avulso TO postgres;
+GRANT ALL ON TABLE meubar.estoque_avulso TO application;
+GRANT USAGE ON SEQUENCE meubar.estoque_avulso_id_seq TO postgres;
+GRANT USAGE ON SEQUENCE meubar.estoque_avulso_id_seq TO application;
 --------------------------------------------------------------------------------------------------------------------------------------------
 -- *****************************************************************************************************************************************
 -- *****************************************************************************************************************************************
@@ -575,7 +640,7 @@ CREATE TABLE meubar.conta
 (
   id serial NOT NULL,
   mesa_id integer,
-  status meubar.status_conta NOT NULL DEFAULT 'A',
+  status character varying(1) NOT NULL DEFAULT 'A',
   saldo numeric(8, 2) NOT NULL,
   data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp,
   data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
@@ -584,6 +649,7 @@ CREATE TABLE meubar.conta
   CONSTRAINT conta_mesa_fk FOREIGN KEY ("mesa_id") REFERENCES meubar.mesa (id) ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT conta_usuario_id_criacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
   CONSTRAINT conta_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT conta_status_check CHECK (status IN ('A', 'F', 'P')),
   CONSTRAINT conta_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -668,7 +734,7 @@ CREATE TABLE meubar.pedido
   conta_id integer,
   cardapio_item_id integer,
   preco numeric(8, 2) NOT NULL,
-  status meubar.status_pedido NOT NULL DEFAULT 'S',
+  status character varying(1) NOT NULL DEFAULT 'S',
   data_criacao timestamp without time zone NOT NULL DEFAULT current_timestamp,
   data_modificacao timestamp without time zone NOT NULL DEFAULT current_timestamp, 
   usuario_id_criacao integer NOT NULL DEFAULT 1, 
@@ -677,6 +743,7 @@ CREATE TABLE meubar.pedido
   CONSTRAINT pedido_cardapio_item_fk FOREIGN KEY ("cardapio_item_id") REFERENCES meubar.cardapio_item (id) ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT pedido_usuario_id_criacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
   CONSTRAINT pedido_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
+  CONSTRAINT pedido_status_check CHECK (status IN ('S','P', 'E')),
   CONSTRAINT pedido_pkey PRIMARY KEY (id)
 )
 WITH (

@@ -1,0 +1,75 @@
+<section data-ng-init="find()">
+
+	<div class="container col-md-12">
+		<div class="row">
+		
+			<div class="col-md-2 tableListFilter"><input type="text" ng-model="search" ng-change="filter(itens, search)" placeholder="Filtro" class="form-control" /></div>
+			
+			<div class="col-md-4">
+		        <h5>{{ filteredItems.length }} itens filtrados de {{ itens.length }}</h5>
+		    </div>
+		    
+			<div class="pull-right itensPorPagina">
+				<select ng-model="itensPerPage" class="form-control">
+				    <option>5</option>
+				    <option>10</option>
+				    <option>20</option>
+				    <option>50</option>
+				    <option>100</option>
+				</select>
+			</div>
+			<div class="pull-right">
+		        <h5>Itens por pagina:</h5>
+		    </div>
+			
+		</div>
+	</div>
+    
+    <div class="container col-md-12">
+	    <div class="row">
+		    <table class="table table-hover table-striped table-bordered" ng-show="totalItems > 0">
+		        <thead>
+		            <tr>
+		                <td># <a ng-click="sortBy('id');"><i class="fa fa-fw fa-sort"></i></a></td>
+		                <td>Produto <a ng-click="sortBy('produto');"><i class="fa fa-fw fa-sort"></i></a></td>
+		                <td>Tipo <a ng-click="sortBy('tipo');"><i class="fa fa-fw fa-sort"></i></a></td>
+		                <td>Quantidade <a ng-click="sortBy('quantidade');"><i class="fa fa-fw fa-sort"></i></a></td>
+		                <td>Ultima modifica&ccedil;&atilde;o <a ng-click="sortBy('dataModificacao');"><i class="fa fa-fw fa-sort"></i></a></td>
+		                <td>Respons&aacute;vel <a ng-click="sortBy('usuarioModificacao');"><i class="fa fa-fw fa-sort"></i></a></td>
+		                <td>A&ccedil;&otilde;es</td>
+		            </tr>
+		        </thead>
+		        <tbody>
+		            <tr ng-repeat="item in (filteredItems | orderBy : predicate :reverse | startFrom:(currentPage-1)*itensPerPage | limitTo:itensPerPage )" >
+		                <td>{{item.id}}</td>
+		                <td>{{item.produto}}</td>
+		                <td>{{item.tipo}}</td>
+		                <td>{{item.quantidade}}</td>
+		                <td>{{item.dataModificacao}}</td>
+		                <td>{{item.usuarioModificacao}}</td>
+		                <td>
+		                    <a data-ng-href="#!/{{moduleConfig.name}}/view/{{item.id}}"><i class='fa fa-fw fa-folder-open-o'></i></a>
+		                    <a data-ng-href="#!/{{moduleConfig.name}}/edit/{{item.id}}"><i class='fa fa-fw fa-edit'></i></a>
+		                    <a data-ng-href="#!/{{moduleConfig.name}}/list" ng-click="remove(item)"><i class='fa fa-fw fa-trash-o'></i></a>
+		                </td>
+		            </tr>   
+		        </tbody>
+		    </table>
+	    </div>
+    
+	    <div class="row" >
+		    
+		    <div class="col-md-12" ng-show="totalItems == 0">
+		        <div class="col-md-12">
+		            <h4>Nenhuma manipula&ccedil;&atilde;o encontrada</h4>
+		        </div>
+		    </div>
+		    
+	    </div>
+	    <div class="row" ng-show="totalItems > itensPerPage">
+	    	<div class="pull-right">
+	    		<pagination boundary-links="true" total-items="totalItems" items-per-page="itensPerPage" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+	    	</div>
+	    </div>
+    </div>
+</section>

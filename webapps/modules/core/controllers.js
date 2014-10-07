@@ -1,12 +1,12 @@
 'use strict';
 
-coreApp.controller('CoreCtrl', ['$rootScope', '$cookies', '$stateParams', '$location', '$state','Core',
-	function($rootScope, $cookies, $stateParams, $location, $state, Core) {
+coreApp.controller('CoreCtrl', ['$rootScope', '$cookies', '$stateParams', '$location', '$state','Core','Estoque',
+	function($rootScope, $cookies, $stateParams, $location, $state, Core, Estoque) {
 		console.log("in controller of module: " + coreApp.name);
 		
 		$rootScope.moduleConfig = new ModuleConfig(coreApp.name);
 		$rootScope.moduleHeader = $rootScope.moduleConfig.header;
-
+		$location.path('/core/estoque');
 		$rootScope.logout = function() {
 			
 			var login_page = 'index.html';
@@ -57,5 +57,53 @@ coreApp.controller('CoreCtrl', ['$rootScope', '$cookies', '$stateParams', '$loca
 
 			return menus;
 		};
+		
+		
 	}]
 );
+
+coreApp.controller('EstoqueControleCtrl', ['$rootScope', '$scope', '$cookies', 'Estoque',
+    function($rootScope, $scope, $cookies, Estoque) {
+		$scope.chart = {};
+		$scope.chatData = [];
+		$scope.chart.data = {
+				"cols": [
+				         {id: "produto-id", label: "Produtos", type: "string"},
+				         {id: "quantidade-id", label: "Quantidade", type: "number"}
+				         ],
+				"rows": $scope.chatData
+		};
+		
+		$scope.chart.type = "ColumnChart";
+		$scope.chart.options = {
+				'title': 'Produtos no estoque',
+				"isStacked": "true",
+		        "fill": 20,
+		        "displayExactValues": true,
+		        "vAxis": {
+		            "title": "Unidades em Estoque", "gridlines": {"count": 10}
+		        },
+		        "hAxis": {
+		            "title": "Produtos"
+		        }
+		};
+		 
+		Estoque.query(
+			{},
+			function(response, headers){
+				response.forEach(function(obj){
+					$scope.chatData.push(
+							{c:[
+							    {v : obj.produto},
+							    {v : obj.quantidade, f : obj.quantidade + ' ' + obj.unidade}
+							]}
+					);
+				});
+				$cookies.auth_token = headers('auth_token');
+			},
+			function(error){
+				$rootScope.errorHandle(error,$scope);
+			}
+		);
+    }
+]);

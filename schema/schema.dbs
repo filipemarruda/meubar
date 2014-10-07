@@ -122,8 +122,8 @@
 		<table name="conta" >
 			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
 			<column name="mesa_id" type="integer" length="10" decimal="0" jt="4" />
-			<column name="status" type="status_conta" length="2147483647" decimal="0" jt="1111" mandatory="y" >
-				<defo>&#039;A&#039;::meubar.status_conta</defo>
+			<column name="status" type="varchar" length="1" decimal="0" jt="12" mandatory="y" >
+				<defo>&#039;A&#039;::character varying</defo>
 			</column>
 			<column name="saldo" type="numeric" length="8" decimal="2" jt="2" mandatory="y" />
 			<column name="data_criacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
@@ -141,6 +141,9 @@
 			<index name="conta_pkey" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
+			<constraint name="conta_status_check" >
+				<string>(status)::text = ANY ((ARRAY[&#039;A&#039;::character varying, &#039;F&#039;::character varying, &#039;P&#039;::character varying])::text[])</string>
+			</constraint>
 			<fk name="conta_mesa_fk" to_schema="meubar" to_table="mesa" delete_action="setNull" >
 				<fk_column name="mesa_id" pk="id" />
 			</fk>
@@ -161,6 +164,43 @@
 			<index name="uq_estado_uf" unique="UNIQUE" >
 				<column name="uf" />
 			</index>
+		</table>
+		<table name="estoque_avulso" >
+			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
+			<column name="produto_id" type="integer" length="10" decimal="0" jt="4" />
+			<column name="quantidade" type="numeric" length="8" decimal="2" jt="2" mandatory="y" />
+			<column name="motivo" type="varchar" length="500" decimal="0" jt="12" mandatory="y" />
+			<column name="data_criacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="data_modificacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
+				<defo>now()</defo>
+			</column>
+			<column name="usuario_id_criacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="usuario_id_modificacao" type="integer" length="10" decimal="0" jt="4" mandatory="y" >
+				<defo>1</defo>
+			</column>
+			<column name="tipo" type="varchar" length="1" decimal="0" jt="12" mandatory="y" />
+			<column name="preco" type="numeric" length="8" decimal="2" jt="2" mandatory="y" >
+				<defo>0</defo>
+			</column>
+			<index name="estoque_avulso_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="uq_estoque_avulso_produto" unique="UNIQUE" >
+				<column name="produto_id" />
+			</index>
+			<constraint name="estoque_avulso_tipo_check" >
+				<string>(tipo)::text = ANY ((ARRAY[&#039;S&#039;::character varying, &#039;E&#039;::character varying])::text[])</string>
+			</constraint>
+			<fk name="estoque_avulso_produto_fk" to_schema="meubar" to_table="produto" delete_action="setNull" >
+				<fk_column name="produto_id" pk="id" />
+			</fk>
+			<fk name="estoque_avulso_usuario_id_modificacao_fk" to_schema="meubar" to_table="usuario" delete_action="setDefault" >
+				<fk_column name="usuario_id_modificacao" pk="id" />
+			</fk>
 		</table>
 		<table name="estoque_controle" >
 			<column name="id" type="serial" length="10" decimal="0" jt="4" mandatory="y" />
@@ -315,8 +355,8 @@
 			<column name="conta_id" type="integer" length="10" decimal="0" jt="4" />
 			<column name="cardapio_item_id" type="integer" length="10" decimal="0" jt="4" />
 			<column name="preco" type="numeric" length="8" decimal="2" jt="2" mandatory="y" />
-			<column name="status" type="status_pedido" length="2147483647" decimal="0" jt="1111" mandatory="y" >
-				<defo>&#039;P&#039;::meubar.status_pedido</defo>
+			<column name="status" type="varchar" length="1" decimal="0" jt="12" mandatory="y" >
+				<defo>&#039;S&#039;::character varying</defo>
 			</column>
 			<column name="data_criacao" type="timestamp" length="29" decimal="6" jt="93" mandatory="y" >
 				<defo>now()</defo>
@@ -333,6 +373,9 @@
 			<index name="pedido_pkey" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
+			<constraint name="pedido_status_check" >
+				<string>(status)::text = ANY ((ARRAY[&#039;S&#039;::character varying, &#039;P&#039;::character varying, &#039;E&#039;::character varying])::text[])</string>
+			</constraint>
 			<fk name="pedido_cardapio_item_fk" to_schema="meubar" to_table="cardapio_item" delete_action="setNull" >
 				<fk_column name="cardapio_item_id" pk="id" />
 			</fk>
@@ -441,8 +484,8 @@
 			<column name="usuario_id_modificacao" type="integer" length="0" decimal="0" jt="4" mandatory="y" >
 				<defo>1</defo>
 			</column>
-			<column name="status" type="status_usuario" length="2147483647" decimal="0" jt="1111" mandatory="y" >
-				<defo>&#039;A&#039;::meubar.status_usuario</defo>
+			<column name="status" type="varchar" length="1" decimal="0" jt="12" mandatory="y" >
+				<defo>&#039;A&#039;::character varying</defo>
 			</column>
 			<index name="usuario_pkey" unique="PRIMARY_KEY" >
 				<column name="id" />
@@ -453,6 +496,9 @@
 			<index name="uq_usuario_login" unique="UNIQUE" >
 				<column name="login" />
 			</index>
+			<constraint name="usuario_status_check" >
+				<string>(status)::text = ANY ((ARRAY[&#039;A&#039;::character varying, &#039;I&#039;::character varying])::text[])</string>
+			</constraint>
 			<fk name="usuario_grupo_fk" to_schema="meubar" to_table="grupo" delete_action="setNull" >
 				<fk_column name="grupo_id" pk="id" />
 			</fk>
@@ -463,6 +509,7 @@
 		<sequence name="categoria_id_seq" start="1" />
 		<sequence name="conta_id_seq" start="1" />
 		<sequence name="estado_id_seq" start="1" />
+		<sequence name="estoque_avulso_id_seq" start="1" />
 		<sequence name="estoque_controle_id_seq" start="1" />
 		<sequence name="estoque_entrada_id_seq" start="1" />
 		<sequence name="fornecedor_id_seq" start="1" />
@@ -474,6 +521,12 @@
 		<sequence name="tipo_pagamento_id_seq" start="1" />
 		<sequence name="unidade_id_seq" start="1" />
 		<sequence name="usuario_id_seq" start="1" />
+		<trigger name="entrada_estoque_update_estoque_tg" id="Trigger7604268" isSystem="false" >
+			<string><![CDATA[CREATE CONSTRAINT TRIGGER entrada_estoque_update_estoque_tg AFTER INSERT OR DELETE OR UPDATE ON meubar.estoque_entrada NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE meubar.updateestoque()]]></string>
+		</trigger>
+		<trigger name="entrada_estoque_update_estoque_tg_001" id="Trigger7604269" isSystem="false" />
+		<trigger name="entrada_estoque_update_estoque_tg_002" id="Trigger7604270" isSystem="false" />
+		<function name="updateestoque" id="Function7604266" isSystem="false" />
 	</schema>
 	<connector name="PostgreSQL" database="PostgreSQL" driver_class="org.postgresql.Driver" driver_jar="postgresql-9.2-1003.jdbc3.jar" host="localhost" port="5432" instance="hotel" user="postgres" passwd="cXdlci4xMjM0" schema_mapping="" />
 	<layout id="Layout5833442" name="Cardapio" >
@@ -503,13 +556,14 @@
 		<entity schema="meubar" name="estado" color="cccccc" x="240" y="615" />
 		<entity schema="meubar" name="mesa" color="cccccc" x="330" y="615" />
 		<entity schema="meubar" name="unidade" color="cccccc" x="240" y="510" />
-		<entity schema="meubar" name="estoque_controle" color="b2cdf7" x="690" y="840" />
 		<entity schema="meubar" name="categoria" color="b2cdf7" x="480" y="810" />
 		<entity schema="meubar" name="cardapio_item_composicao" color="ff9999" x="45" y="240" />
 		<entity schema="meubar" name="tipo_pagamento" color="ffffcc" x="1005" y="255" />
 		<entity schema="meubar" name="pagamento" color="ffffcc" x="1005" y="45" />
 		<entity schema="meubar" name="produto" color="b2cdf7" x="495" y="510" />
 		<entity schema="meubar" name="fornecedor" color="b2cdf7" x="1005" y="510" />
+		<entity schema="meubar" name="estoque_avulso" color="b2cdf7" x="900" y="750" />
+		<entity schema="meubar" name="estoque_controle" color="b2cdf7" x="720" y="810" />
 		<group name="ESTOQUE" color="c4e0f9" >
 			<entity schema="meubar" name="fornecedor" />
 			<entity schema="meubar" name="estoque_entrada" />
