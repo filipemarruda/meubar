@@ -81,7 +81,7 @@ coreApp.controller('EstoqueControleCtrl', ['$rootScope', '$scope', '$cookies', '
 		        "fill": 20,
 		        "displayExactValues": true,
 		        "vAxis": {
-		            "title": "Unidades em Estoque", "gridlines": {"count": 10}
+		            "title": "Estoque", "gridlines": {"count": 10}
 		        },
 		        "hAxis": {
 		            "title": "Produtos"
