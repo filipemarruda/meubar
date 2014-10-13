@@ -528,7 +528,7 @@ CREATE TABLE meubar.estoque_avulso
   CONSTRAINT estoque_avulso_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
   CONSTRAINT estoque_avulso_pkey PRIMARY KEY (id),
   CONSTRAINT estoque_avulso_quantidade_check CHECK (quantidade > 0),
-  CONSTRAINT estoque_avulso_preco_check CHECK (preco > 0),
+  CONSTRAINT estoque_avulso_preco_check CHECK (preco >= 0),
   CONSTRAINT estoque_avulso_tipo_check CHECK (tipo in ('S','E'))
 )
 WITH (
@@ -661,13 +661,21 @@ CREATE OR REPLACE FUNCTION meubar.updateEstoqueAvulso() RETURNS TRIGGER AS $esto
 		actual_qtd_old_item numeric(8,2);
     BEGIN
 	
-		SELECT NULLIF(quantidade,0) into actual_qtd_item
+		SELECT quantidade into actual_qtd_item
 		FROM meubar.estoque_controle
 		WHERE produto_id = new.produto_id;
 
-		SELECT NULLIF(quantidade,0) into actual_qtd_old_item
+		IF actual_qtd_item IS NULL THEN
+			actual_qtd_item = 0;
+		END IF;
+		
+		SELECT quantidade into actual_qtd_old_item
 		FROM meubar.estoque_controle
 		WHERE produto_id = old.produto_id;
+		
+		IF actual_qtd_old_item IS NULL THEN
+			actual_qtd_old_item = 0;
+		END IF;
 		
 		IF old.produto_id = new.produto_id THEN
 		
@@ -689,6 +697,10 @@ CREATE OR REPLACE FUNCTION meubar.updateEstoqueAvulso() RETURNS TRIGGER AS $esto
 				
 			END IF;
 			
+			IF new_qtd_item < 0 THEN
+				RAISE EXCEPTION '[ERR_UP_ES_AV_001]Valor impossivel para as quantidades do item, verifique o estoque % => %', new.produto_id, new_qtd_item;
+			END IF;
+			
 		ELSE
 
 			IF old.tipo = 'E' THEN
@@ -707,20 +719,22 @@ CREATE OR REPLACE FUNCTION meubar.updateEstoqueAvulso() RETURNS TRIGGER AS $esto
 				new_qtd_item = actual_qtd_item - new.quantidade;
 			END IF;
 
-		END IF;
+			IF new_qtd_item < 0 THEN
+				RAISE EXCEPTION '[ERR_UP_ES_AV_001]Valor impossivel para as quantidades do item, verifique o estoque % => %', new.produto_id, new_qtd_item;
+			END IF;
+			
+			IF new_qtd_old_item = 0 THEN
+				DELETE FROM meubar.estoque_controle WHERE produto_id = old.produto_id;
+			ELSE
+				UPDATE meubar.estoque_controle SET quantidade = new_qtd_old_item WHERE produto_id = old.produto_id; 
+			END IF;
 
-		IF new_qtd_item < 0 THEN
-			RAISE EXCEPTION '[ERR_UP_ES_AV_001]Valor impossivel para as quantidades do item, verifique o estoque % => %', new.produto_id, new_qtd_item;
 		END IF;
 		
-		IF new_qtd_old_item = 0 THEN
-			DELETE FROM meubar.estoque_controle WHERE produto_id = old.produto_id;
-		ELSEIF new_qtd_old_item > 0 THEN
-			UPDATE meubar.estoque_controle SET quantidade = new_qtd_old_item WHERE produto_id = old.produto_id; 
-		END IF;
-		
-		IF new_qtd_item = 0 THEN
+		IF new_qtd_item = 0 AND actual_qtd_item <> 0 THEN
 			DELETE FROM meubar.estoque_controle WHERE produto_id = new.produto_id;
+		ELSEIF actual_qtd_item = 0 THEN
+			INSERT INTO meubar.estoque_controle(produto_id, quantidade) VALUES (new.produto_id, new_qtd_item);
 		ELSE
 			UPDATE meubar.estoque_controle SET quantidade = new_qtd_item WHERE produto_id = new.produto_id; 
 		END IF;
