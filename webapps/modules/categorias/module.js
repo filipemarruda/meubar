@@ -3,7 +3,8 @@
 var moduleName = 'categorias';
 var path = ApplicationConfiguration.modulesPath + '/' + moduleName;
 
-ApplicationConfiguration.registerMenu({
+ApplicationConfiguration.registerSubmenu({
+	parent: 'estoque',
 	nome: moduleName,
 	url: moduleName + '.list',
 	classe: 'fa fa-fw fa-tags',

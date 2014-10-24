@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/meubar/lib/bower/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/meubar/lib/bower/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/sbadmin.css">
 	
     <!-- JS (load angular, ui-router, and our custom js file) -->
     <script src="/meubar/lib/bower/jquery/dist/jquery.min.js"></script>
@@ -28,6 +29,8 @@
     <script src="js/config.js"></script>
     <script src="js/application.js"></script>
    	<script src="js/utils.js"></script>
+   	<script src="js/metisMenu.js"></script>
+   	<script src="js/sbadmin.js"></script>
     <script src="/meubar/modules/core/module.js"></script>
     <script src="/meubar/modules/grupos/module.js"></script>
     <script src="/meubar/modules/usuarios/module.js"></script>
@@ -66,15 +69,26 @@
 <!-- MAIN CONTENT -->
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li ng-repeat="menu in getMenus()" ng-class="getMenuClass(menu.nome)">
-                    <a ui-sref="{{menu.url}}">
-                        <i ng-class="menu.classe" ></i>
-                        {{menu.label}}
-                    </a>
-                </li>
-            </ul>
+        <div class="col-sm-3 col-md-2 sidebar navbar-default" role="navigation">
+        	<div class="sidebar-nav navbar-collapse">
+	            <ul class="nav nav-sidebar" id="side-menu">
+	                <li ng-repeat="menu in getMenus()">
+	                    <a ui-sref="{{menu.url}}">
+	                        <i ng-class="menu.classe" ></i>
+	                        {{menu.label}}
+	                    </a>
+	                    
+	                    <ul class="nav nav-second-level collapse">
+	                        <li ng-repeat="submenu in getSubmenus(menu.nome)" ng-class="getMenuClass(submenu.nome)">
+	                            <a ui-sref="{{submenu.url}}">
+									<i ng-class="submenu.classe" ></i>
+									{{submenu.label}}
+								</a>
+	                        </li>
+	                    </ul>
+	                </li>
+	            </ul>
+	         </div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <div ui-view />

@@ -47,15 +47,29 @@ coreApp.controller('CoreCtrl', ['$rootScope', '$cookies', '$stateParams', '$loca
 		};
 
 		$rootScope.getMenus = function(){
-			var menus = [];
-			
-			ApplicationConfiguration.menus.forEach(function(item){
-				if($.inArray($cookies.grupo, item.permissoes) != -1){
-					menus.push(item);
-				}
-			});
 
-			return menus;
+			return ApplicationConfiguration.menus.filter(function(item){
+				
+				return $.inArray($cookies.grupo, item.permissoes) != -1;
+				
+			});
+			
+		};
+		
+		$rootScope.haveSubmenu = function(parent){
+
+			return (ApplicationConfiguration.submenus.filter(function(item){
+				return $.inArray($cookies.grupo, item.permissoes) != -1 && item.parent == parent;
+			}).size > 0);
+
+		};
+		
+		$rootScope.getSubmenus = function(parent){
+
+			return ApplicationConfiguration.submenus.filter(function(item){
+				return $.inArray($cookies.grupo, item.permissoes) != -1 && item.parent == parent;
+			});
+			
 		};
 		
 		

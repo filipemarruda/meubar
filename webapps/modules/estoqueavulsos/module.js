@@ -3,14 +3,14 @@
 var moduleName = 'estoqueavulsos';
 var path = ApplicationConfiguration.modulesPath + '/' + moduleName;
 
-ApplicationConfiguration.registerMenu({
-	nome: 'estoqueavulsos',
+ApplicationConfiguration.registerSubmenu({
+	parent: 'estoque',
+	nome: moduleName,
 	url: moduleName + '.list',
 	classe: 'fa fa-fw fa-magic',
 	label: 'Manipulação de Estoque',
 	permissoes: ['Administrador']
 });
-
 
 ApplicationConfiguration.includeFile(path + '/routes.js');
 ApplicationConfiguration.includeFile(path + '/services.js');

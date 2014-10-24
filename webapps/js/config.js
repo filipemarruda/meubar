@@ -4,6 +4,7 @@
 var ApplicationConfiguration = (function() {
 	
 	var menus = [];
+	var submenus = [];
 	var contextPath = '/meubar';
 	var modulesPath = contextPath + '/modules';
 	var applicationModuleName = 'meuBar';
@@ -25,15 +26,22 @@ var ApplicationConfiguration = (function() {
 	var registerMenu = function(menu){
 		menus.push(menu);
 	};
+	
+	var registerSubmenu = function(submenu){
+		submenus.push(submenu);
+	};
+	
 	return {
 		menus: menus,
+		submenus: submenus,
 		contextPath: contextPath,
 		modulesPath: modulesPath,
 		applicationModuleName: applicationModuleName,
 		applicationModuleVendorDependencies: applicationModuleVendorDependencies,
 		registerModule: registerModule,
 		includeFile: includeFile,
-		registerMenu: registerMenu
+		registerMenu: registerMenu,
+		registerSubmenu: registerSubmenu
 	};
 })();
 

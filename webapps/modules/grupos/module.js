@@ -3,7 +3,8 @@
 var moduleName = 'grupos';
 var path = ApplicationConfiguration.modulesPath + '/' + moduleName;
 
-ApplicationConfiguration.registerMenu({
+ApplicationConfiguration.registerSubmenu({
+	parent: 'controleacesso',
 	nome: moduleName,
 	url: moduleName + '.list',
 	classe: 'fa fa-fw fa-group',
