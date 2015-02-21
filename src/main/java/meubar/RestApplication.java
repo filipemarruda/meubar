@@ -9,6 +9,8 @@ import javax.ws.rs.core.Application;
 import meubar.acesso.api.AcessoAPI;
 import meubar.cadastro.api.GrupoAPI;
 import meubar.cadastro.api.UsuarioAPI;
+import meubar.cardapio.api.CardapioItemAPI;
+import meubar.cardapio.api.CardapioSecaoAPI;
 import meubar.core.api.CoreAPI;
 import meubar.estoque.api.CategoriaAPI;
 import meubar.estoque.api.EstoqueAvulsoAPI;
@@ -34,6 +36,8 @@ public class RestApplication extends Application{
 		classes.add(ProdutoAPI.class);
 		classes.add(EstoqueEntradaAPI.class);
 		classes.add(EstoqueAvulsoAPI.class);
+		classes.add(CardapioSecaoAPI.class);
+		classes.add(CardapioItemAPI.class);
 		classes.add(MeuBarResponseFilter.class);
 		
 		return classes;

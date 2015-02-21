@@ -835,11 +835,11 @@ CREATE TABLE meubar.cardapio_item_composicao
   usuario_id_modificacao integer NOT NULL DEFAULT 1,
   CONSTRAINT cardapio_item_composicao_cardapio_item_fk FOREIGN KEY ("cardapio_item_id") REFERENCES meubar.cardapio_item (id) ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT cardapio_item_composicao_produto_fk FOREIGN KEY ("produto_id") REFERENCES meubar.produto (id) ON UPDATE NO ACTION ON DELETE SET NULL,
+  CONSTRAINT cardapio_item_composicao_cardapio_secao_fk FOREIGN KEY ("cardapio_secao_id") REFERENCES meubar.cardapio_secao (id) ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT cardapio_item_composicao_usuario_id_criacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
   CONSTRAINT cardapio_item_composicao_usuario_id_modificacao_fk FOREIGN KEY ("usuario_id_modificacao") REFERENCES meubar.usuario (id) ON UPDATE NO ACTION ON DELETE SET DEFAULT,
   CONSTRAINT cardapio_item_composicao_pkey PRIMARY KEY (id),
-  CONSTRAINT cardapio_item_composicao_quantidade_check CHECK (quantidade > 0),
-  CONSTRAINT uq_cardapio_item_composicao_cardapio_item UNIQUE (cardapio_item_id)
+  CONSTRAINT cardapio_item_composicao_quantidade_check CHECK (quantidade > 0)
 )
 WITH (
   OIDS=FALSE
