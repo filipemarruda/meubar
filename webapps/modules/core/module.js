@@ -27,6 +27,14 @@ ApplicationConfiguration.registerMenu({
 	permissoes: ['Administrador']
 });
 
+ApplicationConfiguration.registerMenu({
+	nome: 'cardapio',
+	url: '#',
+	classe: 'fa fa-fw fa-book',
+	label: 'Cardapio',
+	permissoes: ['Administrador']
+});
+
 ApplicationConfiguration.registerSubmenu({
 	parent: 'dashboard',
 	nome: moduleName,
